@@ -7,6 +7,8 @@ import type { Service } from "@/interfaces"
 import Breadcrumb from "@/components/breadcrumb"
 import Image from "next/image"
 import AllowancesGrid from "@/components/allowancesGrid"
+import { Suspense } from "react"
+import AllowanceSkeleton from "@/components/allowanceSkeleton"
 
 export default async function ServiceById({
   params
@@ -88,10 +90,12 @@ export default async function ServiceById({
           </div>
         </div>
 
-        <AllowancesGrid
-          serviceId={serviceId}
-          token={user.token}
-        />
+        <Suspense fallback={<AllowanceSkeleton />}>
+          <AllowancesGrid
+            serviceId={serviceId}
+            token={user.token}
+          />
+        </Suspense>
 
         <Footer />
 

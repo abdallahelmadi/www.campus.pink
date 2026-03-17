@@ -11,7 +11,7 @@ export default function AllowanceCard({
     <div
       className={`group relative bg-gray-50 border border-gray-200
       rounded-lg overflow-hidden transition duration-200 ease-in-out
-      hover:border-gray-300 hover:shadow-sm select-none
+      hover:border-gray-300 hover:shadow-sm select-none cursor-pointer
       ${allowance.enable !== 1 ? "opacity-50 pointer-events-none" : ""}`}
     >
 
