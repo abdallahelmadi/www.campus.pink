@@ -29,7 +29,7 @@ export default function ReservationsClientGrid({
   reservationsGroups,
   token
 }: {
-  reservationsGroups: Map<string, Reservation[]>,
+  reservationsGroups: Map<string, Reservation[]>
   token: string
 }): React.JSX.Element {
 

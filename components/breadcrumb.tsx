@@ -1,0 +1,30 @@
+import { IconChevronRightSmall } from "@/icons"
+import Link from "next/link"
+
+export default function Breadcrumb({
+  elements
+}: {
+  elements: { href: string; label: string }[]
+}): React.JSX.Element {
+  return (
+    <nav className="flex items-center gap-1 text-[12px] text-gray-400">
+      <Link
+        href="/"
+        className="hover:text-black transition duration-200 ease-in-out"
+      >
+        Home
+      </Link>
+      {elements.map<React.JSX.Element>(ele => (
+        <div key={ele.label}>
+          <IconChevronRightSmall size={12} color="#9ca3af" />
+          <Link
+            href={ele.href}
+            className="hover:text-black transition duration-200 ease-in-out"
+          >
+            {ele.label}
+          </Link>
+        </div>
+      ))}
+    </nav>
+  )
+}

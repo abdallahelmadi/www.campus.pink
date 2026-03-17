@@ -6,6 +6,9 @@ import ReservationsClientGrid from "@/components/reservationsClientGrid"
 import Header from "@/components/header"
 import Empty from "@/components/empty"
 import ReservationSkeleton from "@/components/reservationSkeleton"
+import Link from "next/link"
+import { IconChevronRightSmall } from "@/icons"
+import Breadcrumb from "@/components/breadcrumb"
 
 function createGroupsByDate(reservations: Reservation[]): Map<string, Reservation[]> {
   const grouped = new Map<string, Reservation[]>()
@@ -27,7 +30,12 @@ export default async function Reservations(): Promise<React.JSX.Element> {
     return (
       <>
         <Header user={undefined} />
-        <Empty className="p-2 mt-14">
+        <Breadcrumb
+          elements={[
+            { href: "/reservations", label: "Reservations" }
+          ]}
+        />
+        <Empty className="p-2">
           You need to be logged in to see your reservations.<br/>
           Please login!
         </Empty>
@@ -39,6 +47,11 @@ export default async function Reservations(): Promise<React.JSX.Element> {
   return (
     <>
       <Header user={user} />
+      <Breadcrumb
+        elements={[
+          { href: "/reservations", label: "Reservations" }
+        ]}
+      />
       <Suspense fallback={<ReservationSkeleton />}>
         <ReservationsGrid token={token} />
       </Suspense>
