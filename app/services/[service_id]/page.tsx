@@ -49,7 +49,7 @@ export default async function ServiceById({
 
         <div className="mt-2"/>
 
-        <div className="relative w-full h-72 rounded-lg overflow-hidden">
+        <div className="relative w-full h-92 rounded-lg overflow-hidden">
           <Image
             src={service.cover!}
             alt=""
@@ -77,7 +77,7 @@ export default async function ServiceById({
               <h1 className="text-white text-[16px] font-bold truncate">
                 {service.name}
               </h1>
-              <p className="text-white/70 text-[12px] line-clamp-4 leading-tight">
+              <p className="text-white/70 text-[12px] line-clamp-6 leading-tight">
                 {service.description}
               </p>
             </div>
