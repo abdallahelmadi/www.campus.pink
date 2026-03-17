@@ -7,7 +7,7 @@ export default async function AllowanceDetails({
   const { service_id, allowance_id } = await params
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/30 textwhite">
+    <div className="fixed inset-0 z-999999 bg-black/30 textwhite">
       {service_id} - {allowance_id}
     </div>
   )
