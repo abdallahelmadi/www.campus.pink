@@ -1,0 +1,45 @@
+import type { User, Points } from "@/interfaces"
+import HeaderProfile from "@/components/headerProfile"
+import Link from "next/link"
+import { IconMenu } from "@/icons"
+import { getPoints } from "@/actions"
+import { unstable_cache } from "next/cache"
+
+export default async function Header({
+  user
+}: {
+  user: User | undefined
+}): Promise<React.JSX.Element> {
+
+  const getPointsCached = unstable_cache(
+    async (token: string) => {
+      return await getPoints(token)
+    },
+    ["get-points"],
+    { revalidate: 300, tags: ["points"] }
+  )
+
+  const points: Points | undefined = user ? await getPointsCached(user.token) : undefined
+
+  return (
+    <header
+      suppressHydrationWarning
+      className="fixed top-0 left-0 w-full px-2 h-11 border
+      border-gray-200 shadow-sm bg-white/70 backdrop-blur-xs
+      flex items-center justify-between select-none z-50"
+    >
+
+      <Link
+        href="/reservations"
+        className="bg-gray-50 border border-gray-200 text-gray-600 w-7.25 h-7.25
+        rounded-full flex items-center justify-center
+        transition duration-200 ease-in-out hover:bg-gray-100"
+      >
+        <IconMenu size={14} />
+      </Link>
+
+      <HeaderProfile user={user} points={points?.points} />
+
+    </header>
+  )
+}
