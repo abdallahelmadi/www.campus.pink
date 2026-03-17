@@ -23,8 +23,8 @@ export default async function ReservationsGrid({
   if (!token) {
     return (
       <Empty>
-        You need to be logged in to see your reservations.<br/>
-        Please login!
+        You don't have any reservations yet.<br/>
+        Explore better-campus and book your first sport session!
       </Empty>
     )
   }
