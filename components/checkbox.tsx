@@ -14,7 +14,7 @@ export default function Checkbox({
 }): React.JSX.Element {
   return (
     <div
-      className="flex items-center gap-2 justify-start cursor-pointer w-full mt-2"
+      className="flex items-center gap-2 cursor-pointer justify-start w-full mt-2 select-none max-w-max"
       onClick={() => onChange(!disabled ? !value : value)}
     >
       <div

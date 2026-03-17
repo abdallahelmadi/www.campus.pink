@@ -100,12 +100,14 @@ export default function Login(): React.JSX.Element {
             />
           </div>
 
-          <Checkbox
-            disabled={loading}
-            text="Remember me"
-            onChange={(v): void => setRemember(v)}
-            value={remember}
-          />
+          <div className="w-full flex items-center justify-start">
+            <Checkbox
+              disabled={loading}
+              text="Remember me"
+              onChange={(v): void => setRemember(v)}
+              value={remember}
+            />
+          </div>
 
           <Button
             onClick={loginHandler}
