@@ -55,7 +55,7 @@ export default function AllowanceCard({
         </div>
 
         <p className="text-[12px] text-gray-500 leading-tight line-clamp-2">
-          {allowance.description}
+          {allowance.description || "..."}
         </p>
 
         <div className="flex items-center gap-3 flex-wrap">
