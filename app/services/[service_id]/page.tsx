@@ -49,7 +49,7 @@ export default async function ServiceById({
 
         <div className="mt-2"/>
 
-        <div className="relative w-full h-92 sm:h-64 rounded-lg overflow-hidden">
+        <div className="relative w-full h-72 rounded-lg overflow-hidden">
           <Image
             src={service.cover!}
             alt=""
@@ -61,7 +61,7 @@ export default async function ServiceById({
             className="object-cover object-center"
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent"/>
-          <div className="absolute bottom-0 left-0 w-full px-3 py-2 flex items-end gap-3">
+          <div className="absolute bottom-0 left-0 w-full px-3 py-2 flex items-center gap-3">
             <div className="shrink-0 w-14 h-14 rounded-full overflow-hidden border-2 border-white/30 shadow-lg">
               <Image
                 src={service.logo!}
@@ -83,6 +83,8 @@ export default async function ServiceById({
             </div>
           </div>
         </div>
+
+        ;
 
         <Footer />
 
