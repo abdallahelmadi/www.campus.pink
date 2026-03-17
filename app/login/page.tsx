@@ -6,6 +6,7 @@ import { redirect } from "next/navigation"
 import Input from "@/components/input"
 import Button from "@/components/button"
 import Canva from "@/components/canva"
+import Checkbox from "@/components/checkbox"
 
 function validateEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -20,6 +21,17 @@ export default function Login(): React.JSX.Element {
   const [emailError, setEmailError] = useState<boolean>(false)
   const [passwordError, setPasswordError] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
+  const [remember, setRemember] = useState<boolean>(false)
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("bc_token") || "null")
+    if (data && data?.email && data?.password) {
+      const { email, password } = data
+      setEmail(email)
+      setPassword(password)
+      setRemember(true)
+    }
+  }, [])
 
   useEffect(() => {
     if (password.length > 5) setPasswordError(false)
@@ -38,7 +50,14 @@ export default function Login(): React.JSX.Element {
     if (!r) {
       setEmailError(true)
       setPasswordError(true)
-    } else redirect("/")
+    } else {
+      if (remember) {
+        localStorage.setItem("bc_token", JSON.stringify({ email, password }))
+      } else {
+        localStorage.removeItem("bc_token")
+      }
+      redirect("/")
+    }
     setLoading(false)
   }
 
@@ -80,6 +99,13 @@ export default function Login(): React.JSX.Element {
               password
             />
           </div>
+
+          <Checkbox
+            disabled={loading}
+            text="Remember me"
+            onChange={(v): void => setRemember(v)}
+            value={remember}
+          />
 
           <Button
             onClick={loginHandler}
