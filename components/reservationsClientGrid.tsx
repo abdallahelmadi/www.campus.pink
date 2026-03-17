@@ -48,7 +48,7 @@ export default function ReservationsClientGrid({
   : reservationsGroups
 
   return (
-    <main className="w-full flex flex-col gap-4">
+    <main className="w-full flex flex-col gap-6">
 
       <Switcher
         upcoming={upcoming}
@@ -72,7 +72,7 @@ export default function ReservationsClientGrid({
           <div
             suppressHydrationWarning
             className="grid grid-cols-1 sm:grid-cols-2 w-full max-w-340
-            lg:grid-cols-3 xl:grid-cols-4 gap-3"
+            lg:grid-cols-3 xl:grid-cols-4 gap-4"
           >
 
             {reservations.map(reservation => (

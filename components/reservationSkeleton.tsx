@@ -2,17 +2,20 @@ import Skeleton from "@/components/skeleton"
 
 export default function ReservationSkeleton(): React.JSX.Element {
   return (
-    <main className="w-full flex flex-col gap-4">
+    <main className="w-full flex flex-col gap-6">
 
       <Skeleton className="h-10! p-1! shadow-[0_0_0_1px_#00000014]! rounded-md! !w-[177.5]!"/>
 
       {[2, 1, 3].map(group => (
-        <div key={group} className="flex flex-col gap-2">
+        <div
+          key={group}
+          className="flex flex-col gap-2"
+        >
           <Skeleton className="w-36! h-4.75! rounded-sm! px-1"/>
           <div
             suppressHydrationWarning
             className="grid grid-cols-1 sm:grid-cols-2 w-full max-w-340
-            lg:grid-cols-3 xl:grid-cols-4 gap-3"
+            lg:grid-cols-3 xl:grid-cols-4 gap-4"
           >
 
             {[...Array(group)].map((_, card) => (

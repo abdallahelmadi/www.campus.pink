@@ -23,6 +23,8 @@ export default async function Reservations(): Promise<React.JSX.Element> {
           ]}
         />
 
+        <div className="mt-2"/>
+
         <Suspense fallback={<ReservationSkeleton />}>
           <ReservationsGrid token={token} />
         </Suspense>
