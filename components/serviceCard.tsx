@@ -60,7 +60,7 @@ export default function ServiceCard({
         </div>
         <div
           className={`${longDescription ? "line-clamp-3" : "line-clamp-2"}
-          wrap-break-word text-white/70 text-[12px] leading-tight`}
+          wrap-break-word text-white/85 text-[12px] leading-tight`}
         >
           {service.description}
         </div>
