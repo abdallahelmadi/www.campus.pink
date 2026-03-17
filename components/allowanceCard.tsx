@@ -18,7 +18,7 @@ export default function AllowanceCard({
         rounded-lg overflow-hidden transition duration-200 ease-in-out
         hover:border-gray-300 hover:shadow-sm select-none cursor-pointer
         ${allowance.enable !== 1 ? "opacity-50 pointer-events-none" : ""}
-        md:min-h-[252.5px]`}
+        sm:min-h-[252.5px]`}
       >
 
       <div className="relative w-full h-36 overflow-hidden">
