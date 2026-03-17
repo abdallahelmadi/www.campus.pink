@@ -48,7 +48,7 @@ export default function ReservationsClientGrid({
   : reservationsGroups
 
   return (
-    <>
+    <main className="w-full flex flex-col gap-4">
 
       <Switcher
         upcoming={upcoming}
@@ -87,6 +87,6 @@ export default function ReservationsClientGrid({
         </div>
       ))}
     
-    </>
+    </main>
   )
 }

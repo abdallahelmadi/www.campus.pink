@@ -2,7 +2,7 @@ import Skeleton from "@/components/skeleton"
 
 export default function ReservationSkeleton(): React.JSX.Element {
   return (
-    <>
+    <main className="w-full flex flex-col gap-4">
 
       <Skeleton className="h-10! p-1! shadow-[0_0_0_1px_#00000014]! rounded-md! !w-[177.5]!"/>
 
@@ -38,6 +38,6 @@ export default function ReservationSkeleton(): React.JSX.Element {
         </div>
       ))}
 
-    </>
+    </main>
   )
 }
