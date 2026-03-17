@@ -31,7 +31,7 @@ export default async function Services(): Promise<React.JSX.Element> {
           </span>
 
           { services.length === 0 ? (
-            <Empty className="mt-1">
+            <Empty >
               No services available at the moment.<br/>
               Please check back later!
             </Empty>

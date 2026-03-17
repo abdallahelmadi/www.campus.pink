@@ -61,19 +61,19 @@ export default async function Home(): Promise<React.JSX.Element> {
         </div>
 
         <div className="flex flex-col">
-          <span className="text-black font-medium">
+          <span className="text-black font-medium mb-1">
             Upcoming Sports Events
           </span>
-          <Empty className="mt-1">
+          <Empty>
             Comming Soon!
           </Empty>
         </div>
 
         <div className="flex flex-col">
-          <span className="text-black font-medium">
+          <span className="text-black font-medium mb-1">
             Find Teammates
           </span>
-          <Empty className="mt-1">
+          <Empty>
             Comming Soon!
           </Empty>
         </div>

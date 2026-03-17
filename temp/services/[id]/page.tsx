@@ -124,7 +124,7 @@ export default async function ServiceById({
           </div>
 
           {allowances.length === 0 ? (
-            <Empty className="mt-2">
+            <Empty>
               No allowances available for this service.<br />
               Please check back later!
             </Empty>

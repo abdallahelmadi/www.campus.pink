@@ -13,7 +13,7 @@ export default function ServiceCard({
 }): React.JSX.Element {
   return (
     <Link
-      href={`/service/${service.id}`}
+      href={`/services/${service.id}`}
       className={`bg-gray-100 h-70 min-w-135
       overflow-hidden rounded-sm relative shrink-0 group select-none
       max-sm:min-w-[96%] ${className}`}

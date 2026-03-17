@@ -1,14 +1,12 @@
 import { IconChart } from "@/icons"
 
 export default function Empty({
-  children,
-  className = ""
+  children
 }: {
   children: React.ReactNode
-  className?: string
 }): React.JSX.Element {
   return (
-    <main className={`flex flex-col items-center gap-4 w-full ${className}`}>
+    <main className="flex flex-col items-center gap-4 w-full">
       <main
         className="max-w-340 w-full border border-gray-200 rounded-lg
         py-12 px-8 flex items-center flex-col gap-4 bg-gray-50"

@@ -35,7 +35,7 @@ export default async function Reservations(): Promise<React.JSX.Element> {
             { href: "/reservations", label: "Reservations" }
           ]}
         />
-        <Empty className="p-2">
+        <Empty>
           You need to be logged in to see your reservations.<br/>
           Please login!
         </Empty>
@@ -77,7 +77,7 @@ async function ReservationsGrid({
 
   if (reservations.length === 0) {
     return (
-      <Empty className="p-2 mt-14">
+      <Empty>
         You don't have any reservations yet.<br/>
         Explore better-campus and book your first sport session!
       </Empty>
