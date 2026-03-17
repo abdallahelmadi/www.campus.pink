@@ -132,7 +132,7 @@ async function getServices(token: string): Promise<Service[]> {
 
       if (!Array.isArray(data?.data) || data.data.length === 0) return []
 
-      let services: Service[] = data.data.map<Service>((ele: Service) => ({
+      const services: Service[] = data.data.map<Service>((ele: Service) => ({
         id: ele.id,
         name: ele.name,
         description: ele.description,
@@ -218,7 +218,7 @@ async function getAllowances(token: string, id: number): Promise<Allowance[]> {
 
       if (!Array.isArray(data?.data) || data?.data.length === 0) return []
 
-      let allowances: Allowance[] = data.data.map<Allowance>(ele => ({
+      const allowances: Allowance[] = data.data.map<Allowance>(ele => ({
         id: ele.id,
         name: ele.name,
         capacity: ele.capacity,
@@ -332,7 +332,7 @@ async function getTimeSlotes(
 
       if (!Array.isArray(data?.data) || data.data.length === 0) return []
 
-      let slots: TimeSlote[] = data.data.map<TimeSlote>((ele: {
+      const slots: TimeSlote[] = data.data.map<TimeSlote>((ele: {
         id: number
         time_start: string
         time_end: string

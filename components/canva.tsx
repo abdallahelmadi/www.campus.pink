@@ -16,7 +16,7 @@ export default function Canva({
     if (!ctx) return
 
     let animationId: number
-    let startTime = performance.now()
+    const startTime = performance.now()
 
     const blobs = [
       { x: 0.2, y: 0.0, r: 0.6, color: [0, 210, 211] },

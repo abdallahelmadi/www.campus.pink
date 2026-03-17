@@ -8,7 +8,7 @@ export default function Button({
   className = ""
 }: {
   children: React.ReactNode
-  onClick: () => any
+  onClick: () => void
   loading?: boolean
   className?: string
 }): React.JSX.Element {

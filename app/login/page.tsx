@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { IconEmail } from "@/icons"
 import { userLogin } from "@/actions"
 import { redirect } from "next/navigation"
@@ -14,32 +14,40 @@ function validateEmail(email: string): boolean {
     (email.split("@")[1] === "um6p.ma" || email.split("@")[1] === "student.1337.ma")
 }
 
+function getInitialFormState(): { email: string; password: string; remember: boolean } {
+  if (typeof window === "undefined") {
+    return { email: "", password: "", remember: false }
+  }
+  const bc_token = JSON.parse(localStorage.getItem("bc_token") || "null")
+  if (bc_token && bc_token?.email && bc_token?.password) {
+    return { email: bc_token.email, password: bc_token.password, remember: true }
+  }
+  return { email: "", password: "", remember: false }
+}
+
 export default function Login(): React.JSX.Element {
 
-  const [email, setEmail] = useState<string>("")
-  const [password, setPassword] = useState<string>("")
+  const initialState = getInitialFormState()
+  const [email, setEmail] = useState<string>(initialState.email)
+  const [password, setPassword] = useState<string>(initialState.password)
   const [emailError, setEmailError] = useState<boolean>(false)
   const [passwordError, setPasswordError] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
-  const [remember, setRemember] = useState<boolean>(false)
+  const [remember, setRemember] = useState<boolean>(initialState.remember)
 
-  useEffect(() => {
-    const bc_token = JSON.parse(localStorage.getItem("bc_token") || "null")
-    if (bc_token && bc_token?.email && bc_token?.password) {
-      const { email, password } = bc_token
-      setEmail(email)
-      setPassword(password)
-      setRemember(true)
+  const handleEmailChange = (v: string): void => {
+    setEmail(v)
+    if (validateEmail(v.trim())) {
+      setEmailError(false)
     }
-  }, [])
+  }
 
-  useEffect(() => {
-    if (password.length > 5) setPasswordError(false)
-  }, [password])
-
-  useEffect(() => {
-    if (validateEmail(email.trim())) setEmailError(false)
-  }, [email])
+  const handlePasswordChange = (v: string): void => {
+    setPassword(v)
+    if (v.length > 5) {
+      setPasswordError(false)
+    }
+  }
 
   async function loginHandler(): Promise<void> {
     if (!validateEmail(email.trim())) setEmailError(true)
@@ -80,7 +88,7 @@ export default function Login(): React.JSX.Element {
             <Input
               error={emailError}
               placeholder="name@um6p.ma"
-              onChange={(v): void => setEmail(v)}
+              onChange={handleEmailChange}
               value={email}
               max={48}
               icon={<IconEmail color="black"/>}
@@ -90,7 +98,7 @@ export default function Login(): React.JSX.Element {
             <Input
               error={passwordError}
               placeholder="Y^7$2n!A"
-              onChange={(v): void => setPassword(v)}
+              onChange={handlePasswordChange}
               value={password}
               max={40}
               disabled={loading}
