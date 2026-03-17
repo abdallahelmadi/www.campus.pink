@@ -14,16 +14,31 @@ export default function Breadcrumb({
       >
         Home
       </Link>
-      {elements.map<React.JSX.Element>(ele => (
-        <div key={ele.label}>
-          <IconChevronRightSmall size={12} color="#9ca3af" />
-          <Link
-            href={ele.href}
-            className="hover:text-black transition duration-200 ease-in-out"
+      {elements.map<React.JSX.Element>((ele, index) => (
+        index === elements.length - 1 ? (
+          <div
+            key={index}
+            className="flex items-center gap-1"
           >
-            {ele.label}
-          </Link>
-        </div>
+            <IconChevronRightSmall size={12} color="#9ca3af" />
+            <span className="text-black font-medium truncate max-w-40">
+              {ele.label}
+            </span>
+          </div>
+        ) : (
+          <div
+            key={index}
+            className="flex items-center gap-1"
+          >
+            <IconChevronRightSmall size={12} color="#9ca3af" />
+            <Link
+              href={ele.href}
+              className="hover:text-black transition duration-200 ease-in-out"
+            >
+              {ele.label}
+            </Link>
+          </div>
+        )
       ))}
     </nav>
   )
