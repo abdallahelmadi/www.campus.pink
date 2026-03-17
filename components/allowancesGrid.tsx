@@ -24,10 +24,20 @@ export default async function AllowancesGrid({
 
   if (allowances.length === 0) {
     return (
-      <Empty>
-        No allocations available for this service.<br/>
-        Please check back later!
-      </Empty>
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center justify-between">
+          <span className="text-black font-medium">
+            Available Allocations
+          </span>
+          <span className="text-gray-400 text-[12px]">
+            0 option
+          </span>
+        </div>
+        <Empty>
+          No allocations available for this service.<br/>
+          Please check back later!
+        </Empty>
+      </div>
     )
   }
 
