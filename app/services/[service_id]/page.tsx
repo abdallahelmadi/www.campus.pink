@@ -70,6 +70,7 @@ export default async function ServiceById({
                 height={46}
                 draggable={false}
                 quality={100}
+                className="object-cover object-center w-full h-full"
               />
             </div>
             <div className="flex flex-col gap-0.5 min-w-0">
