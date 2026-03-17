@@ -17,7 +17,7 @@ export default async function AllowancesGrid({
       return await getAllowances(token, sid)
     },
     [`get-allowances-${serviceId}`],
-    { revalidate: 1296000, tags: [`allowances-${serviceId}`] }
+    { revalidate: 2592000, tags: [`allowances-${serviceId}`] }
   )
 
   const allowances: Allowance[] = await getAllowancesCached(token, serviceId)

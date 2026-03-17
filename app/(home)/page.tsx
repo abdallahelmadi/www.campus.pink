@@ -16,7 +16,7 @@ export default async function Home(): Promise<React.JSX.Element> {
       return await getServices(token)
     },
     ["get-services"],
-    { revalidate: 1296000, tags: ["services"] }
+    { revalidate: 2592000, tags: ["services"] }
   )
 
   const services = user ? await getServicesCached(user.token) : []

@@ -27,7 +27,7 @@ export default async function ServiceById({
       return await getServices(token)
     },
     ["get-services"],
-    { revalidate: 1296000, tags: ["services"] }
+    { revalidate: 2592000, tags: ["services"] }
   )
 
   const services = await getServicesCached(user.token)
