@@ -14,10 +14,11 @@ export default function Checkbox({
 }): React.JSX.Element {
   return (
     <div
-      className="flex items-center gap-2justify-start cursor-pointer w-full"
+      className="flex items-center gap-2 justify-start cursor-pointer w-full mt-2"
       onClick={() => onChange(!disabled ? !value : value)}
     >
       <div
+        suppressHydrationWarning
         className={`w-4 h-4 rounded-sm border border-gray-300 flex items-center justify-center
         transition-all duration-200 ease-in-out
         ${value && "bg-black shadow-sm shadow-black"}`}
