@@ -34,6 +34,8 @@ export default async function Services(): Promise<React.JSX.Element> {
             ]}
           />
 
+          <div className="mt-2"/>
+
           <span className="text-black font-medium">
             All Available Services
           </span>
@@ -41,18 +43,18 @@ export default async function Services(): Promise<React.JSX.Element> {
           <div className="mt-1"/>
 
           { services.length === 0 ? (
-            <Empty >
+            <Empty>
               No services available at the moment.<br/>
               Please check back later!
             </Empty>
           ): (
-            <div className="mt-1 grid grid-cols-1 min-[1122px]:grid-cols-2 gap-2">
+            <div className="mt-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
               {services.map(service => (
                 <ServiceCard
                   key={service.id}
                   service={service}
                   longDescription
-                  className="h-80!"
+                  className="h-80! min-w-full! max-sm:min-w-full!"
                 />
               ))}
             </div>
