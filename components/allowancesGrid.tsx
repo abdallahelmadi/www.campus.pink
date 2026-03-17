@@ -57,6 +57,7 @@ export default async function AllowancesGrid({
         {allowances.map(allowance => (
           <AllowanceCard
             allowance={allowance}
+            serviceId={serviceId}
             key={allowance.id}
           />
         ))}

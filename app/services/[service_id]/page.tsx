@@ -11,9 +11,11 @@ import { Suspense } from "react"
 import AllowanceSkeleton from "@/components/allowanceSkeleton"
 
 export default async function ServiceById({
-  params
+  params,
+  details
 }: {
   params: Promise<{ service_id: string }>
+  details?: React.ReactNode
 }): Promise<React.JSX.Element> {
 
   const { service_id } = await params
@@ -100,6 +102,9 @@ export default async function ServiceById({
         <Footer />
 
       </main>
+
+      {details}
+
     </main>
   )
 }

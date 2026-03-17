@@ -1,19 +1,24 @@
+"use client"
 import { IconSchool, IconSmallPerson, IconSmallTimer } from "@/icons"
 import type { Allowance } from "@/interfaces"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function AllowanceCard({
-  allowance
+  allowance,
+  serviceId
 }: {
   allowance: Allowance
+  serviceId: number
 }): React.JSX.Element {
   return (
-    <div
-      className={`group relative bg-gray-50 border border-gray-200
-      rounded-lg overflow-hidden transition duration-200 ease-in-out
-      hover:border-gray-300 hover:shadow-sm select-none cursor-pointer
-      ${allowance.enable !== 1 ? "opacity-50 pointer-events-none" : ""}`}
-    >
+    <Link href={`/services/${serviceId}/${allowance.id}`}>
+      <div
+        className={`group relative bg-gray-50 border border-gray-200
+        rounded-lg overflow-hidden transition duration-200 ease-in-out
+        hover:border-gray-300 hover:shadow-sm select-none cursor-pointer
+        ${allowance.enable !== 1 ? "opacity-50 pointer-events-none" : ""}`}
+      >
 
       <div className="relative w-full h-36 overflow-hidden">
         <Image
@@ -74,6 +79,7 @@ export default function AllowanceCard({
         </div>
       </div>
 
-    </div>
+      </div>
+    </Link>
   )
 }
