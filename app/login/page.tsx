@@ -24,9 +24,9 @@ export default function Login(): React.JSX.Element {
   const [remember, setRemember] = useState<boolean>(false)
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("bc_token") || "null")
-    if (data && data?.email && data?.password) {
-      const { email, password } = data
+    const bc_token = JSON.parse(localStorage.getItem("bc_token") || "null")
+    if (bc_token && bc_token?.email && bc_token?.password) {
+      const { email, password } = bc_token
       setEmail(email)
       setPassword(password)
       setRemember(true)
@@ -48,7 +48,6 @@ export default function Login(): React.JSX.Element {
     setLoading(true)
     const r = await userLogin(email.trim(), password)
     if (!r) {
-      setEmailError(true)
       setPasswordError(true)
     } else {
       if (remember) {
