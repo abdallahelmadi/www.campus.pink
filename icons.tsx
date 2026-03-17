@@ -164,6 +164,42 @@ function IconCross({
   )
 }
 
+function IconSmallTimer({
+  size = 16,
+  color = "currentColor"
+}: Icon): React.JSX.Element {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
+      <circle cx="8" cy="8" r="6.5" stroke={color} strokeWidth="1.5"/>
+      <path d="M8 4.5V8L10.5 10" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
+function IconSmallPerson({
+  size = 16,
+  color = "currentColor"
+}: Icon): React.JSX.Element {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
+      <path d="M8 7C9.65685 7 11 5.65685 11 4C11 2.34315 9.65685 1 8 1C6.34315 1 5 2.34315 5 4C5 5.65685 6.34315 7 8 7Z" stroke={color} strokeWidth="1.5"/>
+      <path d="M2 14C2 11.2386 4.68629 9 8 9C11.3137 9 14 11.2386 14 14" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+  )
+}
+
+function IconSchool({
+  size = 16,
+  color = "currentColor"
+}: Icon): React.JSX.Element {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
+      <path d="M8 1L1 5.5L8 10L15 5.5L8 1Z" stroke={color} strokeWidth="1.5" strokeLinejoin="round"/>
+      <path d="M3 7V12L8 15L13 12V7" stroke={color} strokeWidth="1.5" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
 export {
   IconEmail,
   IconLoader,
@@ -176,5 +212,8 @@ export {
   IconLogout,
   IconMenu,
   IconChevronRightSmall,
-  IconCross
+  IconCross,
+  IconSmallTimer,
+  IconSmallPerson,
+  IconSchool
 }

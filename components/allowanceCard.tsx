@@ -1,3 +1,4 @@
+import { IconSchool, IconSmallPerson, IconSmallTimer } from "@/icons"
 import type { Allowance } from "@/interfaces"
 import Image from "next/image"
 
@@ -10,7 +11,7 @@ export default function AllowanceCard({
     <div
       className={`group relative bg-gray-50 border border-gray-200
       rounded-lg overflow-hidden transition duration-200 ease-in-out
-      hover:border-gray-300 hover:shadow-sm
+      hover:border-gray-300 hover:shadow-sm select-none
       ${allowance.enable !== 1 ? "opacity-50 pointer-events-none" : ""}`}
     >
 
@@ -39,43 +40,34 @@ export default function AllowanceCard({
           <h3 className="text-[14px] font-medium text-black truncate">
             {allowance.name}
           </h3>
-          {allowance.gender && (
-            <span className="shrink-0 text-[10px] font-medium px-1.5 py-0.5
-            rounded-full bg-gray-100 border border-gray-200 text-gray-500 uppercase tracking-wide">
-              {allowance.gender}
-            </span>
-          )}
+          <span
+            className="shrink-0 text-[10px] font-medium px-1.5 py-0.5
+            rounded-full bg-gray-100 border border-gray-200 text-gray-500 uppercase tracking-wide"
+          >
+            {allowance.gender === "m" ? "Male" : allowance.gender === "f" ? "Female" : "Male & Female"}
+          </span>
         </div>
 
-        <p className="text-[12px] text-gray-500 leading-relaxed line-clamp-2">
+        <p className="text-[12px] text-gray-500 leading-tight line-clamp-2">
           {allowance.description}
         </p>
 
         <div className="flex items-center gap-3 flex-wrap">
           {allowance.duration && (
-            <span className="inline-flex items-center gap-1 text-[11px] text-gray-400">
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.5"/>
-                <path d="M8 4.5V8L10.5 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+            <span className="inline-flex items-center gap-1 text-[11px] text-gray-700">
+              <IconSmallTimer size={12}/>
               {allowance.duration} min
             </span>
           )}
           {allowance.capacity && (
-            <span className="inline-flex items-center gap-1 text-[11px] text-gray-400">
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                <path d="M8 7C9.65685 7 11 5.65685 11 4C11 2.34315 9.65685 1 8 1C6.34315 1 5 2.34315 5 4C5 5.65685 6.34315 7 8 7Z" stroke="currentColor" strokeWidth="1.5"/>
-                <path d="M2 14C2 11.2386 4.68629 9 8 9C11.3137 9 14 11.2386 14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-              </svg>
+            <span className="inline-flex items-center gap-1 text-[11px] text-gray-700">
+              <IconSmallPerson size={12}/>
               {allowance.capacity}
             </span>
           )}
           {allowance.campus?.name && (
-            <span className="inline-flex items-center gap-1 text-[11px] text-gray-400">
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                <path d="M8 1L1 5.5L8 10L15 5.5L8 1Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
-                <path d="M3 7V12L8 15L13 12V7" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
-              </svg>
+            <span className="inline-flex items-center gap-1 text-[11px] text-gray-700">
+              <IconSchool size={12}/>
               {allowance.campus.name}
             </span>
           )}
