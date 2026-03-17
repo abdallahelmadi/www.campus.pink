@@ -48,47 +48,45 @@ export default function ReservationsClientGrid({
   : reservationsGroups
 
   return (
-    <main className="flex flex-col items-center gap-4 w-full p-2 mt-14">
-      <main className="max-w-340 w-full flex flex-col gap-4">
+    <>
 
-        <Switcher
-          upcoming={upcoming}
-          setUpcoming={setUpcoming}
-        />
+      <Switcher
+        upcoming={upcoming}
+        setUpcoming={setUpcoming}
+      />
 
-        {(filteredGroups.size === 0 && upcoming) && (
-          <Empty>
-            You have no upcoming reservations.
-          </Empty>
-        )}
+      {(filteredGroups.size === 0 && upcoming) && (
+        <Empty>
+          You have no upcoming reservations.
+        </Empty>
+      )}
 
-        {filteredGroups.size > 0 && [...filteredGroups.entries()].map(([dateKey, reservations]) => (
+      {filteredGroups.size > 0 && [...filteredGroups.entries()].map(([dateKey, reservations]) => (
+        <div
+          key={dateKey}
+          className="flex flex-col gap-2"
+        >
+          <span className="text-[13px] font-semibold text-gray-800 px-1">
+            {formatDateLabel(dateKey)}
+          </span>
           <div
-            key={dateKey}
-            className="flex flex-col gap-2"
+            suppressHydrationWarning
+            className="grid grid-cols-1 sm:grid-cols-2 w-full max-w-340
+            lg:grid-cols-3 xl:grid-cols-4 gap-3"
           >
-            <span className="text-[13px] font-semibold text-gray-800 px-1">
-              {formatDateLabel(dateKey)}
-            </span>
-            <div
-              suppressHydrationWarning
-              className="grid grid-cols-1 sm:grid-cols-2 w-full max-w-340
-              lg:grid-cols-3 xl:grid-cols-4 gap-3"
-            >
 
-              {reservations.map(reservation => (
-                <ReservationCard
-                  key={reservation.id}
-                  reservation={reservation}
-                  token={token}
-                />
-              ))}
+            {reservations.map(reservation => (
+              <ReservationCard
+                key={reservation.id}
+                reservation={reservation}
+                token={token}
+              />
+            ))}
 
-            </div>
           </div>
-        ))}
+        </div>
+      ))}
     
-      </main>
-    </main>
+    </>
   )
 }
