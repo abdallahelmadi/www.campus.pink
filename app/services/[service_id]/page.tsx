@@ -49,7 +49,7 @@ export default async function ServiceById({
 
         <div className="mt-2"/>
 
-        <div className="relative w-full h-52 sm:h-64 rounded-2xl overflow-hidden">
+        <div className="relative w-full h-92 sm:h-64 rounded-lg overflow-hidden">
           <Image
             src={service.cover!}
             alt=""
@@ -57,27 +57,27 @@ export default async function ServiceById({
             draggable={false}
             priority
             quality={100}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 768px) 100vw, 860px"
             className="object-cover object-center"
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent"/>
-          <div className="absolute bottom-0 left-0 w-full px-4 py-4 flex items-end gap-3">
+          <div className="absolute bottom-0 left-0 w-full px-3 py-2 flex items-end gap-3">
             <div className="shrink-0 w-14 h-14 rounded-full overflow-hidden border-2 border-white/30 shadow-lg">
               <Image
                 src={service.logo!}
-                alt={service.name ?? "Service logo"}
-                width={56}
-                height={56}
+                alt=""
+                width={46}
+                height={46}
                 draggable={false}
                 quality={100}
                 className="object-cover object-center w-full h-full"
               />
             </div>
             <div className="flex flex-col gap-0.5 min-w-0">
-              <h1 className="text-white text-lg font-bold truncate">
+              <h1 className="text-white text-[16px] font-bold truncate">
                 {service.name}
               </h1>
-              <p className="text-white/70 text-[12px] line-clamp-2 leading-tight">
+              <p className="text-white/70 text-[12px] line-clamp-4 leading-tight">
                 {service.description}
               </p>
             </div>
