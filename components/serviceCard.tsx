@@ -41,7 +41,7 @@ export default function ServiceCard({
 
       <div
         suppressHydrationWarning
-        className="absolute left-0 bottom-0 px-3 py-2
+        className="absolute left-0 bottom-0 p-3
         max-w-full min-w-full flex gap-2 flex-col"
       >
         <div className="flex items-center gap-2">
