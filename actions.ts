@@ -10,6 +10,7 @@ import type {
   Reservation,
   User
 } from "@/interfaces"
+import { unstable_cache } from "next/cache"
 
 async function updateToken(token: string): Promise<void> {
   (await cookies()).set("t", token, {
@@ -116,92 +117,100 @@ async function userLogin(email: string, password: string): Promise<boolean> {
   }
 }
 
-async function getServices(token: string): Promise<Service[]> {
-  try {
-
-    const res = await fetch(`https://${process.env.API_HOST!}/api/service/list?page=1`, {
-      method: "POST",
-      headers: { "Authorization": `bearer ${token}` }
-    })
-
-    if (res.ok) {
-      const data = await res.json() as {
-        data?: Service[]
-        last_page?: number
-      }
-
-      if (!Array.isArray(data?.data) || data.data.length === 0) return []
-
-      const services: Service[] = data.data.map<Service>((ele: Service) => ({
-        id: ele.id,
-        name: ele.name,
-        description: ele.description,
-        logo: "https://" + process.env.STORAGE_HOST! + "/" + ele.logo?.replace(/\.\w+$/, ".webp"),
-        cover: "https://" + process.env.STORAGE_HOST! + "/" + ele.cover?.replace(/\.\w+$/, ".webp")
-      }))
-
-      if (data?.last_page && data.last_page > 1) {
-        const fetches = Array.from({ length: data.last_page - 1 }, (_, i) => {
-          const page = i + 2
-          return fetch(`https://${process.env.API_HOST!}/api/service/list?page=${page}`, {
-            method: "POST",
-            headers: { "Authorization": `bearer ${token}` }
-          }).then(r => r.json())
-        })
-
-        const jsons: {
+const getServices = unstable_cache(
+  async (token: string): Promise<Service[]> => {
+    try {
+  
+      const res = await fetch(`https://${process.env.API_HOST!}/api/service/list?page=1`, {
+        method: "POST",
+        headers: { "Authorization": `bearer ${token}` }
+      })
+  
+      if (res.ok) {
+        const data = await res.json() as {
           data?: Service[]
-        }[] = await Promise.all(fetches)
-
-        services.push(
-          ...jsons.flatMap(pageData =>
-            Array.isArray(pageData?.data)
-            ? pageData.data.map<Service>(ele => ({
-                id: ele.id,
-                name: ele.name,
-                description: ele.description,
-                logo: "https://" + process.env.STORAGE_HOST! + "/" + ele.logo?.replace(/\.\w+$/, ".webp"),
-                cover: "https://" + process.env.STORAGE_HOST! + "/" + ele.cover?.replace(/\.\w+$/, ".webp")
-              }))
-            : []
+          last_page?: number
+        }
+  
+        if (!Array.isArray(data?.data) || data.data.length === 0) return []
+  
+        const services: Service[] = data.data.map<Service>((ele: Service) => ({
+          id: ele.id,
+          name: ele.name,
+          description: ele.description,
+          logo: "https://" + process.env.STORAGE_HOST! + "/" + ele.logo?.replace(/\.\w+$/, ".webp"),
+          cover: "https://" + process.env.STORAGE_HOST! + "/" + ele.cover?.replace(/\.\w+$/, ".webp")
+        }))
+  
+        if (data?.last_page && data.last_page > 1) {
+          const fetches = Array.from({ length: data.last_page - 1 }, (_, i) => {
+            const page = i + 2
+            return fetch(`https://${process.env.API_HOST!}/api/service/list?page=${page}`, {
+              method: "POST",
+              headers: { "Authorization": `bearer ${token}` }
+            }).then(r => r.json())
+          })
+  
+          const jsons: {
+            data?: Service[]
+          }[] = await Promise.all(fetches)
+  
+          services.push(
+            ...jsons.flatMap(pageData =>
+              Array.isArray(pageData?.data)
+              ? pageData.data.map<Service>(ele => ({
+                  id: ele.id,
+                  name: ele.name,
+                  description: ele.description,
+                  logo: "https://" + process.env.STORAGE_HOST! + "/" + ele.logo?.replace(/\.\w+$/, ".webp"),
+                  cover: "https://" + process.env.STORAGE_HOST! + "/" + ele.cover?.replace(/\.\w+$/, ".webp")
+                }))
+              : []
+            )
           )
-        )
+        }
+  
+        return services
+      }
+  
+      return []
+    } catch {
+      return []
+    }
+  },
+  ["get-services"],
+  { revalidate: 2592000, tags: ["services"] }
+)
+
+const getPoints = unstable_cache(
+  async (token: string): Promise<Points | undefined> => {
+    try {
+
+      const res = await fetch(`https://${process.env.API_HOST!}/api/mypoints`, {
+        method: "POST",
+        headers: { "Authorization": `bearer ${token}` }
+      })
+
+      if (res.ok) {
+        const data = await res.json() as {
+          points?: number
+          tombola?: boolean
+          tombola_points?: number
+          rank?: number
+          status?: string
+        }
+        if (data?.status) return undefined
+        return data as Points
       }
 
-      return services
+      return undefined
+    } catch {
+      return undefined
     }
-
-    return []
-  } catch {
-    return []
-  }
-}
-
-async function getPoints(token: string): Promise<Points | undefined> {
-  try {
-
-    const res = await fetch(`https://${process.env.API_HOST!}/api/mypoints`, {
-      method: "POST",
-      headers: { "Authorization": `bearer ${token}` }
-    })
-
-    if (res.ok) {
-      const data = await res.json() as {
-        points?: number
-        tombola?: boolean
-        tombola_points?: number
-        rank?: number
-        status?: string
-      }
-      if (data?.status) return undefined
-      return data as Points
-    }
-
-    return undefined
-  } catch {
-    return undefined
-  }
-}
+  },
+  ["get-points"],
+  { revalidate: 300, tags: ["points"] }
+)
 
 async function getAllowances(token: string, id: number): Promise<Allowance[]> {
   try {

@@ -1,7 +1,6 @@
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { getUser, getServices } from "@/actions"
-import { unstable_cache } from "next/cache"
 import { notFound } from "next/navigation"
 import type { Service } from "@/interfaces"
 import Breadcrumb from "@/components/breadcrumb"
@@ -24,15 +23,7 @@ export default async function ServiceById({
   const user = await getUser()
   if (!user) notFound()
 
-  const getServicesCached = unstable_cache(
-    async (token: string) => {
-      return await getServices(token)
-    },
-    ["get-services"],
-    { revalidate: 2592000, tags: ["services"] }
-  )
-
-  const services = await getServicesCached(user.token)
+  const services = await getServices(user.token)
   const service: Service | undefined = services.find(s => s.id === serviceId)
 
   if (!service) notFound()

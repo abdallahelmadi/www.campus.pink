@@ -23,8 +23,8 @@ export default async function ReservationsGrid({
   if (!token) {
     return (
       <Empty>
-        You don&apos;t have any reservations yet.<br/>
-        Explore better-campus and book your first sport session!
+        You don&apos;t have any reservations yet<br/>
+        Explore better-campus and book your first sport session
       </Empty>
     )
   }
@@ -41,8 +41,8 @@ export default async function ReservationsGrid({
   if (reservations.length === 0) {
     return (
       <Empty>
-        You don&apos;t have any reservations yet.<br/>
-        Explore better-campus and book your first sport session!
+        You don&apos;t have any reservations yet<br/>
+        Explore better-campus and book your first sport session
       </Empty>
     )
   }

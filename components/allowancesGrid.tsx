@@ -34,8 +34,8 @@ export default async function AllowancesGrid({
           </span>
         </div>
         <Empty>
-          No allocations available for this service.<br/>
-          Please check back later!
+          No allocations available for this service<br/>
+          Please check back later
         </Empty>
       </div>
     )

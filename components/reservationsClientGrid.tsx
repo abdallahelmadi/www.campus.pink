@@ -57,7 +57,7 @@ export default function ReservationsClientGrid({
 
       {(filteredGroups.size === 0 && upcoming) && (
         <Empty>
-          You have no upcoming reservations.
+          You have no upcoming reservations
         </Empty>
       )}
 

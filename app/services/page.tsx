@@ -2,23 +2,13 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import Empty from "@/components/empty"
 import { getUser, getServices } from "@/actions"
-import { unstable_cache } from "next/cache"
 import ServiceCard from "@/components/serviceCard"
 import Breadcrumb from "@/components/breadcrumb"
 
 export default async function Services(): Promise<React.JSX.Element> {
 
   const user = await getUser()
-
-  const getServicesCached = unstable_cache(
-    async (token: string) => {
-      return await getServices(token)
-    },
-    ["get-services"],
-    { revalidate: 2592000, tags: ["services"] }
-  )
-
-  const services = user ? await getServicesCached(user.token) : []
+  const services = user ? await getServices(user.token) : []
 
   return (
     <main className="flex flex-col items-center gap-4 w-full p-2 mt-14">
@@ -44,8 +34,8 @@ export default async function Services(): Promise<React.JSX.Element> {
 
           { services.length === 0 ? (
             <Empty>
-              No services available at the moment.<br/>
-              Please check back later!
+              No services available at the moment<br/>
+              Please check back later
             </Empty>
           ): (
             <div className="mt-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">

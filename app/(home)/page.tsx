@@ -3,23 +3,13 @@ import Footer from "@/components/footer"
 import Empty from "@/components/empty"
 import { getUser, getServices } from "@/actions"
 import ServicesCarousel from "@/components/servicesCarousel"
-import { unstable_cache } from "next/cache"
 import Link from "next/link"
 import { IconChevronRightSmall } from "@/icons"
 
 export default async function Home(): Promise<React.JSX.Element> {
 
   const user = await getUser()
-
-  const getServicesCached = unstable_cache(
-    async (token: string) => {
-      return await getServices(token)
-    },
-    ["get-services"],
-    { revalidate: 2592000, tags: ["services"] }
-  )
-
-  const services = user ? await getServicesCached(user.token) : []
+  const services = user ? await getServices(user.token) : []
 
   return (
     <main className="flex flex-col items-center gap-4 w-full p-2 mt-14">
@@ -28,9 +18,6 @@ export default async function Home(): Promise<React.JSX.Element> {
         <Header user={user} />
 
         <div className="flex flex-col">
-          <span className="flex items-center text-[15px]">
-            Hello <b className="font-bold text-black ml-2"> {user?.name} </b>,
-          </span>
           <div className="flex items-center justify-between w-full">
             <span className="text-black font-medium">
               Available Services
@@ -50,8 +37,8 @@ export default async function Home(): Promise<React.JSX.Element> {
 
             { services.length === 0 ? (
               <Empty>
-                No services available at the moment.<br/>
-                Please check back later!
+                No services available at the moment<br/>
+                Please check back later
               </Empty>
             ): (
               <ServicesCarousel services={services} />
@@ -62,10 +49,21 @@ export default async function Home(): Promise<React.JSX.Element> {
 
         <div className="flex flex-col">
           <span className="text-black font-medium mb-1">
+            Clubs
+          </span>
+          <Empty>
+            Comming Soon
+            Explore and join various student clubs on campus to connect with like-minded individuals and pursue your interests
+          </Empty>
+        </div>
+
+        <div className="flex flex-col">
+          <span className="text-black font-medium mb-1">
             Upcoming Sports Events
           </span>
           <Empty>
-            Comming Soon!
+            Comming Soon
+            Find out when your department&apos;s team is playing next and cheer them on
           </Empty>
         </div>
 
@@ -74,7 +72,8 @@ export default async function Home(): Promise<React.JSX.Element> {
             Find Teammates
           </span>
           <Empty>
-            Comming Soon!
+            Comming Soon
+            Connect with fellow students to form sports teams, plan matches, and share your passion for sports on campus
           </Empty>
         </div>
 
