@@ -10,6 +10,7 @@ export default async function Header({
 }: {
   user: User | undefined
 }): Promise<React.JSX.Element> {
+  "use cache"
 
   const getPointsCached = unstable_cache(
     async (token: string) => {
@@ -31,11 +32,11 @@ export default async function Header({
 
       <Link
         href="/reservations"
-        className="bg-gray-50 border border-gray-200 text-gray-600 w-7.25 h-7.25
+        className="bg-gray-50 border border-gray-200 text-gray-600 w-8.5 h-8.5
         rounded-full flex items-center justify-center
         transition duration-200 ease-in-out hover:bg-gray-100"
       >
-        <IconMenu size={14} />
+        <IconMenu color="black" />
       </Link>
 
       <HeaderProfile user={user} points={points?.points} />
