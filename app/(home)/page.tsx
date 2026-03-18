@@ -52,7 +52,7 @@ export default async function Home(): Promise<React.JSX.Element> {
             Clubs
           </span>
           <Empty>
-            Comming Soon<br/>
+            Comming soon<br/>
             Explore and join various student clubs on campus to connect with like-minded individuals and pursue your interests
           </Empty>
         </div>
@@ -62,7 +62,7 @@ export default async function Home(): Promise<React.JSX.Element> {
             Upcoming Sports Events
           </span>
           <Empty>
-            Comming Soon<br/>
+            Comming soon<br/>
             Find out when your department&apos;s team is playing next and cheer them on
           </Empty>
         </div>
@@ -72,7 +72,7 @@ export default async function Home(): Promise<React.JSX.Element> {
             Find Teammates
           </span>
           <Empty>
-            Comming Soon<br/>
+            Comming soon<br/>
             Connect with fellow students to form sports teams, plan matches, and share your passion for sports on campus
           </Empty>
         </div>
