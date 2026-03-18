@@ -25,7 +25,7 @@ export default async function Home(): Promise<React.JSX.Element> {
             <Link
               href="/services"
               className="text-[#333] text-[12px] flex items-center gap-0.5
-              transition duration-200 ease-in-out hover:text-black"
+              transition duration-200 ease-in-out hover:text-black select-none"
             >
               View All
               <span className="-mt-px">
