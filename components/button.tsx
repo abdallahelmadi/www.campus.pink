@@ -18,7 +18,7 @@ export default function Button({
       className={`flex items-center justify-center transition-all duration-200 ease-in-out
       bg-black text-white rounded-sm min-h-11 cursor-pointer
       hover:bg-black/80 ${loading && "cursor-not-allowed bg-black/80!"}
-      hover:-translate-y-0.5 w-full ${className}`}
+      hover:-translate-y-0.5 w-full ${className} select-none`}
     >
       { loading ? <IconLoader color="white"/> : children }
     </button>

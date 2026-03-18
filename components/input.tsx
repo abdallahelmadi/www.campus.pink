@@ -49,7 +49,7 @@ export default function Input({
           type={(password && passwordToggle) ? "password" : "text"}
           placeholder={placeholder}
           className="outline-none w-full h-full placeholder:text-[#888]
-          placeholder:text-[13px] pl-4 pr-1 text-black bg-transparent"
+          placeholder:text-[13px] pl-4 pr-1 text-black bg-transparent select-none"
           onFocus={(): void => { setOnFocus(true) }}
           onBlur={(): void => { setOnFocus(false) }}
           onChange={(e): void => {
