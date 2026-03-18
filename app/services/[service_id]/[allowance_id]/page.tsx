@@ -1,14 +1,14 @@
-export default async function AllowanceDetails({
+export default async function ServiceById({
   params
 }: {
   params: Promise<{ service_id: string; allowance_id: string }>
 }): Promise<React.JSX.Element> {
 
   const { service_id, allowance_id } = await params
+  const serviceId = Number(service_id)
+  const allowanceId = Number(allowance_id)
 
   return (
-    <div className="fixed inset-0 z-99999 bg-black/30 flex items-end text-white">
-      {service_id} - {allowance_id}
-    </div>
+    <> {serviceId} - {allowanceId} </>
   )
 }
