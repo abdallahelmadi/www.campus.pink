@@ -10,7 +10,6 @@ export default async function Header({
 }: {
   user: User | undefined
 }): Promise<React.JSX.Element> {
-  "use cache"
 
   const getPointsCached = unstable_cache(
     async (token: string) => {
