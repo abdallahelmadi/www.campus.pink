@@ -58,12 +58,12 @@ export default function ServiceCard({
             {service.name}
           </h2>
         </div>
-        <div
+        { service.description && <div
           className={`${longDescription ? "line-clamp-3" : "line-clamp-2"}
           wrap-break-word text-white/85 text-[12px] leading-tight`}
         >
           {service.description}
-        </div>
+        </div> }
       </div>
 
     </Link>
