@@ -11,7 +11,10 @@ export default function ReservationSkeleton(): React.JSX.Element {
           key={group}
           className="flex flex-col gap-2"
         >
-          <Skeleton className="w-36! h-4.75! rounded-sm! px-1"/>
+          <div className="flex items-center justify-between">
+            <Skeleton className="w-62! h-4.75! rounded-sm! px-1"/>
+            <Skeleton className="w-10! h-10! rounded-sm!"/>
+          </div>
           <div
             suppressHydrationWarning
             className="grid grid-cols-1 sm:grid-cols-2 w-full max-w-340

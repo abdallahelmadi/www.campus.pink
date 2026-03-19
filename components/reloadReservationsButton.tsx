@@ -18,7 +18,7 @@ export default function ReloadReservationsButton(): React.JSX.Element {
     route.refresh()
 
     const elapsedTime = Date.now() - startTime
-    const remainingTime = Math.max(0, 5000 - elapsedTime)
+    const remainingTime = Math.max(0, 6000 - elapsedTime)
 
     setTimeout(() => {
       setLoading(false)
