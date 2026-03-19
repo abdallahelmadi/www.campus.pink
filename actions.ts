@@ -549,7 +549,7 @@ const getReservations = unstable_cache(
     }
   },
   ["get-reservations"],
-  { revalidate: 1296000, tags: ["reservations"] }
+  { revalidate: 1800, tags: ["reservations"] }
 )
 
 async function clearReservationsCache(): Promise<void> {
@@ -579,6 +579,8 @@ async function changeReservationStatus(token: string, reservation: string, statu
       success: false,
       message: "Failed to change reservation status, please try again later"
     }
+
+    await clearReservationsCache()
 
     return data as { success: boolean; message: string }
   } catch {

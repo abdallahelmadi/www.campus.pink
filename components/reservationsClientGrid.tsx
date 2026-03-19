@@ -4,6 +4,7 @@ import { useState } from "react"
 import ReservationCard from "@/components/reservationCard"
 import Empty from "@/components/empty"
 import Switcher from "@/components/switcher"
+import ReloadReservationsButton from "./reloadReservationsButton"
 
 const days = [
   "Sunday", "Monday",
@@ -34,9 +35,25 @@ export default function ReservationsClientGrid({
   token: string
 }): React.JSX.Element {
 
-  const [upcoming, setUpcoming] = useState<boolean>(false)
+  const [status, setStatus] = useState<"latest" | "today" | "upcoming">("latest")
 
-  const filteredGroups = upcoming
+  const filteredGroups = status === "today"
+  ? new Map<string, Reservation[]>(
+      [...reservationsGroups.entries()]
+      .map(([dateKey, reservations]) => {
+        const today = new Date()
+        const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`
+        const reservationDateStr = dateKey.split(" ")[0]
+        return [
+          dateKey,
+          reservationDateStr === todayStr 
+          ? reservations.filter(r => r.status === "upcoming")
+          : []
+        ] as const
+      })
+      .filter(([, reservations]) => reservations.length > 0)
+    )
+  : status === "latest"
   ? new Map<string, Reservation[]>(
       [...reservationsGroups.entries()]
       .map(([dateKey, reservations]) => [
@@ -50,18 +67,27 @@ export default function ReservationsClientGrid({
   return (
     <main className="w-full flex flex-col gap-6">
 
-      <Switcher
-        upcoming={upcoming}
-        setUpcoming={setUpcoming}
-      />
+      <div className="flex items-center justify-between">
+        <Switcher
+          upcoming={status}
+          setStatus={setStatus}
+        />
+        <ReloadReservationsButton />
+      </div>
 
-      {(filteredGroups.size === 0 && upcoming) && (
+      {(filteredGroups.size === 0 && status === "upcoming") && (
         <Empty>
           You have no upcoming reservations
         </Empty>
       )}
 
-      {filteredGroups.size > 0 && [...filteredGroups.entries()].map(([dateKey, reservations]) => (
+      {(filteredGroups.size === 0 && status === "today") && (
+        <Empty>
+          You have no reservations for today
+        </Empty>
+      )}
+
+      {(filteredGroups.size > 0 && status === "upcoming") && [...filteredGroups.entries()].map(([dateKey, reservations]) => (
         <div
           key={dateKey}
           className="flex flex-col gap-2"
