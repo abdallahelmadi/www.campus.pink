@@ -36,7 +36,7 @@ export default function ReloadReservationsButton(): React.JSX.Element {
           from { transform: rotate(0deg); }
           to { transform: rotate(-360deg); }
         }
-        .spin-left { animation: spin-left 2s linear infinite;}
+        .spin-left { animation: spin-left 500ms linear infinite;}
       `}</style>
       <span className={`w-10 h-10 flex items-center justify-center ${loading ? "spin-left" : ""}`}>
         <IconRotateCounterClockwise />
