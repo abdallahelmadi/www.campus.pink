@@ -1,7 +1,7 @@
 "use client"
 import type { Allowance } from "@/interfaces"
 import AllowanceCard from "@/components/allowanceCard"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
 function getFavoriteAllowances(): {
   serviceId: number
@@ -59,15 +59,8 @@ export default function AllowancesClientGrid({
   serviceId: number
 }): React.JSX.Element {
 
-  const [favorites, setFavorites] = useState<{ serviceId: number; favorites: number[] }[] | undefined | null>(null)
+  const favorites = getFavoriteAllowances()
   const [_, setForceUpdate] = useState<boolean>(false)
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setFavorites(getFavoriteAllowances())
-    }, 200)
-    return () => clearTimeout(timer)
-  }, [])
 
   const sortedAllowances = [...allowances].sort((a, b) => {
     const serviceFavorites = favorites?.find(f => f.serviceId === serviceId)?.favorites ?? []
