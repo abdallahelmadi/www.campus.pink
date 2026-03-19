@@ -581,6 +581,7 @@ async function changeReservationStatus(token: string, reservation: string, statu
     }
 
     await clearReservationsCache()
+    await clearPointsCache()
 
     return data as { success: boolean; message: string }
   } catch {

@@ -4,17 +4,17 @@ export default function ReservationSkeleton(): React.JSX.Element {
   return (
     <main className="w-full flex flex-col gap-6">
 
-      <Skeleton className="h-10! p-1! shadow-[0_0_0_1px_#00000014]! rounded-md! !w-[177.5]!"/>
+      <div className="flex items-center justify-between">
+        <Skeleton className="w-62! h-10! rounded-sm! px-1"/>
+        <Skeleton className="w-10! h-10! rounded-sm!"/>
+      </div>
 
       {[2, 1, 3].map(group => (
         <div
           key={group}
           className="flex flex-col gap-2"
         >
-          <div className="flex items-center justify-between">
-            <Skeleton className="w-62! h-4.75! rounded-sm! px-1"/>
-            <Skeleton className="w-10! h-10! rounded-sm!"/>
-          </div>
+          <Skeleton className="w-36! h-4.75! rounded-sm! px-1"/>
           <div
             suppressHydrationWarning
             className="grid grid-cols-1 sm:grid-cols-2 w-full max-w-340
