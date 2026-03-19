@@ -39,7 +39,7 @@ export default function AllowanceCard({
             group-hover:scale-103 transition-transform duration-300 ease-in-out"
           />
           {allowance.enable !== 1 && (
-            <div className="absolute inset-0 bg-white/40 flex items-center justify-center">
+            <div className="absolute inset-0 bg-white/40 flex items-center justify-center z-10">
               <span className="text-[11px] font-medium text-gray-600 bg-white/80 px-2 py-0.5 rounded-full">
                 unavailable
               </span>
@@ -48,7 +48,7 @@ export default function AllowanceCard({
           <div
             className="absolute top-2 right-2 w-9 h-0 rounded-full overflow-hidden
             flex items-center justify-center bg-white/80 opacity-0 group-hover:opacity-100
-            transition-opacity duration-200 ease-in-out"
+            transition-opacity duration-200 ease-in-out z-10"
             onClick={(e: React.MouseEvent<HTMLDivElement>) => {
               e.preventDefault()
               e.stopPropagation()
