@@ -87,7 +87,7 @@ export default function ReservationsClientGrid({
         </Empty>
       )}
 
-      {(filteredGroups.size > 0 && status === "upcoming") && [...filteredGroups.entries()].map(([dateKey, reservations]) => (
+      {filteredGroups.size > 0 && [...filteredGroups.entries()].map(([dateKey, reservations]) => (
         <div
           key={dateKey}
           className="flex flex-col gap-2"
