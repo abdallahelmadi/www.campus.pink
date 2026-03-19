@@ -4,13 +4,17 @@ import { clearReservationsCache } from "@/actions"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 
-export default function ReloadReservationsButton(): React.JSX.Element {
+export default function ReloadReservationsButton({
+  disabled = false
+}: {
+  disabled?: boolean
+}): React.JSX.Element {
 
   const route = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
 
   async function handleClick(): Promise<void> {
-    if (loading) return
+    if (loading || disabled) return
     setLoading(true)
     const startTime = Date.now()
 

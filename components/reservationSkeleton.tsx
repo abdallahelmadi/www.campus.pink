@@ -1,12 +1,24 @@
+"use client"
 import Skeleton from "@/components/skeleton"
+import ReloadReservationsButton from "@/components/reloadReservationsButton"
+import Switcher from "@/components/switcher"
+import { useState } from "react"
 
 export default function ReservationSkeleton(): React.JSX.Element {
+
+  const [tmp, setTmp] = useState<"latest" | "today" | "upcoming">("latest")
+
   return (
     <main className="w-full flex flex-col gap-6">
 
       <div className="flex items-center justify-between">
-        <Skeleton className="w-62! h-10! rounded-sm! px-1"/>
-        <Skeleton className="w-10! h-10! rounded-sm!"/>
+        <Switcher
+          upcoming={tmp}
+          setStatus={setTmp}
+        />
+        <ReloadReservationsButton
+          disabled
+        />
       </div>
 
       {[2, 1, 3].map(group => (
