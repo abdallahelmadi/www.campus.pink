@@ -11,8 +11,8 @@ export default function AllowanceSkeleton(): React.JSX.Element {
         <Skeleton className="rounded-md! w-21! h-5!"/>
       </div>
 
-      <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-        {Array.from({ length: 8 }).map((_, index) => (
+      <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+        {Array.from({ length: 11 }).map((_, index) => (
           <Skeleton
             key={index}
             className="w-full! h-[252.5px] rounded-lg!"
