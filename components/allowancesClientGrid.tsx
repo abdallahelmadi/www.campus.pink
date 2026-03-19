@@ -60,7 +60,7 @@ export default function AllowancesClientGrid({
 }): React.JSX.Element {
 
   const favorites = getFavoriteAllowances()
-  const [_, forceUpdate] = useState<boolean>(false)
+  // const [, forceUpdate] = useState<boolean>(false)
 
   const sortedAllowances = [...allowances].sort((a, b) => {
     const serviceFavorites = favorites?.find(f => f.serviceId === serviceId)?.favorites ?? []
@@ -81,11 +81,11 @@ export default function AllowancesClientGrid({
           key={allowance.id}
           removeFromFavorite={() => {
             removeFromFavoriteAllowance(serviceId, allowance.id)
-            forceUpdate(prev => !prev)
+            // forceUpdate(prev => !prev)
           }}
           addToFavorite={() => {
             addToFavoriteAllowance(serviceId, allowance.id)
-            forceUpdate(prev => !prev)
+            // forceUpdate(prev => !prev)
           }}
           isFavorite={favorites?.find(f => f.serviceId === serviceId)?.favorites.includes(allowance.id) ?? false}
         />
