@@ -8,7 +8,7 @@ export default function AllowanceSkeleton(): React.JSX.Element {
         <span className="text-black font-medium">
           Available Allocations
         </span>
-        <Skeleton className="rounded-md! w-25! h-5!"/>
+        <Skeleton className="rounded-md! w-21! h-5!"/>
       </div>
 
       <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">

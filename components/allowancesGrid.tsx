@@ -20,7 +20,7 @@ export default async function AllowancesGrid({
           <span className="text-black font-medium">
             Available Allocations
           </span>
-          <span className="text-gray-400 text-[12px]">
+          <span className="text-gray-400 text-[12px] select-none">
             0 option
           </span>
         </div>
@@ -39,7 +39,7 @@ export default async function AllowancesGrid({
         <span className="text-black font-medium">
           Available Allocations
         </span>
-        <span className="text-gray-400 text-[12px]">
+        <span className="text-gray-400 text-[12px] select-none">
           {allowances.length} {allowances.length === 1 ? "option" : "options"}
         </span>
       </div>
