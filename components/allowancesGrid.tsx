@@ -1,6 +1,5 @@
 import { getAllowances } from "@/actions"
 import type { Allowance } from "@/interfaces"
-import { unstable_cache } from "next/cache"
 import AllowanceCard from "@/components/allowanceCard"
 import Empty from "@/components/empty"
 
@@ -12,15 +11,7 @@ export default async function AllowancesGrid({
   token: string
 }): Promise<React.JSX.Element> {
 
-  const getAllowancesCached = unstable_cache(
-    async (token: string, sid: number) => {
-      return await getAllowances(token, sid)
-    },
-    [`get-allowances-${serviceId}`],
-    { revalidate: 2592000, tags: [`allowances-${serviceId}`] }
-  )
-
-  const allowances: Allowance[] = await getAllowancesCached(token, serviceId)
+  const allowances: Allowance[] = await getAllowances(token, serviceId)
 
   if (allowances.length === 0) {
     return (

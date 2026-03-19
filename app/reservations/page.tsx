@@ -3,7 +3,6 @@ import { Suspense } from "react"
 import Footer from "@/components/footer"
 import Header from "@/components/header"
 import ReservationSkeleton from "@/components/reservationSkeleton"
-import Breadcrumb from "@/components/breadcrumb"
 import ReservationsGrid from "@/components/reservationsGrid"
 
 export default async function Reservations(): Promise<React.JSX.Element> {
@@ -16,14 +15,6 @@ export default async function Reservations(): Promise<React.JSX.Element> {
       <main className="max-w-340 w-full flex flex-col gap-1">
 
         <Header user={user} />
-
-        <Breadcrumb
-          elements={[
-            { href: "/reservations", label: "Reservations" }
-          ]}
-        />
-
-        <div className="mt-2"/>
 
         <Suspense fallback={<ReservationSkeleton />}>
           <ReservationsGrid token={token} />
