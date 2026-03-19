@@ -98,7 +98,7 @@ export default function ReservationsClientGrid({
           <div
             suppressHydrationWarning
             className="grid grid-cols-1 sm:grid-cols-2 w-full max-w-340
-            lg:grid-cols-3 xl:grid-cols-4 gap-4"
+            lg:grid-cols-3 xl:grid-cols-4 gap-2"
           >
 
             {reservations.map(reservation => (
