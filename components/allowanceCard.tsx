@@ -17,8 +17,7 @@ export default function AllowanceCard({
         className={`group relative bg-gray-50 border border-gray-200
         rounded-lg overflow-hidden transition duration-200 ease-in-out
         hover:border-gray-300 hover:shadow-sm select-none cursor-pointer
-        ${allowance.enable !== 1 ? "opacity-50 pointer-events-none" : ""}
-        sm:min-h-[252.5px]`}
+        ${allowance.enable !== 1 ? "opacity-50 pointer-events-none" : ""}`}
       >
 
       <div className="relative w-full h-36 overflow-hidden">
@@ -53,10 +52,6 @@ export default function AllowanceCard({
             {allowance.gender === "m" ? "Male" : allowance.gender === "f" ? "Female" : "Male & Female"}
           </span>
         </div>
-
-        <p className="text-[12px] text-gray-500 leading-tight line-clamp-2">
-          {allowance.description || "..."}
-        </p>
 
         <div className="flex items-center gap-3 flex-wrap">
           {allowance.duration && (
