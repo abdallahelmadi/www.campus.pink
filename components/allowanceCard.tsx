@@ -45,8 +45,8 @@ export default function AllowanceCard({
             </div>
           )}
           <div
-            className="absolute top-2 right-2 w-9 h-9 rounded-full overflow-hidden
-            flex items-center justify-center bg-gray-200/80 backdrop-blur-sm
+            className="absolute top-2 right-2 w-7 h-7 rounded-full overflow-hidden
+            flex items-center justify-center bg-white border border-gray-100
             transition-opacity duration-200 ease-in-out z-10"
             onClick={(e: React.MouseEvent<HTMLDivElement>) => {
               e.preventDefault()
