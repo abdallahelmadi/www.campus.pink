@@ -18,7 +18,7 @@ export default function ReservationSkeleton(): React.JSX.Element {
           <div
             suppressHydrationWarning
             className="grid grid-cols-1 sm:grid-cols-2 w-full max-w-340
-            lg:grid-cols-3 xl:grid-cols-4 gap-4"
+            lg:grid-cols-3 xl:grid-cols-4 gap-2"
           >
 
             {[...Array(group)].map((_, card) => (
