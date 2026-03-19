@@ -1,7 +1,7 @@
 "use client"
 import type { Allowance } from "@/interfaces"
 import AllowanceCard from "@/components/allowanceCard"
-import { useState } from "react"
+import { useState, useLayoutEffect } from "react"
 
 function getFavoriteAllowances(): {
   serviceId: number
@@ -59,8 +59,12 @@ export default function AllowancesClientGrid({
   serviceId: number
 }): React.JSX.Element {
 
-  const favorites = getFavoriteAllowances()
+  const [favorites, setFavorites] = useState<{ serviceId: number; favorites: number[] }[] | undefined>()
   const [_, setForceUpdate] = useState<boolean>(false)
+
+  useLayoutEffect(() => {
+    setFavorites(getFavoriteAllowances())
+  }, [])
 
   const sortedAllowances = [...allowances].sort((a, b) => {
     const serviceFavorites = favorites?.find(f => f.serviceId === serviceId)?.favorites ?? []
@@ -81,11 +85,11 @@ export default function AllowancesClientGrid({
           key={allowance.id}
           removeFromFavorite={() => {
             removeFromFavoriteAllowance(serviceId, allowance.id)
-            setForceUpdate(prev => !prev)
+            setFavorites(getFavoriteAllowances())
           }}
           addToFavorite={() => {
             addToFavoriteAllowance(serviceId, allowance.id)
-            setForceUpdate(prev => !prev)
+            setFavorites(getFavoriteAllowances())
           }}
           isFavorite={favorites?.find(f => f.serviceId === serviceId)?.favorites.includes(allowance.id) ?? false}
         />
