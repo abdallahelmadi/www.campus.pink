@@ -4,7 +4,7 @@ import { notFound, redirect } from "next/navigation"
 import type { Allowance, Holiday, TimeSlote } from "@/interfaces"
 import Breadcrumb from "@/components/breadcrumb"
 import Image from "next/image"
-import { IconSmallTimer, IconSmallPerson, IconSchool, IconLoader } from "@/icons"
+import { IconSmallTimer, IconSmallPerson, IconSchool } from "@/icons"
 
 function generateNext7Days(): { date: string; dayName: string; dayNumber: number; monthName: string; isToday: boolean }[] {
   const days: { date: string; dayName: string; dayNumber: number; monthName: string; isToday: boolean }[] = []
