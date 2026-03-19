@@ -56,7 +56,7 @@ export default async function ServiceById({
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent"/>
           <div
-            className={`absolute bottom-0 left-0 w-full px-3 py-2 flex gap-3
+            className={`absolute bottom-0 left-0 w-full p-3 flex gap-3
             ${!service.description ? "items-center" : "items-start"}`}
           >
             <div className="shrink-0 w-14 h-14 rounded-full overflow-hidden border-2 border-white/30 shadow-lg">
