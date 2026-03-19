@@ -25,7 +25,6 @@ function generateNext7Days(): { date: string; dayName: string; dayNumber: number
       isToday: i === 0
     })
   }
-
   return days
 }
 
