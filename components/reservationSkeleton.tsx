@@ -14,7 +14,7 @@ export default function ReservationSkeleton(): React.JSX.Element {
       <div className="flex items-center justify-between">
         <Switcher
           upcoming={tmp}
-          setStatus={setTmp}
+          setStatus={() => {}}
         />
         <ReloadReservationsButton
           disabled
