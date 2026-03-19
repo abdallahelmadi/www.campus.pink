@@ -22,7 +22,7 @@ export default function Breadcrumb({
           >
             <IconChevronRightSmall size={12} color="#9ca3af" />
             <span className="text-black font-medium truncate max-w-40">
-              {ele.label}
+              {ele.label.slice(0, 12) + (ele.label.length > 12 ? ".." : "")}
             </span>
           </div>
         ) : (
@@ -35,7 +35,7 @@ export default function Breadcrumb({
               href={ele.href}
               className="hover:text-black transition duration-200 ease-in-out"
             >
-              {ele.label}
+              {ele.label.slice(0, 12) + (ele.label.length > 12 ? ".." : "")}
             </Link>
           </div>
         )
