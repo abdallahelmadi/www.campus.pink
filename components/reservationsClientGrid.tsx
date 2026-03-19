@@ -4,7 +4,7 @@ import { useState } from "react"
 import ReservationCard from "@/components/reservationCard"
 import Empty from "@/components/empty"
 import Switcher from "@/components/switcher"
-import ReloadReservationsButton from "./reloadReservationsButton"
+import ReloadReservationsButton from "@/components/reloadReservationsButton"
 
 const days = [
   "Sunday", "Monday",

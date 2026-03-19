@@ -1,7 +1,7 @@
 import { getAllowances } from "@/actions"
 import type { Allowance } from "@/interfaces"
-import AllowanceCard from "@/components/allowanceCard"
 import Empty from "@/components/empty"
+import AllowancesClientGrid from "@/components/allowancesClientGrid"
 
 export default async function AllowancesGrid({
   serviceId,
@@ -44,15 +44,10 @@ export default async function AllowancesGrid({
         </span>
       </div>
 
-      <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-        {allowances.map(allowance => (
-          <AllowanceCard
-            allowance={allowance}
-            serviceId={serviceId}
-            key={allowance.id}
-          />
-        ))}
-      </div>
+      <AllowancesClientGrid
+        allowances={allowances}
+        serviceId={serviceId}
+      />
 
     </div>
   )
