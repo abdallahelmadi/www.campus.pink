@@ -16,9 +16,10 @@ export default function ReloadReservationsButton(): React.JSX.Element {
   return (
     <div
       className="h-10 w-10 bg-[hsla(0,0%,100%,1)] shadow-[0_0_0_1px_#00000014]
-      rounded-md flex items-center justify-center select-none"
+      rounded-md flex items-center justify-center select-none overflow-hidden cursor-pointer"
+      onClick={handleClick}
     >
-      <span className={`w-6 h-6 ${loading ? "animate-spin" : ""}`}>
+      <span className={`w-10 h-10 ${loading ? "animate-spin" : ""}`}>
         <IconRotateCounterClockwise />
       </span>
     </div>

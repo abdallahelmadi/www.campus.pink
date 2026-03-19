@@ -53,7 +53,7 @@ export default function ReservationsClientGrid({
       })
       .filter(([, reservations]) => reservations.length > 0)
     )
-  : status === "latest"
+  : status === "upcoming"
   ? new Map<string, Reservation[]>(
       [...reservationsGroups.entries()]
       .map(([dateKey, reservations]) => [
