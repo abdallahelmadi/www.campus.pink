@@ -16,9 +16,20 @@ export default async function Reservations(): Promise<React.JSX.Element> {
 
         <Header user={user} />
 
-        <Suspense fallback={<ReservationSkeleton />}>
-          <ReservationsGrid token={token} />
-        </Suspense>
+        <div className="flex flex-col">
+          <div className="flex items-center justify-between w-full">
+            <span className="text-black font-medium">
+              Your Reservations
+            </span>
+          </div>
+          <div className="mt-1">
+
+            <Suspense fallback={<ReservationSkeleton />}>
+              <ReservationsGrid token={token} />
+            </Suspense>
+
+          </div>
+        </div>
 
         <Footer />
 

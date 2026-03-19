@@ -31,6 +31,7 @@ export default function HeaderProfile({
         height={32}
         draggable={false}
         quality={100}
+        loading="eager"
         className="rounded-full object-cover object-center"
       />
 
