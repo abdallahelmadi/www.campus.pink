@@ -1,4 +1,3 @@
-"use client"
 import { IconSchool, IconSmallPerson, IconSmallTimer } from "@/icons"
 import type { Allowance } from "@/interfaces"
 import Image from "next/image"
@@ -46,7 +45,7 @@ export default function AllowanceCard({
             </div>
           )}
           <div
-            className="absolute top-2 right-2 w-9 h-0 rounded-full overflow-hidden
+            className="absolute top-2 right-2 w-9 h-9 rounded-full overflow-hidden
             flex items-center justify-center bg-white/80 opacity-0 group-hover:opacity-100
             transition-opacity duration-200 ease-in-out z-10"
             onClick={(e: React.MouseEvent<HTMLDivElement>) => {
