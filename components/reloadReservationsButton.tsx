@@ -22,7 +22,7 @@ export default function ReloadReservationsButton(): React.JSX.Element {
       rounded-md flex items-center justify-center select-none overflow-hidden cursor-pointer"
       onClick={handleClick}
     >
-      <span className={`w-10 h-10 ${loading ? "animate-spin" : ""}`}>
+      <span className={`w-10 h-10 flex items-center justify-center ${loading ? "animate-spin" : ""}`}>
         <IconRotateCounterClockwise />
       </span>
     </div>
