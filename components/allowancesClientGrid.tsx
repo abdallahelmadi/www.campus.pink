@@ -1,12 +1,12 @@
 "use client"
 import type { Allowance } from "@/interfaces"
 import AllowanceCard from "@/components/allowanceCard"
-import { useState, useLayoutEffect } from "react"
+import { useState } from "react"
 
 function getFavoriteAllowances(): {
   serviceId: number
   favorites: number[]
-}[] | undefined {
+}[] | undefined | null {
   try {
     if (typeof window === "undefined")
       return undefined
@@ -14,9 +14,9 @@ function getFavoriteAllowances(): {
     if (Array.isArray(bc_favorites) && bc_favorites.every(a => a.serviceId && Array.isArray(a.favorites))) {
       return bc_favorites as { serviceId: number; favorites: number[] }[]
     }
-    return undefined
+    return null
   } catch {
-    return undefined
+    return null
   }
 }
 
@@ -59,12 +59,10 @@ export default function AllowancesClientGrid({
   serviceId: number
 }): React.JSX.Element {
 
-  const [favorites, setFavorites] = useState<{ serviceId: number; favorites: number[] }[] | undefined>()
-  const [_, setForceUpdate] = useState<boolean>(false)
+  const favorites = getFavoriteAllowances()
+  if (favorites === undefined) return <></>
 
-  useLayoutEffect(() => {
-    setFavorites(getFavoriteAllowances())
-  }, [])
+  const [_, setForceUpdate] = useState<boolean>(false)
 
   const sortedAllowances = [...allowances].sort((a, b) => {
     const serviceFavorites = favorites?.find(f => f.serviceId === serviceId)?.favorites ?? []
@@ -85,11 +83,11 @@ export default function AllowancesClientGrid({
           key={allowance.id}
           removeFromFavorite={() => {
             removeFromFavoriteAllowance(serviceId, allowance.id)
-            setFavorites(getFavoriteAllowances())
+            setForceUpdate(prev => !prev)
           }}
           addToFavorite={() => {
             addToFavoriteAllowance(serviceId, allowance.id)
-            setFavorites(getFavoriteAllowances())
+            setForceUpdate(prev => !prev)
           }}
           isFavorite={favorites?.find(f => f.serviceId === serviceId)?.favorites.includes(allowance.id) ?? false}
         />
