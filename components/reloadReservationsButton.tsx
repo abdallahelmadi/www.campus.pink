@@ -14,11 +14,12 @@ export default function ReloadReservationsButton({
   const [loading, setLoading] = useState<boolean>(false)
 
   async function handleClick(): Promise<void> {
-    if (loading || disabled) return
+    if (loading) return
     setLoading(true)
     const startTime = Date.now()
 
-    await clearReservationsCache()
+    if (!disabled)
+      await clearReservationsCache()
     route.refresh()
 
     const elapsedTime = Date.now() - startTime
