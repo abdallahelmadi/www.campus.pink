@@ -60,6 +60,7 @@ export default function AllowancesClientGrid({
 }): React.JSX.Element {
 
   const favorites = getFavoriteAllowances()
+  if (favorites === undefined) return <></>
   const [_, setForceUpdate] = useState<boolean>(false)
 
   const sortedAllowances = [...allowances].sort((a, b) => {
