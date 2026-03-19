@@ -12,7 +12,7 @@ export default function Switcher({
     >
       <label
         onClick={() => setStatus("latest")}
-        className={`px-3 min-h-8 rounded-sm flex items-center hover:bg-[#f1f1f1]
+        className={`px-3 min-h-8 rounded-sm flex items-center hover:bg-[#fdfdfd]
         justify-center cursor-pointer transition duration-200 ease-in-out
         hover:text-black ${upcoming === "latest" ? "bg-[hsla(0,0%,95%,1)] text-black" : "bg-white"}`}
       >
@@ -20,7 +20,7 @@ export default function Switcher({
       </label>
       <label
         onClick={() => setStatus("today")}
-        className={`px-3 min-h-8 rounded-sm flex items-center hover:bg-[#f1f1f1]
+        className={`px-3 min-h-8 rounded-sm flex items-center hover:bg-[#fdfdfd]
         justify-center cursor-pointer transition duration-200 ease-in-out
         hover:text-black ${upcoming === "today" ? "bg-[hsla(0,0%,95%,1)] text-black" : "bg-white"}`}
       >
@@ -28,7 +28,7 @@ export default function Switcher({
       </label>
       <label
         onClick={() => setStatus("upcoming")}
-        className={`px-3 min-h-8 rounded-sm flex items-center hover:bg-[#f1f1f1]
+        className={`px-3 min-h-8 rounded-sm flex items-center hover:bg-[#fdfdfd]
         justify-center cursor-pointer transition duration-200 ease-in-out
         hover:text-black ${upcoming === "upcoming" ? "bg-[hsla(0,0%,95%,1)] text-black" : "bg-white"}`}
       >
