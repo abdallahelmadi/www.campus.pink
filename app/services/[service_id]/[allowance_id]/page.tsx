@@ -3,6 +3,7 @@ import { getUser, getAllowances, getServices } from "@/actions"
 import { notFound } from "next/navigation"
 import type { Allowance } from "@/interfaces"
 import Breadcrumb from "@/components/breadcrumb"
+import MakeReservationTest from "@/components/makeReservationTest"
 
 export default async function ServiceById({
   params
@@ -41,6 +42,8 @@ export default async function ServiceById({
             { href: `/services/${serviceId}/${allowanceId}`, label: allowance.name || "allocation" }
           ]}
         />
+
+        <MakeReservationTest />
       
       </main>
     </main>
