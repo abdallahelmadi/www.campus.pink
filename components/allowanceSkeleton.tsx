@@ -15,13 +15,15 @@ export default function AllowanceSkeleton(): React.JSX.Element {
         {Array.from({ length: 11 }).map((_, index) => (
           <div
             key={index}
-            className="relative border border-gray-200 rounded-lg overflow-hidden"
+            className="relative border border-gray-200 rounded-lg overflow-hidden h-83.5"
           >
             <Skeleton className="w-full! h-36! overflow-hidden!"/>
             <div className="p-2 flex flex-col gap-1">
               <Skeleton className="rounded-md! w-27! h-4!"/>
               <div className="flex items-center gap-3 flex-wrap">
-                <Skeleton className="rounded-md! w-12.5! h-4!"/>
+                <Skeleton className="rounded-md! w-12! h-3.5!"/>
+                <Skeleton className="rounded-md! w-12! h-3.5!"/>
+                <Skeleton className="rounded-md! w-12! h-3.5!"/>
               </div>
             </div>
           </div>
