@@ -1,5 +1,4 @@
 import Header from "@/components/header"
-import Footer from "@/components/footer"
 import { getUser, getServices } from "@/actions"
 import { notFound } from "next/navigation"
 import type { Service } from "@/interfaces"
@@ -87,8 +86,6 @@ export default async function ServiceById({
             token={user.token}
           />
         </Suspense>
-
-        <Footer />
 
       </main>
     </main>

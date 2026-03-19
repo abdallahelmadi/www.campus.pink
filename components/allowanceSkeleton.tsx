@@ -1,4 +1,5 @@
 import Skeleton from "@/components/skeleton"
+import Footer from "@/components/footer"
 
 export default function AllowanceSkeleton(): React.JSX.Element {
   return (
@@ -29,6 +30,8 @@ export default function AllowanceSkeleton(): React.JSX.Element {
           </div>
         ))}
       </div>
+
+      <Footer />
 
     </div>
   )

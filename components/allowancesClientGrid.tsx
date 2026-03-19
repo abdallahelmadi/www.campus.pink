@@ -2,6 +2,7 @@
 import type { Allowance } from "@/interfaces"
 import AllowanceCard from "@/components/allowanceCard"
 import { useState } from "react"
+import Footer from "@/components/footer"
 
 function getFavoriteAllowances(): {
   serviceId: number
@@ -74,9 +75,10 @@ export default function AllowancesClientGrid({
   })
 
   return (
-    <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-      {sortedAllowances.map(allowance => (
-        <AllowanceCard
+    <div className="flex flex-col">
+      <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+        {sortedAllowances.map(allowance => (
+          <AllowanceCard
           allowance={allowance}
           serviceId={serviceId}
           key={allowance.id}
@@ -89,8 +91,10 @@ export default function AllowancesClientGrid({
             setForceUpdate(prev => !prev)
           }}
           isFavorite={favorites?.find(f => f.serviceId === serviceId)?.favorites.includes(allowance.id) ?? false}
-        />
-      ))}
+          />
+        ))}
+      </div>
+      <Footer />
     </div>
   )
 }

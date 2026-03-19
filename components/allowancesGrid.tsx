@@ -2,6 +2,7 @@ import { getAllowances } from "@/actions"
 import type { Allowance } from "@/interfaces"
 import Empty from "@/components/empty"
 import AllowancesClientGrid from "@/components/allowancesClientGrid"
+import Footer from "@/components/footer"
 
 export default async function AllowancesGrid({
   serviceId,
@@ -28,6 +29,7 @@ export default async function AllowancesGrid({
           No allocations available for this service<br/>
           Please check back later
         </Empty>
+        <Footer />
       </div>
     )
   }
