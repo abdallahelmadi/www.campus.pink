@@ -36,8 +36,8 @@ export default async function ServiceById({
 
         <Breadcrumb
           elements={[
-            { href: "/services", label: "..." },
-            { href: `/services/${serviceId}`, label: service.name || "service" },
+            { href: "/services", label: "Services" },
+            { href: `/services/${serviceId}`, label: "..." },
             { href: `/services/${serviceId}/${allowanceId}`, label: allowance.name || "allocation" }
           ]}
         />
