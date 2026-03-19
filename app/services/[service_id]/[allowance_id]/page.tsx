@@ -103,7 +103,7 @@ async function ReservationContent({
           sizes="(max-width: 768px) 100vw, 860px"
           className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-4 flex flex-col gap-2">
           <h1 className="text-white text-[18px] font-bold leading-tight text-balance">
             {allowance.name}
