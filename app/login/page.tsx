@@ -14,15 +14,15 @@ function validateEmail(email: string): boolean {
     (email.split("@")[1] === "um6p.ma" || email.split("@")[1] === "student.1337.ma")
 }
 
-function getInitialFormState(): { email: string; password: string; remember: boolean } {
+function getInitialFormState(): { email: string; password: string } {
   if (typeof window === "undefined") {
-    return { email: "", password: "", remember: false }
+    return { email: "", password: "" }
   }
   const bc_token = JSON.parse(localStorage.getItem("bc_token") || "null")
   if (bc_token && bc_token?.email && bc_token?.password) {
-    return { email: bc_token.email, password: bc_token.password, remember: true }
+    return { email: bc_token.email, password: bc_token.password }
   }
-  return { email: "", password: "", remember: false }
+  return { email: "", password: "" }
 }
 
 export default function Login(): React.JSX.Element {
@@ -33,7 +33,7 @@ export default function Login(): React.JSX.Element {
   const [emailError, setEmailError] = useState<boolean>(false)
   const [passwordError, setPasswordError] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
-  const [remember, setRemember] = useState<boolean>(initialState.remember)
+  const [remember, setRemember] = useState<boolean>(true)
 
   const handleEmailChange = (v: string): void => {
     setEmail(v)
