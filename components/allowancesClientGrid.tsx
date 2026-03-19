@@ -2,11 +2,12 @@
 import type { Allowance } from "@/interfaces"
 import AllowanceCard from "@/components/allowanceCard"
 import { useState } from "react"
+import AllowanceSkeleton from "./allowanceSkeleton"
 
 function getFavoriteAllowances(): {
   serviceId: number
   favorites: number[]
-}[] | undefined {
+}[] | undefined | null {
   try {
     if (typeof window === "undefined")
       return undefined
@@ -14,9 +15,9 @@ function getFavoriteAllowances(): {
     if (Array.isArray(bc_favorites) && bc_favorites.every(a => a.serviceId && Array.isArray(a.favorites))) {
       return bc_favorites as { serviceId: number; favorites: number[] }[]
     }
-    return undefined
+    return null
   } catch {
-    return undefined
+    return null
   }
 }
 
@@ -60,6 +61,8 @@ export default function AllowancesClientGrid({
 }): React.JSX.Element {
 
   const favorites = getFavoriteAllowances()
+  if (favorites === undefined) return <AllowanceSkeleton />
+
   const [_, setForceUpdate] = useState<boolean>(false)
 
   const sortedAllowances = [...allowances].sort((a, b) => {
