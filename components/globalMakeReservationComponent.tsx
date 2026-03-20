@@ -79,6 +79,8 @@ export default async function GlobalMakeReservationComponent({
 
       <AllowanceFullCard allowance={allowance}/>
 
+      <div className="mt-2"/>
+
       <TitleSection title="SELECT DATE"/>
 
       <DatePickerStrip
