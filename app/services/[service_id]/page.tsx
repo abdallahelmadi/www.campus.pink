@@ -73,7 +73,7 @@ export default async function ServiceById({
               <h1 className="text-white text-[16px] font-bold truncate">
                 {service.name}
               </h1>
-              <p className="text-white/70 text-[12px] line-clamp-4 leading-tight">
+              <p className="text-white/70 text-[12px] line-clamp-2 leading-tight">
                 {service.description}
               </p>
             </div>
