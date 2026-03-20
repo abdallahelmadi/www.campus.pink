@@ -39,9 +39,11 @@ export default function SlotCard({
         setStatusText("Reserved")
       } else {
         setStatusText("Failed")
+        setTimeout(() => setStatusText(status.text), 2000)
       }
     } catch (error) {
       setStatusText("Failed")
+      setTimeout(() => setStatusText(status.text), 2000)
     } finally {
       setIsBooking(false)
     }
@@ -96,7 +98,10 @@ export default function SlotCard({
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
-            <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full border ${status.style}`}>
+            <span
+              className={`text-[10px] font-medium px-2 py-0.5 rounded-full border ${status.style}
+              ${statusText === "Failed" ? "border-red-400 bg-red-100 text-red-700" : ""}`}
+            >
               {statusText}
             </span>
             {isBookable && (
