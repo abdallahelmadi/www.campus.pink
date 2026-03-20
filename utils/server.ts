@@ -1,4 +1,4 @@
-import type { Reservation } from "@/interfaces"
+import type { Holiday, Reservation } from "@/interfaces"
 
 function createGroupsByDate(reservations: Reservation[]): Map<string, Reservation[]> {
   const grouped = new Map<string, Reservation[]>()
@@ -33,7 +33,12 @@ function generateNext7Days(): { date: string; dayName: string; dayNumber: number
   return days
 }
 
+function isHoliday(date: string, holidays: Holiday[]): Holiday | undefined {
+  return holidays.find(h => h.date === date && h.isOff === "1")
+}
+
 export {
   createGroupsByDate,
-  generateNext7Days
+  generateNext7Days,
+  isHoliday
 }
