@@ -91,7 +91,10 @@ export default async function GlobalMakeReservationComponent({
         holidays={holidays}
       />
 
-      {/* Holiday Notice */}
+      <TitleSection title="AVAILABLE SLOTS"/>
+
+      <div className="mt-2"/>
+
       {holiday && (
         <div className="border border-amber-200 bg-amber-50 rounded-lg p-4 flex items-start gap-3 animate-[fadeIn_0.3s_ease-out]">
           <div className="w-8 h-8 rounded-full bg-amber-100 border border-amber-200 flex items-center justify-center shrink-0 mt-0.5">
@@ -115,13 +118,6 @@ export default async function GlobalMakeReservationComponent({
       {/* Time Slots */}
       {!holiday && (
         <>
-          <div className="flex items-center gap-2">
-            <div className="h-px flex-1 bg-gray-200" />
-            <span className="text-[11px] text-gray-400 font-medium uppercase tracking-wider">Available Slots</span>
-            <div className="h-px flex-1 bg-gray-200" />
-          </div>
-
-          <div className="mt-2"/>
 
           {timeSlots.length === 0 ? (
             <div className="border border-gray-200 rounded-lg p-8 flex flex-col items-center gap-3 bg-gray-50 animate-[fadeIn_0.3s_ease-out]">
