@@ -1,4 +1,4 @@
-import type { Holiday, Reservation } from "@/interfaces"
+import type { Holiday, Reservation, TimeSlote } from "@/interfaces"
 
 function createGroupsByDate(reservations: Reservation[]): Map<string, Reservation[]> {
   const grouped = new Map<string, Reservation[]>()
@@ -37,8 +37,49 @@ function isHoliday(date: string, holidays: Holiday[]): Holiday | undefined {
   return holidays.find(h => h.date === date && h.isOff === "1")
 }
 
+function getStatusLabel(slot: TimeSlote): { text: string; style: string } {
+  if (slot.isMaintenance) return { text: "Maintenance", style: "bg-gray-100 text-gray-500 border-gray-200" }
+  if (slot.isPause) return { text: "Break", style: "bg-gray-100 text-gray-500 border-gray-200" }
+  if (!slot.canBook && !slot.waitingList) return { text: "Full", style: "bg-red-50 text-red-600 border-red-200" }
+  if (slot.waitingList) return { text: "Waiting List", style: "bg-amber-50 text-amber-600 border-amber-200" }
+  return { text: "Available", style: "bg-emerald-50 text-emerald-700 border-emerald-200" }
+}
+
+function formatTime(timeStr: string | null): string {
+  if (!timeStr) return "--:--"
+  const parts = timeStr.split(":")
+  if (parts.length < 2) return timeStr
+  return `${parts[0]}:${parts[1]}`
+}
+
+function getCapacityPercentage(slot: TimeSlote): number {
+  if (slot.capacity <= 0) return 100
+  return Math.round((slot.reserved / slot.capacity) * 100)
+}
+
+function getCapacityColor(slot: TimeSlote): string {
+  const pct = getCapacityPercentage(slot)
+  if (pct >= 90) return "bg-red-500"
+  if (pct >= 70) return "bg-amber-500"
+  if (pct >= 40) return "bg-yellow-400"
+  return "bg-emerald-500"
+}
+
+function getCapacityBg(slot: TimeSlote): string {
+  const pct = getCapacityPercentage(slot)
+  if (pct >= 90) return "bg-red-50 border-red-200"
+  if (pct >= 70) return "bg-amber-50 border-amber-200"
+  if (pct >= 40) return "bg-yellow-50 border-yellow-200"
+  return "bg-emerald-50 border-emerald-200"
+}
+
 export {
   createGroupsByDate,
   generateNext7Days,
-  isHoliday
+  isHoliday,
+  getStatusLabel,
+  formatTime,
+  getCapacityPercentage,
+  getCapacityColor,
+  getCapacityBg
 }
