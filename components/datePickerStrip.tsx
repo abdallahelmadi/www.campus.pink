@@ -16,7 +16,7 @@ export default function DatePickerStrip({
   selectedDate: string
 }): React.JSX.Element {
   return (
-    <div className="flex gap-2 overflow-x-auto scrollbar-none h-26 items-center">
+    <div className="flex gap-2 overflow-x-auto scrollbar-none h-24 items-center">
       {days.map((day) => {
         const dayHoliday = isHoliday(day.date, holidays)
         const isSelected = day.date === selectedDate
