@@ -21,7 +21,7 @@ export default function SlotsSkeleton(): React.JSX.Element {
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
-                  <Skeleton className="px-2! py-0.5! rounded-full! border!"/>
+                  <Skeleton className="w-18! h-5.25! rounded-full! border!"/>
                   <Skeleton className="w-6! h-6! rounded-full!"/>
                 </div>
 
