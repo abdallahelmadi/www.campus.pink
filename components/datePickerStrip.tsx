@@ -25,21 +25,16 @@ export default function DatePickerStrip({
           <Link
             key={day.date}
             href={`/services/${serviceId}/${allowanceId}?date=${day.date}`}
-            className={`flex flex-col items-center justify-center min-w-16 h-20 rounded-md border relative
+            className={`flex flex-col items-center justify-center min-w-16 h-20 rounded-md border
               transition-all duration-200 ease-in-out select-none shrink-0
               ${isSelected
-                ? "bg-black/90 text-white border-black shadow-lg shadow-black/20 -translate-y-2"
+                ? "bg-black/90 text-white border-black shadow-lg shadow-black/20 scale-105"
                 : isOff
                   ? "bg-gray-50 text-gray-300 border-gray-200 cursor-not-allowed"
                   : "bg-white text-gray-700 border-gray-200 hover:border-gray-400 hover:shadow-sm hover:-translate-y-0.5"
               }
             `}
           >
-            {isOff && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="absolute w-full h-px bg-gray-300 transform -rotate-45"/>
-              </div>
-            )}
             <span className={`text-[10px] font-medium uppercase tracking-wide ${isSelected ? "text-white/60" : isOff ? "text-gray-300" : "text-gray-400"}`}>
               {day.dayName}
             </span>
