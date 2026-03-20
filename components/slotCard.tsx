@@ -31,7 +31,7 @@ export default function SlotCard({
   const [statusText, setStatusText] = useState<string>(status.text)
 
   async function handleBook() {
-    if (!isBookable || isWaiting || isBooking || statusText === "Reserved") return
+    if (!isBookable || isWaiting || isBooking || statusText === "Reserved" || statusText === "Failed") return
     setIsBooking(true)
     try {
       const res = await makeReservation(token, allowanceId, selectedDate, slot.id)
