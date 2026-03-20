@@ -165,7 +165,7 @@ export default async function SlotsGrid({
                                 : "bg-gray-100 text-gray-400 border-gray-200"
                             }`}
                           >
-                            <IconSmallTimer size={18} color="currentColor" />
+                            {/* <IconSmallTimer size={18} color="currentColor" /> */}
                           </div>
                           <div className="flex flex-col min-w-0">
                             <span className={`text-[14px] font-semibold ${isBookable ? "text-black" : isWaiting ? "text-amber-800" : "text-gray-400"}`}>
