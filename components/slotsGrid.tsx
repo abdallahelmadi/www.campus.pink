@@ -1,7 +1,7 @@
 import { getTimeSlotes, getUser, makeReservation } from "@/actions"
 import { redirect } from "next/navigation"
 import type { Holiday, TimeSlote } from "@/interfaces"
-import { IconSmallTimer } from "@/icons"
+import { IconSmallTimer, IconWarning } from "@/icons"
 
 
 
@@ -62,31 +62,34 @@ export default async function SlotsGrid({
   selectedDate: string
 }): Promise<React.JSX.Element> {
 
-  const timeSlots: TimeSlote[] = holiday ? [] : await getTimeSlotes(token, allowanceId, selectedDate)
+  if (holiday && holiday.isOff === "1") {
+    return (
+      <div
+        className="border border-amber-200 bg-amber-50 rounded-lg p-2.5 flex
+        items-center justify-start gap-3 animate-[fadeIn_0.3s_ease-out] select-none"
+      >
+        <div
+          className="w-7 h-7 rounded-full bg-amber-100 border border-amber-200
+          flex items-center justify-center shrink-0"
+        >
+          <IconWarning size={16} color="#d97706" />
+        </div>
+        <div className="flex flex-col gap-0.5">
+          <span className="text-[12px] font-semibold text-amber-800">
+            {holiday.event || "Holiday"}
+          </span>
+          <span className="text-[11px] text-amber-600 leading-relaxed">
+            {holiday.description || "This day is marked as a holiday"}
+          </span>
+        </div>
+      </div>
+    )
+  }
+
+  const timeSlots: TimeSlote[] = await getTimeSlotes(token, allowanceId, selectedDate)
 
   return (
     <>
-
-    {holiday && (
-        <div className="border border-amber-200 bg-amber-50 rounded-lg p-4 flex items-start gap-3 animate-[fadeIn_0.3s_ease-out]">
-          <div className="w-8 h-8 rounded-full bg-amber-100 border border-amber-200 flex items-center justify-center shrink-0 mt-0.5">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M8 1L1 15H15L8 1Z" stroke="#D97706" strokeWidth="1.5" strokeLinejoin="round" />
-              <path d="M8 6V9" stroke="#D97706" strokeWidth="1.5" strokeLinecap="round" />
-              <circle cx="8" cy="12" r="0.75" fill="#D97706" />
-            </svg>
-          </div>
-          <div className="flex flex-col gap-0.5">
-            <span className="text-[13px] font-semibold text-amber-800">
-              {holiday.event || "Holiday"}
-            </span>
-            <span className="text-[12px] text-amber-600 leading-relaxed">
-              {holiday.description || "This day is marked as a holiday. No reservations are available."}
-            </span>
-          </div>
-        </div>
-      )}
-
       {/* Time Slots */}
       {!holiday && (
         <>
