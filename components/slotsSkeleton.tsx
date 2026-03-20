@@ -10,7 +10,7 @@ export default function SlotsSkeleton(): React.JSX.Element {
               <div className="flex items-center justify-between gap-3">
 
                 <div className="flex items-center gap-3 min-w-0">
-                  <Skeleton className="w-10! h-10! rounded-lg! border!"/>
+                  <Skeleton className="w-10! h-10! rounded-lg!"/>
                   <div className="flex flex-col min-w-0">
                     <Skeleton className="w-19! h-4!"/>
                     <div className="flex items-center gap-2 mt-0.5">
@@ -21,7 +21,7 @@ export default function SlotsSkeleton(): React.JSX.Element {
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
-                  <Skeleton className="w-18! h-5.25! rounded-full! border!"/>
+                  <Skeleton className="w-18! h-5.25! rounded-full!"/>
                   <Skeleton className="w-6! h-6! rounded-full!"/>
                 </div>
 
