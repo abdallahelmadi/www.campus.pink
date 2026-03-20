@@ -31,7 +31,7 @@ export default function SlotCard({
   const [statusText, setStatusText] = useState<string>(status.text)
 
   async function handleBook() {
-    if (!isBookable || isWaiting || isBooking) return
+    if (!isBookable || isWaiting || isBooking || statusText === "Reserved") return
     setIsBooking(true)
     try {
       const res = await makeReservation(token, allowanceId, selectedDate, slot.id)
@@ -104,7 +104,7 @@ export default function SlotCard({
                 className="w-6 h-6 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center
                 group-hover/slot:bg-gray-200 group-hover/slot:border-gray-300 transition-all duration-200"
               >
-                {isBooking ? <IconLoader color="black"/> : <IconChevronRightSmall color="black"/>}
+                {isBooking ? <IconLoader color="black" size={12}/> : <IconChevronRightSmall color="black"/>}
               </div>
             )}
           </div>
