@@ -1,7 +1,7 @@
 import { getTimeSlotes, getUser, makeReservation } from "@/actions"
 import { redirect } from "next/navigation"
 import type { Holiday, TimeSlote } from "@/interfaces"
-import { IconSmallTimer, IconWarning } from "@/icons"
+import { IconClockDashed, IconWarning } from "@/icons"
 
 
 
@@ -88,6 +88,23 @@ export default async function SlotsGrid({
 
   const timeSlots: TimeSlote[] = await getTimeSlotes(token, allowanceId, selectedDate)
 
+  if (timeSlots.length === 0) {
+    return (
+      <div
+        className="border border-gray-200 rounded-lg p-8 flex flex-col items-center
+        gap-3 bg-gray-50 animate-[fadeIn_0.3s_ease-out]"
+      >
+        <div
+          className="w-10 h-10 rounded-full bg-gray-100 border border-gray-200
+          flex items-center justify-center"
+        >
+          <IconClockDashed size={19} color="#9ca3af" />
+        </div>
+        <p className="text-[13px] text-gray-500 text-center"> No time slots available for this date </p>
+      </div>
+    )
+  }
+
   return (
     <>
       {/* Time Slots */}
@@ -97,7 +114,7 @@ export default async function SlotsGrid({
           {timeSlots.length === 0 ? (
             <div className="border border-gray-200 rounded-lg p-8 flex flex-col items-center gap-3 bg-gray-50 animate-[fadeIn_0.3s_ease-out]">
               <div className="w-10 h-10 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center">
-                <IconSmallTimer size={20} color="#9ca3af" />
+                {/* <IconSmallTimer size={20} color="#9ca3af" /> */}
               </div>
               <p className="text-[13px] text-gray-500 text-center">No time slots available for this date</p>
             </div>
