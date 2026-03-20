@@ -116,7 +116,7 @@ async function ReservationContent({
             {allowance.duration && (
               <span className="inline-flex items-center gap-1 text-[11px] text-white/80 bg-white/15 backdrop-blur-sm px-2 py-0.5 rounded-full">
                 <IconSmallTimer size={11} color="rgba(255,255,255,0.8)" />
-                {allowance.duration}min
+                {allowance.duration} min
               </span>
             )}
             {allowance.capacity && (
