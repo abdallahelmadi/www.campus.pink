@@ -93,8 +93,6 @@ export default async function GlobalMakeReservationComponent({
 
       <TitleSection title="AVAILABLE SLOTS"/>
 
-      <div className="mt-2"/>
-
       {holiday && (
         <div className="border border-amber-200 bg-amber-50 rounded-lg p-4 flex items-start gap-3 animate-[fadeIn_0.3s_ease-out]">
           <div className="w-8 h-8 rounded-full bg-amber-100 border border-amber-200 flex items-center justify-center shrink-0 mt-0.5">
@@ -219,8 +217,6 @@ export default async function GlobalMakeReservationComponent({
         </>
       )}
 
-      {/* Footer spacing */}
-      <div className="h-4" />
     </div>
   )
 }
