@@ -67,10 +67,10 @@ function getCapacityColor(slot: TimeSlote): string {
 
 function getCapacityBg(slot: TimeSlote): string {
   const pct = getCapacityPercentage(slot)
-  if (pct >= 90) return "bg-red-50 border-red-200"
-  if (pct >= 70) return "bg-amber-50 border-amber-200"
-  if (pct >= 40) return "bg-yellow-50 border-yellow-200"
-  return "bg-emerald-50 border-emerald-200"
+  if (pct >= 90) return "bg-red-50"
+  if (pct >= 70) return "bg-amber-50"
+  if (pct >= 40) return "bg-yellow-50"
+  return "bg-emerald-50"
 }
 
 export {
