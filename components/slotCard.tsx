@@ -41,7 +41,7 @@ export default function SlotCard({
         setStatusText("Failed")
         setTimeout(() => setStatusText(status.text), 2000)
       }
-    } catch (error) {
+    } catch {
       setStatusText("Failed")
       setTimeout(() => setStatusText(status.text), 2000)
     } finally {
@@ -52,7 +52,7 @@ export default function SlotCard({
   return (
     <div
       style={{ animationDelay: `${index * 60}ms` }}
-      className="animate-[slideUp_0.4s_ease-out_both]"
+      className="animate-[slideUp_0.4s_ease-out_both] select-none"
       onClick={handleBook}
     >
       <button
