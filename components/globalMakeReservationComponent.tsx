@@ -49,7 +49,7 @@ export default async function GlobalMakeReservationComponent({
 
       <div className="mt-1"/>
 
-      <Suspense fallback={<SlotsSkeleton />}>
+      <Suspense key={selectedDate} fallback={<SlotsSkeleton />}>
         <SlotsGrid
           holiday={holiday}
           token={token}
