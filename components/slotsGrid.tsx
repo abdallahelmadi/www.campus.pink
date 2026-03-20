@@ -92,7 +92,7 @@ export default async function SlotsGrid({
     return (
       <div
         className="border border-gray-200 rounded-lg p-8 flex flex-col items-center
-        gap-3 bg-gray-50 animate-[fadeIn_0.3s_ease-out]"
+        gap-3 bg-gray-50 animate-[fadeIn_0.3s_ease-out] select-none"
       >
         <div
           className="w-10 h-10 rounded-full bg-gray-100 border border-gray-200
