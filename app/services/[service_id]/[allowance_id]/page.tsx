@@ -316,7 +316,7 @@ async function ReservationContent({
   )
 }
 
-export default async function ServiceById({
+export default async function Reservation({
   params,
   searchParams
 }: {

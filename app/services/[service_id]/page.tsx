@@ -1,6 +1,6 @@
 import Header from "@/components/header"
 import { getUser, getServices } from "@/actions"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import type { Service } from "@/interfaces"
 import Breadcrumb from "@/components/breadcrumb"
 import Image from "next/image"
@@ -20,7 +20,7 @@ export default async function ServiceById({
   if (isNaN(serviceId)) notFound()
 
   const user = await getUser()
-  if (!user) notFound()
+  if (!user) redirect("/login")
 
   const services = await getServices(user.token)
   const service: Service | undefined = services.find(s => s.id === serviceId)
