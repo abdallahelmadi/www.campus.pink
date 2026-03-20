@@ -5,27 +5,7 @@ import ReservationCard from "@/components/reservationCard"
 import Empty from "@/components/empty"
 import Switcher from "@/components/switcher"
 import ReloadReservationsButton from "@/components/reloadReservationsButton"
-
-const days = [
-  "Sunday", "Monday",
-  "Tuesday", "Wednesday",
-  "Thursday", "Friday", "Saturday"
-]
-
-const months = [
-  "January", "February", "March",
-  "April", "May", "June", "July", "August",
-  "September", "October", "November", "December"
-]
-
-function formatDateLabel(dateStr: string): string {
-  const date = new Date(dateStr.replace(" ", "T"))
-  const day = days[date.getDay()]
-  const d = date.getDate()
-  const month = months[date.getMonth()]
-  const year = date.getFullYear()
-  return `${day} ${d} ${month} ${year}`
-}
+import { formatDateLabel } from "@/utils/client"
 
 export default function ReservationsClientGrid({
   reservationsGroups,

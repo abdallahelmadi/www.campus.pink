@@ -6,23 +6,7 @@ import { useState } from "react"
 import { IconEmail } from "@/icons"
 import { userLogin } from "@/actions"
 import { redirect } from "next/navigation"
-
-function validateEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email) &&
-    (email.split("@")[1] === "um6p.ma" || email.split("@")[1] === "student.1337.ma")
-}
-
-function getInitialFormState(): { email: string; password: string } {
-  if (typeof window === "undefined") {
-    return { email: "", password: "" }
-  }
-  const bc_token = JSON.parse(localStorage.getItem("bc_token") || "null")
-  if (bc_token && bc_token?.email && bc_token?.password) {
-    return { email: bc_token.email, password: bc_token.password }
-  }
-  return { email: "", password: "" }
-}
+import { getInitialFormState, validateEmail } from "@/utils/client"
 
 export default function LoginHandler(): React.JSX.Element {
 

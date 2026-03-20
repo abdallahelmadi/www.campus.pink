@@ -3,54 +3,7 @@ import type { Allowance } from "@/interfaces"
 import AllowanceCard from "@/components/allowanceCard"
 import { useState } from "react"
 import Footer from "@/components/footer"
-
-function getFavoriteAllowances(): {
-  serviceId: number
-  favorites: number[]
-}[] | undefined | null {
-  try {
-    if (typeof window === "undefined")
-      return undefined
-    const bc_favorites = JSON.parse(localStorage.getItem("bc_favorites") || "null")
-    if (Array.isArray(bc_favorites) && bc_favorites.every(a => a.serviceId && Array.isArray(a.favorites))) {
-      return bc_favorites as { serviceId: number; favorites: number[] }[]
-    }
-    return null
-  } catch {
-    return null
-  }
-}
-
-function addToFavoriteAllowance(serviceId: number, allowanceId: number): void {
-  try {
-    const favorites = getFavoriteAllowances() ?? []
-    const serviceFavorites = favorites.find(f => f.serviceId === serviceId) ?? { serviceId, favorites: [] }
-    if (!serviceFavorites.favorites.includes(allowanceId)) {
-      serviceFavorites.favorites.push(allowanceId)
-      if (!favorites.some(f => f.serviceId === serviceId)) {
-        favorites.push(serviceFavorites)
-      }
-      localStorage.setItem("bc_favorites", JSON.stringify(favorites))
-    }
-  } catch {}
-}
-
-function removeFromFavoriteAllowance(serviceId: number, allowanceId: number): void {
-  try {
-    const favorites = getFavoriteAllowances() ?? []
-    const serviceFavorites = favorites.find(f => f.serviceId === serviceId)
-    if (serviceFavorites) {
-      serviceFavorites.favorites = serviceFavorites.favorites.filter(id => id !== allowanceId)
-      if (serviceFavorites.favorites.length === 0) {
-        const index = favorites.findIndex(f => f.serviceId === serviceId)
-        if (index !== -1) {
-          favorites.splice(index, 1)
-        }
-      }
-      localStorage.setItem("bc_favorites", JSON.stringify(favorites))
-    }
-  } catch {}
-}
+import { getFavoriteAllowances, addToFavoriteAllowance, removeFromFavoriteAllowance } from "@/utils/client"
 
 export default function AllowancesClientGrid({
   allowances,

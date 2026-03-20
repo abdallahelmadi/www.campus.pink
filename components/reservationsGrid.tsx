@@ -1,18 +1,7 @@
 import { getReservations } from "@/actions"
-import type { Reservation } from "@/interfaces"
 import ReservationsClientGrid from "@/components/reservationsClientGrid"
 import Empty from "@/components/empty"
-
-function createGroupsByDate(reservations: Reservation[]): Map<string, Reservation[]> {
-  const grouped = new Map<string, Reservation[]>()
-  for (const r of reservations) {
-    if (!r.start) continue
-    const dateKey = r.start.split(" ")[0]
-    if (!grouped.has(dateKey)) grouped.set(dateKey, [])
-    grouped.get(dateKey)!.push(r)
-  }
-  return grouped
-}
+import { createGroupsByDate } from "@/utils/server"
 
 export default async function ReservationsGrid({
   token
