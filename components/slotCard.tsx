@@ -1,7 +1,7 @@
 import { makeReservation } from "@/actions"
 import { IconClockDashed, IconChevronRightSmall } from "@/icons"
 import type { TimeSlote } from "@/interfaces"
-import { formatTime, getCapacityColor, getCapacityBg } from "@/utils/server"
+import { formatTime, getCapacityColor } from "@/utils/server"
 
 export default function SlotCard({
   status,
@@ -61,7 +61,7 @@ export default function SlotCard({
                 <span className={`text-[11px] ${isBookable ? "text-gray-500" : "text-gray-400"}`}>
                   {slot.reserved}/{slot.capacity} reserved
                 </span>
-                <div className={`w-12 h-1.5 rounded-full ${getCapacityBg(slot)} overflow-hidden`}>
+                <div className="w-12 h-1.5 rounded-full bg-gray-200 overflow-hidden">
                   <div
                     className={`h-full rounded-full transition-all duration-500 ease-out ${getCapacityColor(slot)}`}
                     style={{ width: `${Math.min(capacityPct, 100)}%` }}
@@ -78,9 +78,9 @@ export default function SlotCard({
             {isBookable && (
               <div
                 className="w-6 h-6 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center
-                group-hover/slot:bg-black group-hover/slot:border-black transition-all duration-200"
+                group-hover/slot:bg-gray-200 group-hover/slot:border-gray-300 transition-all duration-200"
               >
-                <IconChevronRightSmall />
+                <IconChevronRightSmall color="vlack"/>
               </div>
             )}
           </div>
