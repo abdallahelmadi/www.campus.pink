@@ -79,7 +79,7 @@ export default async function GlobalMakeReservationComponent({
 
       <AllowanceFullCard allowance={allowance}/>
 
-      <div className="mt-2"/>
+      <div className="mt-1"/>
 
       <TitleSection title="SELECT DATE"/>
 
@@ -92,6 +92,8 @@ export default async function GlobalMakeReservationComponent({
       />
 
       <TitleSection title="AVAILABLE SLOTS"/>
+
+      <div className="mt-1"/>
 
       {holiday && (
         <div className="border border-amber-200 bg-amber-50 rounded-lg p-4 flex items-start gap-3 animate-[fadeIn_0.3s_ease-out]">
