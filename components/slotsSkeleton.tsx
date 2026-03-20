@@ -12,10 +12,10 @@ export default function SlotsSkeleton(): React.JSX.Element {
                 <div className="flex items-center gap-3 min-w-0">
                   <Skeleton className="w-10! h-10! rounded-lg!"/>
                   <div className="flex flex-col min-w-0">
-                    <Skeleton className="w-19! h-4!"/>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <Skeleton className="w-13! h-3!"/>
-                      <Skeleton className="w-12! h-1.5! rounded-full!"/>
+                    <Skeleton className="w-26! h-3!"/>
+                    <div className="flex items-center gap-2 mt-1.75">
+                      <Skeleton className="w-18! h-2.5!"/>
+                      <Skeleton className="w-12! h-1.25! rounded-full!"/>
                     </div>
                   </div>
                 </div>
