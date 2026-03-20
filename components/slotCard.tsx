@@ -35,7 +35,7 @@ export default function SlotCard({
           ${isBookable
             ? "bg-white border-gray-200 hover:border-black/60 hover:-translate-y-0.5 cursor-pointer"
             : isWaiting
-              ? "bg-amber-50/50 border-amber-200 hover:border-amber-400/60 hover:-translate-y-0.5 cursor-pointer"
+              ? "bg-amber-50/50 border-amber-200 cursor-not-allowed opacity-60"
               : "bg-gray-50 border-gray-200 cursor-not-allowed opacity-60"
           }
         `}
@@ -77,7 +77,7 @@ export default function SlotCard({
             <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full border ${status.style}`}>
               {status.text}
             </span>
-            {(isBookable || isWaiting) && (
+            {isBookable && (
               <div className="w-6 h-6 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center
                 group-hover/slot:bg-black group-hover/slot:border-black transition-all duration-200">
                 <svg width="12" height="12" viewBox="0 0 16 16" fill="none"
