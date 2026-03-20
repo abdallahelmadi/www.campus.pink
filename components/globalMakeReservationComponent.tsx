@@ -75,9 +75,11 @@ export default async function GlobalMakeReservationComponent({
   const timeSlots: TimeSlote[] = holiday ? [] : await getTimeSlotes(token, allowanceId, selectedDate)
 
   return (
-    <div className="flex flex-col gap-4 animate-[fadeIn_0.4s_ease-out]">
+    <div className="flex flex-col gap-2 animate-[fadeIn_0.4s_ease-out]">
 
       <AllowanceFullCard allowance={allowance}/>
+
+      <div className="mt-2"/>
 
       <TitleSection title="SELECT DATE"/>
 
@@ -118,6 +120,8 @@ export default async function GlobalMakeReservationComponent({
             <span className="text-[11px] text-gray-400 font-medium uppercase tracking-wider">Available Slots</span>
             <div className="h-px flex-1 bg-gray-200" />
           </div>
+
+          <div className="mt-2"/>
 
           {timeSlots.length === 0 ? (
             <div className="border border-gray-200 rounded-lg p-8 flex flex-col items-center gap-3 bg-gray-50 animate-[fadeIn_0.3s_ease-out]">
