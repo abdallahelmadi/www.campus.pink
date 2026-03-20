@@ -1,7 +1,9 @@
+"use client"
 import { makeReservation } from "@/actions"
-import { IconClockDashed, IconChevronRightSmall } from "@/icons"
+import { IconClockDashed, IconChevronRightSmall, IconLoader } from "@/icons"
 import type { TimeSlote } from "@/interfaces"
 import { formatTime, getCapacityColor } from "@/utils/server"
+import { useState } from "react"
 
 export default function SlotCard({
   status,
@@ -24,10 +26,32 @@ export default function SlotCard({
   selectedDate: string
   index: number
 }): React.JSX.Element {
+
+  const [isBooking, setIsBooking] = useState<boolean>(false)
+  const [statusText, setStatusText] = useState<string>(status.text)
+
+  async function handleBook() {
+    if (!isBookable || isWaiting || isBooking) return
+    setIsBooking(true)
+    try {
+      const res = await makeReservation(token, allowanceId, selectedDate, slot.id)
+      if (res.success) {
+        setStatusText("Reserved")
+      } else {
+        setStatusText("Failed")
+      }
+    } catch (error) {
+      setStatusText("Failed")
+    } finally {
+      setIsBooking(false)
+    }
+  }
+
   return (
     <div
       style={{ animationDelay: `${index * 60}ms` }}
       className="animate-[slideUp_0.4s_ease-out_both]"
+      onClick={handleBook}
     >
       <button
         disabled={!isBookable && !isWaiting}
@@ -73,14 +97,14 @@ export default function SlotCard({
 
           <div className="flex items-center gap-2 shrink-0">
             <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full border ${status.style}`}>
-              {status.text}
+              {statusText}
             </span>
             {isBookable && (
               <div
                 className="w-6 h-6 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center
                 group-hover/slot:bg-gray-200 group-hover/slot:border-gray-300 transition-all duration-200"
               >
-                <IconChevronRightSmall color="vlack"/>
+                {isBooking ? <IconLoader color="black"/> : <IconChevronRightSmall color="black"/>}
               </div>
             )}
           </div>
