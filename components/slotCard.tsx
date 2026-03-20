@@ -33,7 +33,7 @@ export default function SlotCard({
         disabled={!isBookable && !isWaiting}
         className={`w-full text-left rounded-xl border p-3.5 transition-all duration-200 ease-in-out group/slot
           ${isBookable
-            ? "bg-white border-gray-200 hover:border-gray-600 hover:-translate-y-0.5 cursor-pointer"
+            ? "bg-white border-gray-200 hover:border-gray-400 hover:-translate-y-0.5 cursor-pointer"
             : isWaiting
               ? "bg-amber-50/50 border-amber-200 cursor-not-allowed opacity-60"
               : "bg-gray-50 border-gray-200 cursor-not-allowed opacity-60"
