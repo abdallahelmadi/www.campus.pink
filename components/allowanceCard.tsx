@@ -73,7 +73,7 @@ export default function AllowanceCard({
             {allowance.duration && (
               <span className="inline-flex items-center gap-1 text-[11px] text-gray-700">
                 <IconSmallTimer size={12}/>
-                {allowance.duration}min
+                {allowance.duration} min
               </span>
             )}
             {allowance.capacity && (
