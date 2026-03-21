@@ -57,30 +57,33 @@ export async function PUT(req: Request): Promise<Response> {
       }
     }
 
-    let done = 0
     const results = await Promise.allSettled(
       pictures.map(async (picture) => {
-        const res = await fetch(picture)
-        if (!res.ok) return false
+        try {
+          const res = await fetch(picture)
+          if (!res.ok) return false
 
-        const arrayBuffer = await res.arrayBuffer()
-        const buffer = Buffer.from(arrayBuffer)
+          const arrayBuffer = await res.arrayBuffer()
+          const buffer = Buffer.from(arrayBuffer)
 
-        const webpBuffer = await sharp(buffer).webp({ quality: 75 }).toBuffer()
-        const fullPath = picture.replace(`https://${process.env.API_HOST!}/`, "").replace(/\.\w+$/, ".webp")
+          const webpBuffer = await sharp(buffer).webp({ quality: 75 }).toBuffer()
+          const fullPath = picture.replace(`https://${process.env.API_HOST!}/`, "").replace(/\.\w+$/, ".webp")
 
-        await put(fullPath, webpBuffer, {
-          access: "public",
-          contentType: "image/webp",
-          addRandomSuffix: false,
-          allowOverwrite: true
-        })
+          await put(fullPath, webpBuffer, {
+            access: "public",
+            contentType: "image/webp",
+            addRandomSuffix: false,
+            allowOverwrite: true
+          })
 
-        return true
+          return true
+        } catch {
+          return false
+        }
       })
     )
 
-    done = results.filter(r => r.status === "fulfilled" && r.value === true).length
+    const done = results.filter(r => r.status === "fulfilled" && r.value === true).length
 
     return new Response(JSON.stringify({ message: `OK: ${done}/${pictures.length}` }), { status: 200 })
 
