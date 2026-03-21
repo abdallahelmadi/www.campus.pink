@@ -118,7 +118,7 @@ async function userLogin(email: string, password: string): Promise<boolean> {
 }
 
 const getServices = unstable_cache(
-  async (token: string): Promise<Service[]> => {
+  async (token: string, getOriginPictures: boolean = false): Promise<Service[]> => {
     try {
 
       const res = await fetch(`https://${process.env.API_HOST!}/api/service/list?page=1`, {
@@ -138,8 +138,12 @@ const getServices = unstable_cache(
           id: ele.id,
           name: ele.name,
           description: ele.description,
-          logo: "https://" + process.env.STORAGE_HOST! + "/" + ele.logo?.replace(/\.\w+$/, ".webp"),
-          cover: "https://" + process.env.STORAGE_HOST! + "/" + ele.cover?.replace(/\.\w+$/, ".webp")
+          logo: "https://" +
+            (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
+            "/" + (getOriginPictures ? ele.logo : ele.logo?.replace(/\.\w+$/, ".webp")),
+          cover: "https://" +
+            (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
+            "/" + (getOriginPictures ? ele.cover : ele.cover?.replace(/\.\w+$/, ".webp"))
         }))
 
         if (data?.last_page && data.last_page > 1) {
@@ -162,8 +166,12 @@ const getServices = unstable_cache(
                   id: ele.id,
                   name: ele.name,
                   description: ele.description,
-                  logo: "https://" + process.env.STORAGE_HOST! + "/" + ele.logo?.replace(/\.\w+$/, ".webp"),
-                  cover: "https://" + process.env.STORAGE_HOST! + "/" + ele.cover?.replace(/\.\w+$/, ".webp")
+                  logo: "https://" +
+                    (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
+                    "/" + (getOriginPictures ? ele.logo : ele.logo?.replace(/\.\w+$/, ".webp")),
+                  cover: "https://" +
+                    (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
+                    "/" + (getOriginPictures ? ele.cover : ele.cover?.replace(/\.\w+$/, ".webp"))
                 }))
               : []
             )
@@ -220,7 +228,7 @@ async function clearPointsCache(): Promise<void> {
   updateTag("points")
 }
 
-async function getAllowances(token: string, id: number): Promise<Allowance[]> {
+async function getAllowances(token: string, id: number, getOriginPictures: boolean = false): Promise<Allowance[]> {
   const c = unstable_cache(
     async (): Promise<Allowance[]> => {
       try {
@@ -242,7 +250,9 @@ async function getAllowances(token: string, id: number): Promise<Allowance[]> {
             id: ele.id,
             name: ele.name,
             capacity: ele.capacity,
-            image: "https://" + process.env.STORAGE_HOST! + "/" + ele.image?.replace(/\.\w+$/, ".webp"),
+            image: "https://" +
+              (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
+              "/" + (getOriginPictures ? ele.image : ele.image?.replace(/\.\w+$/, ".webp")),
             description: ele.description,
             duration: ele.duration,
             gender: ele.gender,
@@ -272,7 +282,9 @@ async function getAllowances(token: string, id: number): Promise<Allowance[]> {
                     id: ele.id,
                     name: ele.name,
                     capacity: ele.capacity,
-                    image: "https://" + process.env.STORAGE_HOST! + "/" + ele.image?.replace(/\.\w+$/, ".webp"),
+                    image: "https://" +
+                      (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
+                      "/" + (getOriginPictures ? ele.image : ele.image?.replace(/\.\w+$/, ".webp")),
                     description: ele.description,
                     duration: ele.duration,
                     gender: ele.gender,
@@ -493,7 +505,7 @@ async function makeReservation(
 }
 
 const getReservations = unstable_cache(
-  async ( token: string, page: number): Promise<Reservation[]> => {
+  async ( token: string, page: number, getOriginPictures: boolean = false): Promise<Reservation[]> => {
     try {
 
       const res = await fetch(`https://${process.env.API_HOST!}/api/appointment/list?page=${page}`, {
@@ -538,7 +550,9 @@ const getReservations = unstable_cache(
           status: ele.status === 1 ? "approved" : ele.status === 3 ? "canceled" : ele.status === 2 ? "absent" : "upcoming",
           statusCode: ele.status as 1 | 3 | 2 | 0,
           name: ele.prestation.name,
-          image: "https://" + process.env.STORAGE_HOST! + "/" + ele.prestation.image.replace(/\.\w+$/, ".webp"),
+          image: "https://" +
+            (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
+            "/" + (getOriginPictures ? ele.prestation.image : ele.prestation.image?.replace(/\.\w+$/, ".webp")),
           description: ele.prestation.description
         }))
       }
