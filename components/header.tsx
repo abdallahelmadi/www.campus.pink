@@ -16,7 +16,7 @@ export default async function Header({
     <header
       suppressHydrationWarning
       className="fixed top-0 left-0 w-full px-2 h-11 border
-      border-gray-200 shadow-sm bg-white/70 backdrop-blur-xs
+      border-gray-200 shadow-xs bg-white/90 backdrop-blur-xs
       flex items-center justify-between select-none z-50"
     >
 
@@ -28,10 +28,6 @@ export default async function Header({
       >
         <IconMenu color="black" size={15} />
       </Link>
-
-      <span className="text-orange-600 font-medium text-[13px]">
-        BETA
-      </span>
 
       <HeaderProfile user={user} points={points?.points} />
 
