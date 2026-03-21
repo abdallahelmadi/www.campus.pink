@@ -83,11 +83,12 @@ export async function PUT(req: Request): Promise<Response> {
             access: "public",
             contentType: "image/webp",
             addRandomSuffix: false,
-            allowOverwrite: true
+            allowOverwrite: false // true
           })
 
           return true
-        } catch {
+        } catch (error) {
+          console.error("API: v1 failed to process picture: ", error)
           return false
         }
       })
@@ -100,8 +101,8 @@ export async function PUT(req: Request): Promise<Response> {
       page: `INFO: ${page || 1}/${totalPages}`
     }), { status: 200 })
 
-  } catch (err: Error | unknown) {
-    console.log("API: v1 failed: ", err instanceof Error ? err.message : err)
+  } catch (error) {
+    console.log("API: v1 failed: ", error)
     return new Response(JSON.stringify({ message: "KO" }), { status: 500 })
   }
 }
