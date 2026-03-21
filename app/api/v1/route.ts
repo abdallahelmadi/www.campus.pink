@@ -14,9 +14,14 @@ export async function PUT(req: Request): Promise<Response> {
       return new Response(JSON.stringify({ message: "KO" }), { status: 401 })
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
-      exp?: number
-      token?: string
+    let decoded
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
+        exp?: number
+        token?: string
+      }
+    } catch {
+      return new Response(JSON.stringify({ message: "KO" }), { status: 401 })
     }
 
     if (!decoded || !decoded?.exp || !decoded?.token) {
@@ -53,11 +58,10 @@ export async function PUT(req: Request): Promise<Response> {
     }
 
     let done = 0
-    for (const picture of pictures) {
-      try {
-
+    const results = await Promise.allSettled(
+      pictures.map(async (picture) => {
         const res = await fetch(picture)
-        if (!res.ok) continue
+        if (!res.ok) return false
 
         const arrayBuffer = await res.arrayBuffer()
         const buffer = Buffer.from(arrayBuffer)
@@ -69,12 +73,14 @@ export async function PUT(req: Request): Promise<Response> {
           access: "public",
           contentType: "image/webp",
           addRandomSuffix: false,
-          allowOverwrite: false
+          allowOverwrite: true
         })
 
-        done++;
-      } catch {}
-    }
+        return true
+      })
+    )
+
+    done = results.filter(r => r.status === "fulfilled" && r.value === true).length
 
     return new Response(JSON.stringify({ message: `OK: ${done}/${pictures.length}` }), { status: 200 })
 
