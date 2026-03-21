@@ -83,12 +83,12 @@ export async function PUT(req: Request): Promise<Response> {
             access: "public",
             contentType: "image/webp",
             addRandomSuffix: false,
-            allowOverwrite: false // true
+            allowOverwrite: true
           })
 
           return true
         } catch (error) {
-          console.error("API: v1 failed to process picture: ", error)
+          console.error("API: v1 process picture failed: ", error)
           return false
         }
       })
@@ -102,7 +102,7 @@ export async function PUT(req: Request): Promise<Response> {
     }), { status: 200 })
 
   } catch (error) {
-    console.log("API: v1 failed: ", error)
+    console.error("API: v1 failed: ", error)
     return new Response(JSON.stringify({ message: "KO" }), { status: 500 })
   }
 }
