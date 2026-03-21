@@ -29,6 +29,10 @@ export default async function Header({
         <IconMenu color="black" size={15} />
       </Link>
 
+      <span className="text-orange-600 font-medium text-[13px]">
+        BETA
+      </span>
+
       <HeaderProfile user={user} points={points?.points} />
 
     </header>
