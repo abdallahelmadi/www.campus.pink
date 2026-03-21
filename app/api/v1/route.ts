@@ -37,52 +37,46 @@ export async function PUT(req: Request): Promise<Response> {
     }
 
     const _token: string = decoded?.token
+    const pictures: string[] = []
 
     const services: Service[] = await getServices(_token, true)
     if (services.length === 0) {
       return new Response(JSON.stringify({ message: "KO" }), { status: 404 })
     }
 
-    const allowances: Allowance[] = []
     for (const service of services) {
-      const serviceAllowances = await getAllowances(_token, service.id, true)
-      allowances.push(...serviceAllowances)
+      pictures.push(service.logo!, service.cover!)
+      const serviceAllowances: Allowance[] = await getAllowances(_token, service.id, true)
+      for (const allowance of serviceAllowances) {
+        pictures.push(allowance.image!)
+      }
     }
 
+    let done = 0
+    for (const picture of pictures) {
+      try {
 
+        const res = await fetch(picture)
+        if (!res.ok) continue
 
+        const arrayBuffer = await res.arrayBuffer()
+        const buffer = Buffer.from(arrayBuffer)
 
+        const webpBuffer = await sharp(buffer).webp({ quality: 75 }).toBuffer()
+        const fullPath = picture.replace(`https://${process.env.API_HOST!}/`, "").replace(/\.\w+$/, ".webp")
 
+        await put(fullPath, webpBuffer, {
+          access: "public",
+          contentType: "image/webp",
+          addRandomSuffix: false,
+          allowOverwrite: false
+        })
 
+        done++;
+      } catch {}
+    }
 
-
-
-    // // 1. Fetch remote image
-    // const res = await fetch(imageUrl);
-    // if (!res.ok) {
-    //   return new Response("Failed to fetch image", { status: 400 });
-    // }
-
-    // const arrayBuffer = await res.arrayBuffer();
-    // const buffer = Buffer.from(arrayBuffer);
-
-    // // 2. Convert to WebP (quality 75)
-    // const webpBuffer = await sharp(buffer)
-    //   .webp({ quality: 75 })
-    //   .toBuffer();
-
-    // // 3. Upload to Vercel Blob
-    // const blob = await put(`${filename}.webp`, webpBuffer, {
-    //   access: "public",
-    //   contentType: "image/webp",
-    // });
-
-    // return Response.json({
-    //   success: true,
-    //   url: blob.url,
-    // });
-
-    return new Response(JSON.stringify({ message: "OK" }), { status: 200 })
+    return new Response(JSON.stringify({ message: `OK: ${done}/${pictures.length}` }), { status: 200 })
 
   } catch (err: Error | unknown) {
     console.log("API: v1 failed: ", err instanceof Error ? err.message : err)
