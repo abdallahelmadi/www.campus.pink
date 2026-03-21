@@ -9,7 +9,8 @@ export const runtime = "nodejs"
 export async function PUT(req: Request): Promise<Response> {
   try {
 
-    const { token }: { token: string } = await req.json()
+    const { token, page }: { token: string; page?: number } = await req.json()
+    
     if (!token) {
       return new Response(JSON.stringify({ message: "KO" }), { status: 401 })
     }
@@ -57,8 +58,17 @@ export async function PUT(req: Request): Promise<Response> {
       }
     }
 
+    const totalPages = Math.ceil(pictures.length / 10)
+    const startIdx = ((page || 1) - 1) * 10
+    const endIdx = startIdx + 10
+    const pagePictures = pictures.slice(startIdx, endIdx)
+
+    if (pagePictures.length === 0) {
+      return new Response(JSON.stringify({ message: "KO" }), { status: 400 })
+    }
+
     const results = await Promise.allSettled(
-      pictures.map(async (picture) => {
+      pagePictures.map(async (picture) => {
         try {
           const res = await fetch(picture)
           if (!res.ok) return false
@@ -85,7 +95,10 @@ export async function PUT(req: Request): Promise<Response> {
 
     const done = results.filter(r => r.status === "fulfilled" && r.value === true).length
 
-    return new Response(JSON.stringify({ message: `OK: ${done}/${pictures.length}` }), { status: 200 })
+    return new Response(JSON.stringify({ 
+      message: `OK: ${done}/${pagePictures.length}`,
+      page: `INFO: ${page || 1}/${totalPages}`
+    }), { status: 200 })
 
   } catch (err: Error | unknown) {
     console.log("API: v1 failed: ", err instanceof Error ? err.message : err)
