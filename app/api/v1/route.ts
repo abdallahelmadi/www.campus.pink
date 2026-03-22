@@ -63,7 +63,7 @@ export async function PUT(req: Request): Promise<Response> {
           ]
           const extension = picture.toLowerCase().match(/\.\w+$/)?.[0]
           if (!extension || !validExtensions.includes(extension)) {
-            throw new Error(`Unsupported file type: ${extension}`)
+            throw new Error(`unsupported file type: ${extension}`)
           }
 
           const res = await fetch(picture)
