@@ -8,7 +8,9 @@ export const runtime = "nodejs"
 export async function PUT(req: Request): Promise<Response> {
   try {
 
-    const user: User | undefined = await getUser()
+    const { t }: { t?: string | undefined } = await req.json()
+
+    const user: User | undefined = await getUser(t)
     if (!user) {
       return new Response(JSON.stringify({ message: "KO" }), { status: 401 })
     }
@@ -47,8 +49,18 @@ export async function PUT(req: Request): Promise<Response> {
     }
 
     const results = await Promise.allSettled(
-      pagePictures.map(async (picture) => {
+      pagePictures.map(async picture => {
         try {
+
+          const validExtensions = [
+            ".jpg", ".jpeg", ".png", ".gif", ".webp", ".tif", ".tiff",
+            ".bmp", ".heic", ".heif", ".avif", ".svg", ".ico"
+          ]
+          const extension = picture.toLowerCase().match(/\.\w+$/)?.[0]
+          if (!extension || !validExtensions.includes(extension)) {
+            throw new Error(`Unsupported file type: ${extension}`)
+          }
+
           const res = await fetch(picture)
           if (!res.ok) return false
 

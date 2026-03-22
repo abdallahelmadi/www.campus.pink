@@ -28,10 +28,10 @@ async function clearToken(): Promise<void> {
   })
 }
 
-async function getUser(): Promise<User | undefined> {
+async function getUser(_t?: string | undefined): Promise<User | undefined> {
   try {
 
-    const t = (await cookies()).get("t")?.value
+    const t = (await cookies()).get("t")?.value || _t
     if (!t) return undefined
 
     const decoded = jwt.verify(t, process.env.JWT_SECRET!) as {
