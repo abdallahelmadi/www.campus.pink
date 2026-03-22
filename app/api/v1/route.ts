@@ -1,65 +1,44 @@
 import { put } from "@vercel/blob"
 import sharp from "sharp"
-import jwt from "jsonwebtoken"
-import { getServices, getAllowances } from "@/actions"
-import type { Service, Allowance } from "@/interfaces"
+import { getServices, getAllowances, getUser } from "@/actions"
+import type { Service, Allowance, User } from "@/interfaces"
 
 export const runtime = "nodejs"
 
 export async function PUT(req: Request): Promise<Response> {
   try {
 
-    const { token, page }: { token: string; page?: number } = await req.json()
-    
-    if (!token) {
+    const user: User | undefined = await getUser()
+    if (!user) {
       return new Response(JSON.stringify({ message: "KO" }), { status: 401 })
     }
 
-    let decoded
-    try {
-      decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
-        exp?: number
-        token?: string
-      }
-    } catch {
-      return new Response(JSON.stringify({ message: "KO" }), { status: 401 })
+    const token = user.token
+
+    const url = new URL(req.url)
+    const page = Number(url.searchParams.get("page")) || 1
+
+    if (isNaN(page) || page < 1) {
+      return new Response(JSON.stringify({ message: "KO" }), { status: 400 })
     }
 
-    if (!decoded || !decoded?.exp || !decoded?.token) {
-      return new Response(JSON.stringify({ message: "KO" }), { status: 401 })
-    }
-
-    const now = Math.floor(Date.now() / 1000)
-    if (decoded?.exp < now) {
-      return new Response(JSON.stringify({ message: "KO" }), { status: 401 })
-    }
-
-    const _decoded = jwt.decode(decoded?.token) as {
-      exp?: number
-    }
-
-    if (!_decoded || !_decoded?.exp || _decoded?.exp < now) {
-      return new Response(JSON.stringify({ message: "KO" }), { status: 401 })
-    }
-
-    const _token: string = decoded?.token
     const pictures: string[] = []
 
-    const services: Service[] = await getServices(_token, true)
+    const services: Service[] = await getServices(token, true)
     if (services.length === 0) {
       return new Response(JSON.stringify({ message: "KO" }), { status: 404 })
     }
 
     for (const service of services) {
       pictures.push(service.logo!, service.cover!)
-      const serviceAllowances: Allowance[] = await getAllowances(_token, service.id, true)
+      const serviceAllowances: Allowance[] = await getAllowances(token, service.id, true)
       for (const allowance of serviceAllowances) {
         pictures.push(allowance.image!)
       }
     }
 
     const totalPages = Math.ceil(pictures.length / 10)
-    const startIdx = ((page || 1) - 1) * 10
+    const startIdx = (page - 1) * 10
     const endIdx = startIdx + 10
     const pagePictures = pictures.slice(startIdx, endIdx)
 
@@ -88,7 +67,7 @@ export async function PUT(req: Request): Promise<Response> {
 
           return true
         } catch (error) {
-          console.error("API: v1 process picture failed: ", error)
+          console.error("API: v1 failed: ", error)
           return false
         }
       })
@@ -97,8 +76,9 @@ export async function PUT(req: Request): Promise<Response> {
     const done = results.filter(r => r.status === "fulfilled" && r.value === true).length
 
     return new Response(JSON.stringify({ 
-      message: `OK: ${done}/${pagePictures.length}`,
-      page: `INFO: ${page || 1}/${totalPages}`
+      message: `${done}/${pagePictures.length}`,
+      page: `${page}/${totalPages}`,
+      nextPage: page < totalPages ? `https://${process.env.BETTER_CAMPUS_HOST!}/api/v1?page=${page + 1}` : null
     }), { status: 200 })
 
   } catch (error) {
