@@ -18,7 +18,8 @@ export async function PUT(req: Request): Promise<Response> {
     const token = user.token
 
     const url = new URL(req.url)
-    const page = Number(url.searchParams.get("page")) || 1
+    const pageParam = url.searchParams.get("page")
+    const page = pageParam ? Number(pageParam) : 1
 
     if (isNaN(page) || page < 1) {
       return new Response(JSON.stringify({ message: "KO" }), { status: 400 })
@@ -79,7 +80,7 @@ export async function PUT(req: Request): Promise<Response> {
 
           return true
         } catch (error) {
-          console.error("API: v1 failed: ", error)
+          console.error("API: process picture failed: ", error)
           return false
         }
       })
