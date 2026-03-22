@@ -84,7 +84,7 @@ export async function PUT(req: Request): Promise<Response> {
 
           return true
         } catch (error) {
-          console.error("API: process picture failed: ", error)
+          console.error("API: v1 process picture failed: ", error)
           return false
         }
       })
