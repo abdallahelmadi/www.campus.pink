@@ -8,6 +8,10 @@ export const runtime = "nodejs"
 export async function PUT(req: Request): Promise<Response> {
   try {
 
+    if (req.headers.get("Authorization") !== `Bearer ${process.env.V1_API_KEY!}`) {
+      return new Response(JSON.stringify({ message: "KO" }), { status: 401 })
+    }
+
     let t: string | undefined
     try {
       const body = await req.json() as { t?: string | undefined }
