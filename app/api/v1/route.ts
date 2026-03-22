@@ -8,7 +8,11 @@ export const runtime = "nodejs"
 export async function PUT(req: Request): Promise<Response> {
   try {
 
-    const { t }: { t?: string | undefined } = await req.json()
+    let t: string | undefined
+    try {
+      const body = await req.json() as { t?: string | undefined }
+      t = body?.t
+    } catch {}
 
     const user: User | undefined = await getUser(t)
     if (!user) {
