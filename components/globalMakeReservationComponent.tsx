@@ -7,7 +7,7 @@ import SlotsGrid from "@/components/slotsGrid"
 import { Suspense } from "react"
 import SlotsSkeleton from "@/components/slotsSkeleton"
 
-export default async function GlobalMakeReservationComponent({
+export default function GlobalMakeReservationComponent({
   token,
   allowance,
   serviceId,
@@ -23,8 +23,7 @@ export default async function GlobalMakeReservationComponent({
   holidays: Holiday[]
   selectedDate: string
   days: { date: string; dayName: string; dayNumber: number; monthName: string; isToday: boolean }[]
-}
-): Promise<React.JSX.Element> {
+}): React.JSX.Element {
 
   const holiday = isHoliday(selectedDate, holidays)
 
