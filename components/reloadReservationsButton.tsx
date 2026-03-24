@@ -36,13 +36,6 @@ export default function ReloadReservationsButton({
       transition duration-200 ease-in-out hover:bg-gray-100"
       onClick={handleClick}
     >
-      <style>{`
-        @keyframes spin-left {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(-360deg); }
-        }
-        .spin-left { animation: spin-left 500ms linear infinite;}
-      `}</style>
       <span className={`w-10 h-10 flex items-center justify-center ${loading ? "spin-left" : ""}`}>
         <IconRotateCounterClockwise />
       </span>
