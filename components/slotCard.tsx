@@ -32,7 +32,7 @@ export default function SlotCard({
   const isPassed = status.text === "Passed"
 
   async function handleBook() {
-    if (!isBookable || isWaiting || isBooking || statusText === "Reserved" || statusText === "Failed" || isPassed) return
+    if (!isBookable || isBooking || isWaiting || statusText === "Reserved" || statusText === "Failed" || isPassed) return
     setIsBooking(true)
     try {
       const res = await makeReservation(token, allowanceId, selectedDate, slot.id)
