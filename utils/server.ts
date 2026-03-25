@@ -38,11 +38,16 @@ function isHoliday(date: string, holidays: Holiday[]): Holiday | undefined {
 }
 
 function getStatusLabel(slot: TimeSlote): { text: string; style: string } {
+  if (slot.start) {
+    const slotDateTime = new Date(slot.start)
+    const now = new Date()
+    if (slotDateTime < now) return { text: "Passed", style: "bg-gray-100 text-gray-500 border-gray-200" }
+  }
   if (slot.isMaintenance) return { text: "Maintenance", style: "bg-gray-100 text-gray-500 border-gray-200" }
   if (slot.isPause) return { text: "Break", style: "bg-gray-100 text-gray-500 border-gray-200" }
-  if (!slot.canBook && !slot.waitingList) return { text: "Full", style: "bg-red-50 text-red-600 border-red-200" }
   if (slot.waitingList) return { text: "Waiting List", style: "bg-amber-50 text-amber-600 border-amber-200" }
-  return { text: "Available", style: "bg-emerald-50 text-emerald-700 border-emerald-200" }
+  if (slot.canBook) return { text: "Available", style: "bg-emerald-50 text-emerald-700 border-emerald-200" }
+  return { text: "Full", style: "bg-red-50 text-red-600 border-red-200" }
 }
 
 function formatTime(timeStr: string | null): string {

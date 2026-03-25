@@ -29,6 +29,7 @@ export default function SlotCard({
 
   const [isBooking, setIsBooking] = useState<boolean>(false)
   const [statusText, setStatusText] = useState<string>(status.text)
+  const isPassed = status.text === "Passed"
 
   async function handleBook() {
     if (!isBookable || isWaiting || isBooking || statusText === "Reserved" || statusText === "Failed") return
@@ -60,7 +61,7 @@ export default function SlotCard({
         className={`w-full text-left rounded-xl border p-3.5 transition-all duration-200 ease-in-out group/slot
           ${isBookable
             ? "bg-white border-gray-200 hover:border-gray-400 hover:-translate-y-0.5 cursor-pointer"
-            : isWaiting
+            : (isWaiting && !isPassed)
               ? "bg-amber-50/50 border-amber-200 cursor-not-allowed opacity-60"
               : "bg-gray-50 border-gray-200 cursor-not-allowed opacity-60"
           }
@@ -72,7 +73,7 @@ export default function SlotCard({
             <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 border
               ${isBookable
                 ? "bg-black text-white border-black group-hover/slot:scale-105 transition-transform duration-200"
-                : isWaiting
+                : (isWaiting && !isPassed)
                   ? "bg-amber-100 text-amber-700 border-amber-200"
                   : "bg-gray-100 text-gray-400 border-gray-200"
               }`}
