@@ -32,7 +32,7 @@ export default function SlotCard({
   const isPassed = status.text === "Passed"
 
   async function handleBook() {
-    if (!isBookable || isWaiting || isBooking || statusText === "Reserved" || statusText === "Failed") return
+    if (!isBookable || isWaiting || isBooking || statusText === "Reserved" || statusText === "Failed" || isPassed) return
     setIsBooking(true)
     try {
       const res = await makeReservation(token, allowanceId, selectedDate, slot.id)
@@ -57,7 +57,6 @@ export default function SlotCard({
       onClick={handleBook}
     >
       <button
-        disabled={!isBookable && !isWaiting}
         className={`w-full text-left rounded-xl border p-3.5 transition-all duration-200 ease-in-out group/slot
           ${isBookable
             ? "bg-white border-gray-200 hover:border-gray-400 hover:-translate-y-0.5 cursor-pointer"
