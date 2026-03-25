@@ -2,7 +2,7 @@ import { getTimeSlotes } from "@/actions"
 import type { Holiday, TimeSlote } from "@/interfaces"
 import { IconClockDashed, IconWarning } from "@/icons"
 import SlotCard from "@/components/slotCard"
-import { getCapacityPercentage, getStatusLabel } from "@/utils/server"
+import { getCapacityPercentage } from "@/utils/server"
 
 export default async function SlotsGrid({
   holiday,
@@ -64,7 +64,6 @@ export default async function SlotsGrid({
   return (
     <div className="flex flex-col gap-2 animate-[fadeIn_0.3s_ease-out]">
       {timeSlots.map((slot, index) => {
-        const status = getStatusLabel(slot, selectedDate)
         const isBookable = slot.canBook && !slot.isPause && !slot.isMaintenance
         const isWaiting = slot.waitingList && !slot.isPause && !slot.isMaintenance
         const capacityPct = getCapacityPercentage(slot)
@@ -72,7 +71,6 @@ export default async function SlotsGrid({
         return <SlotCard
           key={index}
           index={index}
-          status={status}
           isBookable={isBookable}
           isWaiting={isWaiting}
           capacityPct={capacityPct}

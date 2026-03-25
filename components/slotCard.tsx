@@ -2,11 +2,11 @@
 import { makeReservation } from "@/actions"
 import { IconClockDashed, IconChevronRightSmall, IconLoader } from "@/icons"
 import type { TimeSlote } from "@/interfaces"
+import { getStatusLabel } from "@/utils/client"
 import { formatTime, getCapacityColor } from "@/utils/server"
 import { useState } from "react"
 
 export default function SlotCard({
-  status,
   isBookable,
   isWaiting,
   capacityPct,
@@ -16,7 +16,6 @@ export default function SlotCard({
   selectedDate,
   index
 }: {
-  status: { text: string; style: string }
   isBookable: boolean
   isWaiting: boolean
   capacityPct: number
@@ -27,12 +26,17 @@ export default function SlotCard({
   index: number
 }): React.JSX.Element {
 
+  const status = getStatusLabel(slot, selectedDate)
+
   const [isBooking, setIsBooking] = useState<boolean>(false)
   const [statusText, setStatusText] = useState<string>(status.text)
+
   const isPassed = status.text === "Passed"
+  const isFailed = statusText === "Failed"
+  const isReserved = statusText === "Reserved"
 
   async function handleBook() {
-    if (!isBookable || isWaiting || isBooking || statusText === "Reserved" || statusText === "Failed" || isPassed) return
+    if (!isBookable || isWaiting || isBooking || isReserved || isFailed || isPassed) return
     setIsBooking(true)
     try {
       const res = await makeReservation(token, allowanceId, selectedDate, slot.id)
@@ -100,7 +104,7 @@ export default function SlotCard({
           <div className="flex items-center gap-2 shrink-0">
             <span
               className={`text-[10px] font-medium px-2 py-0.5 rounded-full border ${status.style}
-              ${statusText === "Failed" ? "border-red-400 bg-red-100 text-red-700" : ""}`}
+              ${isFailed ? "border-red-400! bg-red-100! text-red-700!" : ""}`}
             >
               {statusText}
             </span>

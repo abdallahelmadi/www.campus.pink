@@ -37,21 +37,6 @@ function isHoliday(date: string, holidays: Holiday[]): Holiday | undefined {
   return holidays.find(h => h.date === date && h.isOff === "1")
 }
 
-function getStatusLabel(slot: TimeSlote, selectedDate?: string): { text: string; style: string } {
-  if (slot.start && selectedDate) {
-    const [year, month, day] = selectedDate.split("-").map(Number)
-    const [hours, minutes] = slot.start.split(":").map(Number)
-    const slotDateTime = new Date(year, month - 1, day, hours, minutes, 0)
-    const now = new Date((new Date()).getTime() + 60 * 60 * 1000)
-    if (slotDateTime <= now) return { text: "Passed", style: "bg-gray-100 text-gray-500 border-gray-200" }
-  }
-  if (slot.isMaintenance) return { text: "Maintenance", style: "bg-gray-100 text-gray-500 border-gray-200" }
-  if (slot.isPause) return { text: "Break", style: "bg-gray-100 text-gray-500 border-gray-200" }
-  if (slot.waitingList) return { text: "Waiting List", style: "bg-amber-50 text-amber-600 border-amber-200" }
-  if (slot.canBook) return { text: "Available", style: "bg-emerald-50 text-emerald-700 border-emerald-200" }
-  return { text: "Full", style: "bg-red-50 text-red-600 border-red-200" }
-}
-
 function formatTime(timeStr: string | null): string {
   if (!timeStr) return "--:--"
   const parts = timeStr.split(":")
@@ -84,7 +69,6 @@ export {
   createGroupsByDate,
   generateNext7Days,
   isHoliday,
-  getStatusLabel,
   formatTime,
   getCapacityPercentage,
   getCapacityColor,
