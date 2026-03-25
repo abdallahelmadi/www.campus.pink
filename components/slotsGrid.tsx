@@ -64,7 +64,7 @@ export default async function SlotsGrid({
   return (
     <div className="flex flex-col gap-2 animate-[fadeIn_0.3s_ease-out]">
       {timeSlots.map((slot, index) => {
-        const status = getStatusLabel(slot)
+        const status = getStatusLabel(slot, selectedDate)
         const isBookable = slot.canBook && !slot.isPause && !slot.isMaintenance
         const isWaiting = slot.waitingList && !slot.isPause && !slot.isMaintenance
         const capacityPct = getCapacityPercentage(slot)

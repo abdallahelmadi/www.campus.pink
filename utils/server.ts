@@ -37,9 +37,9 @@ function isHoliday(date: string, holidays: Holiday[]): Holiday | undefined {
   return holidays.find(h => h.date === date && h.isOff === "1")
 }
 
-function getStatusLabel(slot: TimeSlote): { text: string; style: string } {
-  if (slot.start) {
-    const slotDateTime = new Date(slot.start)
+function getStatusLabel(slot: TimeSlote, selectedDate?: string): { text: string; style: string } {
+  if (slot.start && selectedDate) {
+    const slotDateTime = new Date(`${selectedDate} ${slot.start}`)
     const now = new Date()
     if (slotDateTime < now) return { text: "Passed", style: "bg-gray-100 text-gray-500 border-gray-200" }
   }
