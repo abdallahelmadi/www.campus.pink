@@ -58,7 +58,7 @@ html {
 }
 
 .spin-left {
-  animation: spin-left 500ms linear infinite;
+  animation: spin-left 600ms linear infinite;
 }
 
 .scrollbar-none {
