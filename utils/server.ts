@@ -39,9 +39,12 @@ function isHoliday(date: string, holidays: Holiday[]): Holiday | undefined {
 
 function getStatusLabel(slot: TimeSlote, selectedDate?: string): { text: string; style: string } {
   if (slot.start && selectedDate) {
-    const slotDateTime = new Date(`${selectedDate} ${slot.start}`)
+    const [year, month, day] = selectedDate.split("-").map(Number)
+    const [hours, minutes] = slot.start.split(":").map(Number)
+    const slotDateTime = new Date(year, month - 1, day, hours, minutes, 0)
     const now = new Date()
-    if (slotDateTime < now) return { text: "Passed", style: "bg-gray-100 text-gray-500 border-gray-200" }
+    now.setHours(now.getHours() + 1) // (GMT+1)
+    if (slotDateTime <= now) return { text: "Passed", style: "bg-gray-100 text-gray-500 border-gray-200" }
   }
   if (slot.isMaintenance) return { text: "Maintenance", style: "bg-gray-100 text-gray-500 border-gray-200" }
   if (slot.isPause) return { text: "Break", style: "bg-gray-100 text-gray-500 border-gray-200" }
