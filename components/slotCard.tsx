@@ -81,7 +81,7 @@ export default function SlotCard({
               <IconClockDashed size={18} color="currentColor"/>
             </div>
             <div className="flex flex-col min-w-0">
-              <span className={`text-[14px] font-semibold ${isBookable ? "text-black" : isWaiting ? "text-amber-800" : "text-gray-400"}`}>
+              <span className={`text-[14px] font-semibold ${isBookable ? "text-black" : (isWaiting && !isPassed) ? "text-amber-800" : "text-gray-400"}`}>
                 {formatTime(slot.start)} - {formatTime(slot.end)}
               </span>
               <div className="flex items-center gap-2 mt-0.5">
