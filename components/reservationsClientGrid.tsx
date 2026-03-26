@@ -5,7 +5,7 @@ import ReservationCard from "@/components/reservationCard"
 import Empty from "@/components/empty"
 import Switcher from "@/components/switcher"
 import ReloadReservationsButton from "@/components/reloadReservationsButton"
-import { formatDateLabel } from "@/utils/client"
+import { filteredReservationsGroups, formatDateLabel } from "@/utils/client"
 
 export default function ReservationsClientGrid({
   reservationsGroups,
@@ -16,33 +16,7 @@ export default function ReservationsClientGrid({
 }): React.JSX.Element {
 
   const [status, setStatus] = useState<"latest" | "today" | "upcoming">("latest")
-
-  const filteredGroups = status === "today"
-  ? new Map<string, Reservation[]>(
-      [...reservationsGroups.entries()]
-      .map(([dateKey, reservations]) => {
-        const today = new Date()
-        const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`
-        const reservationDateStr = dateKey.split(" ")[0]
-        return [
-          dateKey,
-          reservationDateStr === todayStr 
-          ? reservations.filter(r => r.status === "upcoming")
-          : []
-        ] as const
-      })
-      .filter(([, reservations]) => reservations.length > 0)
-    )
-  : status === "upcoming"
-  ? new Map<string, Reservation[]>(
-      [...reservationsGroups.entries()]
-      .map(([dateKey, reservations]) => [
-        dateKey,
-        reservations.filter(r => r.status === "upcoming")
-      ] as const)
-      .filter(([, reservations]) => reservations.length > 0)
-    )
-  : reservationsGroups
+  const filteredGroups = filteredReservationsGroups(reservationsGroups, status)
 
   return (
     <main className="w-full flex flex-col gap-6">

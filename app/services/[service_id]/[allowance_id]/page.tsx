@@ -4,7 +4,7 @@ import { notFound, redirect } from "next/navigation"
 import type { Allowance } from "@/interfaces"
 import Breadcrumb from "@/components/breadcrumb"
 import GlobalMakeReservationComponent from "@/components/globalMakeReservationComponent"
-import { generateNext15Days } from "@/utils/client"
+import { generateNext15Days } from "@/utils/server"
 import Footer from "@/components/footer"
 
 export default async function Reservation({

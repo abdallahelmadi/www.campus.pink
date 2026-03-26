@@ -43,11 +43,34 @@ function getCapacityBg(slot: TimeSlote): string {
   return "bg-emerald-50"
 }
 
+function generateNext15Days(): { date: string; dayName: string; dayNumber: number; monthName: string; isToday: boolean }[] {
+  const days: { date: string; dayName: string; dayNumber: number; monthName: string; isToday: boolean }[] = []
+  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+  for (let i = 0; i < 15; i++) {
+    const d = new Date()
+    d.setHours(d.getHours() + 1)
+    d.setDate(d.getDate() + i)
+    const yyyy = d.getFullYear()
+    const mm = String(d.getMonth() + 1).padStart(2, "0")
+    const dd = String(d.getDate()).padStart(2, "0")
+    days.push({
+      date: `${yyyy}-${mm}-${dd}`,
+      dayName: dayNames[d.getDay()],
+      dayNumber: d.getDate(),
+      monthName: monthNames[d.getMonth()],
+      isToday: i === 0
+    })
+  }
+  return days
+}
+
 export {
   createGroupsByDate,
   isHoliday,
   formatTime,
   getCapacityPercentage,
   getCapacityColor,
-  getCapacityBg
+  getCapacityBg,
+  generateNext15Days
 }
