@@ -4,7 +4,7 @@ import { notFound, redirect } from "next/navigation"
 import type { Allowance } from "@/interfaces"
 import Breadcrumb from "@/components/breadcrumb"
 import GlobalMakeReservationComponent from "@/components/globalMakeReservationComponent"
-import { generateNext7Days } from "@/utils/server"
+import { generateNext15Days } from "@/utils/client"
 import Footer from "@/components/footer"
 
 export default async function Reservation({
@@ -38,7 +38,7 @@ export default async function Reservation({
   const allowance: Allowance | undefined = allowances.find(a => a.id === allowanceId)
   if (!allowance) notFound()
 
-  const days = generateNext7Days()
+  const days = generateNext15Days()
   const selectedDate = date && days.some(d => d.date === date) ? date : days[0].date
 
   return (
