@@ -6,7 +6,7 @@ import { useState } from "react"
 
 export default function ReservationSkeleton(): React.JSX.Element {
 
-  const [tmp, setTmp] = useState<"latest" | "today" | "upcoming">("latest")
+  const [tmp, setTmp] = useState<"latest" | "today" | "upcoming">("today")
 
   return (
     <main className="w-full flex flex-col gap-6">
