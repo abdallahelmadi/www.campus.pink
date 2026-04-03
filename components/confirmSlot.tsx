@@ -22,10 +22,12 @@ export default function ConfirmSlot({
       <div
         className={`fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-120 h-50 bg-white rounded-t-2xl border-t
         border-gray-200 transition-transform duration-300 ease-in-out p-4
-        ${active ? "translate-y-0" : "translate-y-full"}`}
+        ${active ? "translate-y-0" : "translate-y-full"} flex flex-col justify-between`}
       >
 
-        You are about to reserve a slot for <span className="font-semibold">{allowanceName || "this service"}</span>. Do you want to proceed?
+        <div className="text-[13px] text-gray-700">
+          You are about to reserve a slot for <span className="font-semibold text-black">{allowanceName || "this service"}</span>, do you want to proceed?
+        </div>
 
         <div className="mt-6 flex items-center justify-end gap-4">
           <button
