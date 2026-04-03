@@ -15,7 +15,7 @@ export default function ReservationsClientGrid({
   token: string
 }): React.JSX.Element {
 
-  const [status, setStatus] = useState<"latest" | "today" | "upcoming">("latest")
+  const [status, setStatus] = useState<"latest" | "today" | "upcoming">("today")
   const filteredGroups = filteredReservationsGroups(reservationsGroups, status)
 
   return (
