@@ -26,6 +26,8 @@ export default function SlotCard({
   index: number
 }): React.JSX.Element {
 
+  // sheet
+
   const status = getStatusLabel(slot, selectedDate)
 
   const [isBooking, setIsBooking] = useState<boolean>(false)
