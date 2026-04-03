@@ -62,8 +62,7 @@ function getInitialFormState(): { email: string; password: string } {
 
 function validateEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email) &&
-    (email.split("@")[1] === "um6p.ma" || email.split("@")[1] === "student.1337.ma")
+  return emailRegex.test(email)
 }
 
 const days = [
