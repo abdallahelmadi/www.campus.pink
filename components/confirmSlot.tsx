@@ -29,22 +29,22 @@ export default function ConfirmSlot({
           You are about to reserve a slot for <span className="font-semibold text-black">{allowanceName || "this service"}</span>, do you want to proceed?
         </div>
 
-        {/* <div className="flex items-center justify-end gap-4">
+        <div className="flex items-center justify-between gap-2">
           <button
-            className="px-4 py-2 rounded-md border border-gray-300 text-gray-700
+            className="h-11 rounded-md border border-gray-300 text-gray-700
             hover:bg-gray-100 transition-colors duration-200 ease-in-out"
             onClick={cancel}
           >
             Cancel
           </button>
-          <button
+          {/* <button
             className="px-4 py-2 rounded-md bg-blue-600 text-white
             hover:bg-blue-700 transition-colors duration-200 ease-in-out"
             onClick={handleBook}
           >
             Confirm
-          </button>
-        </div> */}
+          </button> */}
+        </div>
 
       </div>
 
