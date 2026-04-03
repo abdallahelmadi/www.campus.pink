@@ -22,7 +22,7 @@ export default function ConfirmSlot({
       ${active ? "opacity-100 visible pointer-events-auto" : "opacity-0 invisible pointer-events-none"}
       transition-opacity duration-300 ease-in-out`}
       onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-        if (e.target === e.currentTarget) cancel()
+        if (e.target === e.currentTarget && !loading) cancel()
       }}
     >
 
@@ -45,8 +45,9 @@ export default function ConfirmSlot({
             Cancel
           </button>
           <button
-            className="h-11 rounded-md border border-gray-300 text-white bg-black cursor-pointer
-            hover:bg-black/90 transition-colors duration-200 ease-in-out w-full flex items-center justify-center gap-2"
+            className={`h-11 rounded-md border border-gray-300 text-white bg-black cursor-pointer
+            hover:bg-black/90 transition-colors duration-200 ease-in-out w-full flex items-center justify-center
+            ${loading ? "cursor-not-allowed opacity-70" : ""}`}
             onClick={async () => {
               if (loading) return
               setLoading(true)
@@ -55,8 +56,7 @@ export default function ConfirmSlot({
               cancel()
             }}
           >
-            {loading && <IconLoader size={16} color="white"/>}
-            Confirm
+            {loading ? <IconLoader size={16} color="white"/> : "Confirm"}
           </button>
         </div>
 
