@@ -15,7 +15,8 @@ export default function SlotCard({
   token,
   allowanceId,
   selectedDate,
-  index
+  index,
+  allowanceName
 }: {
   isBookable: boolean
   isWaiting: boolean
@@ -25,6 +26,7 @@ export default function SlotCard({
   allowanceId: number
   selectedDate: string
   index: number
+  allowanceName: string | null
 }): React.JSX.Element {
 
   const status = getStatusLabel(slot, selectedDate)
@@ -62,6 +64,7 @@ export default function SlotCard({
         active={showConfirm}
         cancel={() => setShowConfirm(false)}
         handleBook={handleBook}
+        allowanceName={allowanceName}
       />
 
       <div

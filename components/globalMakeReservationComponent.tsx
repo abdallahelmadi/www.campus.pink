@@ -54,6 +54,7 @@ export default function GlobalMakeReservationComponent({
           token={token}
           allowanceId={allowanceId}
           selectedDate={selectedDate}
+          allowanceName={allowance.name}
         />
       </Suspense>
 

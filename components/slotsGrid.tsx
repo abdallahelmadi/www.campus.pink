@@ -8,12 +8,14 @@ export default async function SlotsGrid({
   holiday,
   token,
   allowanceId,
-  selectedDate
+  selectedDate,
+  allowanceName
 }: {
   holiday: Holiday | undefined
   token: string
   allowanceId: number
   selectedDate: string
+  allowanceName: string | null
 }): Promise<React.JSX.Element> {
 
   if (holiday && holiday.isOff === "1") {
@@ -78,6 +80,7 @@ export default async function SlotsGrid({
           token={token}
           allowanceId={allowanceId}
           selectedDate={selectedDate}
+          allowanceName={allowanceName}
         />
       })}
     </div>

@@ -1,22 +1,23 @@
 export default function ConfirmSlot({
   active,
   cancel,
-  handleBook
+  handleBook,
+  allowanceName
 }: {
   active: boolean
   cancel: () => void
   handleBook: () => Promise<void>
+  allowanceName: string | null
 }): React.JSX.Element {
   return (
-    <>
-      <div
-        className={`fixed inset-0 z-100 bg-[hsl(0deg_0%_98%/50%)]
-        ${active ? "opacity-100 visible pointer-events-auto" : "opacity-0 invisible pointer-events-none"}
-        transition-opacity duration-300 ease-in-out`}
-        onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-          if (e.target === e.currentTarget) cancel()
-        }}
-      />
+    <div
+      className={`fixed inset-0 z-100 bg-[hsl(0deg_0%_98%/50%)]
+      ${active ? "opacity-100 visible pointer-events-auto" : "opacity-0 invisible pointer-events-none"}
+      transition-opacity duration-300 ease-in-out`}
+      onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+        if (e.target === e.currentTarget) cancel()
+      }}
+    >
 
       <div
         className={`fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-120 h-50 bg-white rounded-t-2xl border-t
@@ -24,9 +25,27 @@ export default function ConfirmSlot({
         ${active ? "translate-y-0" : "translate-y-full"}`}
       >
 
-        hello, can you see me ?
+        You are about to reserve a slot for <span className="font-semibold">{allowanceName || "this service"}</span>. Do you want to proceed?
+
+        <div className="mt-6 flex items-center justify-end gap-4">
+          <button
+            className="px-4 py-2 rounded-md border border-gray-300 text-gray-700
+            hover:bg-gray-100 transition-colors duration-200 ease-in-out"
+            onClick={cancel}
+          >
+            Cancel
+          </button>
+          <button
+            className="px-4 py-2 rounded-md bg-blue-600 text-white
+            hover:bg-blue-700 transition-colors duration-200 ease-in-out"
+            onClick={handleBook}
+          >
+            Confirm
+          </button>
+        </div>
 
       </div>
-    </>
+
+    </div>
   )
 }
