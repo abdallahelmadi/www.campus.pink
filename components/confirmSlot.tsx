@@ -1,3 +1,7 @@
+"use client"
+import { useState } from "react"
+import { IconLoader } from "@/icons"
+
 export default function ConfirmSlot({
   active,
   cancel,
@@ -9,6 +13,9 @@ export default function ConfirmSlot({
   handleBook: () => Promise<void>
   allowanceName: string | null
 }): React.JSX.Element {
+
+  const [loading, setLoading] = useState<boolean>(false)
+
   return (
     <div
       className={`fixed inset-0 z-100 bg-[hsl(0deg_0%_98%/50%)]
@@ -32,18 +39,23 @@ export default function ConfirmSlot({
         <div className="flex items-center justify-between gap-2">
           <button
             className="h-11 rounded-md border border-gray-300 text-gray-700
-            hover:bg-gray-100 transition-colors duration-200 ease-in-out"
+            hover:bg-gray-100 transition-colors duration-200 ease-in-out w-full"
             onClick={cancel}
           >
             Cancel
           </button>
-          {/* <button
-            className="px-4 py-2 rounded-md bg-blue-600 text-white
-            hover:bg-blue-700 transition-colors duration-200 ease-in-out"
-            onClick={handleBook}
+          <button
+            className="h-11 rounded-md border border-gray-300 text-white bg-black
+            hover:bg-black/90 transition-colors duration-200 ease-in-out w-full flex items-center justify-center gap-2"
+            onClick={async () => {
+              setLoading(true)
+              await handleBook()
+              setLoading(false)
+            }}
           >
+            {loading && <IconLoader size={16} color="white"/>}
             Confirm
-          </button> */}
+          </button>
         </div>
 
       </div>
