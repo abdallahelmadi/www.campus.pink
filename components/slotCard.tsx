@@ -70,7 +70,10 @@ export default function SlotCard({
       <div
         style={{ animationDelay: `${index * 60}ms` }}
         className="animate-[slideUp_0.4s_ease-out_both] select-none"
-        onClick={() => setShowConfirm(true)}
+        onClick={() => {
+          if (!isBookable || isWaiting || isBooking || isReserved || isFailed || isPassed) return
+          setShowConfirm(true)
+        }}
       >
         <button
           className={`w-full text-left rounded-xl border p-3.5 transition-all duration-200 ease-in-out group/slot

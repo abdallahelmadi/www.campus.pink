@@ -39,18 +39,20 @@ export default function ConfirmSlot({
         <div className="flex items-center justify-between gap-2">
           <button
             className="h-11 rounded-md border border-gray-300 text-gray-700
-            hover:bg-gray-100 transition-colors duration-200 ease-in-out w-full"
+            hover:bg-gray-100 transition-colors duration-200 ease-in-out w-full cursor-pointer"
             onClick={cancel}
           >
             Cancel
           </button>
           <button
-            className="h-11 rounded-md border border-gray-300 text-white bg-black
+            className="h-11 rounded-md border border-gray-300 text-white bg-black cursor-pointer
             hover:bg-black/90 transition-colors duration-200 ease-in-out w-full flex items-center justify-center gap-2"
             onClick={async () => {
+              if (loading) return
               setLoading(true)
               await handleBook()
               setLoading(false)
+              cancel()
             }}
           >
             {loading && <IconLoader size={16} color="white"/>}
