@@ -28,7 +28,7 @@ export default function ConfirmSlot({
 
       <div
         className={`fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-120 h-auto bg-white rounded-t-2xl border
-        border-gray-200 transition-transform duration-300 ease-in-out p-4 gap-4
+        border-gray-200 transition-transform duration-300 ease-in-out p-4 gap-4 select-none
         ${active ? "translate-y-0" : "translate-y-full"} flex flex-col justify-between`}
       >
 
@@ -38,9 +38,10 @@ export default function ConfirmSlot({
 
         <div className="flex items-center justify-between gap-2">
           <button
-            className="h-11 rounded-md border border-gray-300 text-gray-700
-            hover:bg-gray-100 transition-colors duration-200 ease-in-out w-full cursor-pointer"
-            onClick={cancel}
+            className={`h-11 rounded-md border border-gray-300 text-gray-700
+            hover:bg-gray-100 transition-colors duration-200 ease-in-out w-full cursor-pointer
+            ${loading ? "cursor-not-allowed opacity-70" : ""}`}
+            onClick={!loading ? cancel : undefined}
           >
             Cancel
           </button>
