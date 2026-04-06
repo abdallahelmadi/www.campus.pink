@@ -7,6 +7,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse<unknown>
 
   if (pathname.startsWith("/login") && t)
     return NextResponse.redirect(new URL("/", request.url))
+
   if (!t && !pathname.startsWith("/login"))
     return NextResponse.redirect(new URL("/login", request.url))
 
