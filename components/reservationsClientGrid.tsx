@@ -41,11 +41,11 @@ export default function ReservationsClientGrid({
         </Empty>
       )}
 
-      {(filteredGroups.size === 0 && status === "latest") && (
+      {/* {(filteredGroups.size === 0 && status === "latest") && (
         <Empty>
           You have no latest reservations
         </Empty>
-      )}
+      )} */}
 
       {filteredGroups.size > 0 && [...filteredGroups.entries()].map(([dateKey, reservations]) => (
         <div
