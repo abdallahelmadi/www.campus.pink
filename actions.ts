@@ -226,14 +226,14 @@ async function getPoints(token: string): Promise<Points | undefined> {
         return undefined
       }
     },
-    [`get-points-${token.slice(0, 64)}`],
-    { revalidate: 86400, tags: [`points-${token.slice(0, 64)}`] }
+    [`get-points-${token.slice(-64)}`],
+    { revalidate: 86400, tags: [`points-${token.slice(-64)}`] }
   )
   return c()
 }
 
 async function clearPointsCache(token: string): Promise<void> {
-  updateTag(`points-${token.slice(0, 64)}`)
+  updateTag(`points-${token.slice(-64)}`)
 }
 
 async function getAllowances(token: string, id: number, campusId: number, getOriginPictures: boolean = false): Promise<Allowance[]> {
@@ -574,14 +574,14 @@ async function getReservations(token: string, page: number, getOriginPictures: b
         return []
       }
     },
-    [`get-reservations-${token.slice(0, 64)}-page-${page}`],
-    { revalidate: 1800, tags: [`reservations-${token.slice(0, 64)}`] }
+    [`get-reservations-${token.slice(-64)}-page-${page}`],
+    { revalidate: 1800, tags: [`reservations-${token.slice(-64)}`] }
   )
   return c()
 }
 
 async function clearReservationsCache(token: string): Promise<void> {
-  updateTag(`reservations-${token.slice(0, 64)}`)
+  updateTag(`reservations-${token.slice(-64)}`)
 }
 
 async function changeReservationStatus(token: string, reservation: string, status: number): Promise<{
