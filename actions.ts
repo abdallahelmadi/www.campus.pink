@@ -574,7 +574,7 @@ async function getReservations(token: string, page: number, getOriginPictures: b
         return []
       }
     },
-    [`get-reservations-${token.slice(0, 64)}`],
+    [`get-reservations-${token.slice(0, 64)}-page-${page}`],
     { revalidate: 1800, tags: [`reservations-${token.slice(0, 64)}`] }
   )
   return c()
