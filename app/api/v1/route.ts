@@ -41,14 +41,14 @@ export async function PUT(req: Request): Promise<Response> {
       pictures.push(campus.image)
     }
 
-    const services: Service[] = await getServices(token, true)
+    const services: Service[] = await getServices(token, user.campus.id, true)
     if (services.length === 0) {
       return new Response(JSON.stringify({ message: "KO" }), { status: 404 })
     }
 
     for (const service of services) {
       pictures.push(service.logo!, service.cover!)
-      const serviceAllowances: Allowance[] = await getAllowances(token, service.id, true)
+      const serviceAllowances: Allowance[] = await getAllowances(token, service.id, user.campus.id, true)
       for (const allowance of serviceAllowances) {
         pictures.push(allowance.image!)
       }

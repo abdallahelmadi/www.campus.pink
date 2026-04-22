@@ -18,6 +18,7 @@ export default function ReservationSkeleton(): React.JSX.Element {
         />
         <ReloadReservationsButton
           disabled
+          token=""
         />
       </div>
 

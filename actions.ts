@@ -37,15 +37,15 @@ async function getUser(_t?: string | undefined): Promise<User | undefined> {
     if (!t) return undefined
 
     const decoded = jwt.verify(t, process.env.JWT_SECRET!) as {
-      exp?: number
-      token?: string
-      name?: string
-      email?: string
-      gender?: string
-      phone?: string
+      exp: number
+      token: string
+      name: string
+      email: string
+      gender: string
+      phone: string
       campus: {
-        id?: number
-        name?: string
+        id: number
+        name: string
       }
     } | null
 
@@ -119,118 +119,124 @@ async function userLogin(email: string, password: string): Promise<boolean> {
   }
 }
 
-const getServices = unstable_cache(
-  async (token: string, getOriginPictures: boolean = false): Promise<Service[]> => {
-    try {
+async function getServices(token: string, campusId: number, getOriginPictures: boolean = false): Promise<Service[]> {
+  const c = unstable_cache(
+    async (): Promise<Service[]> => {
+      try {
 
-      const res = await fetch(`https://${process.env.API_HOST!}/api/service/list?page=1`, {
-        method: "POST",
-        headers: { "Authorization": `bearer ${token}` }
-      })
+        const res = await fetch(`https://${process.env.API_HOST!}/api/service/list?page=1`, {
+          method: "POST",
+          headers: { "Authorization": `bearer ${token}` }
+        })
 
-      if (res.ok) {
-        const data = await res.json() as {
-          data?: Service[]
-          last_page?: number
-        }
-
-        if (!Array.isArray(data?.data) || data.data.length === 0) return []
-
-        const services: Service[] = data.data.map<Service>((ele: Service) => ({
-          id: ele.id,
-          name: ele.name,
-          description: ele.description,
-          logo: "https://" +
-            (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
-            "/" + (getOriginPictures ? ele.logo : ele.logo?.replace(/\.\w+$/, ".webp")),
-          cover: "https://" +
-            (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
-            "/" + (getOriginPictures ? ele.cover : ele.cover?.replace(/\.\w+$/, ".webp"))
-        }))
-
-        if (data?.last_page && data.last_page > 1) {
-          const fetches = Array.from({ length: data.last_page - 1 }, (_, i) => {
-            const page = i + 2
-            return fetch(`https://${process.env.API_HOST!}/api/service/list?page=${page}`, {
-              method: "POST",
-              headers: { "Authorization": `bearer ${token}` }
-            }).then(r => r.json())
-          })
-
-          const jsons: {
+        if (res.ok) {
+          const data = await res.json() as {
             data?: Service[]
-          }[] = await Promise.all(fetches)
+            last_page?: number
+          }
 
-          services.push(
-            ...jsons.flatMap(pageData =>
-              Array.isArray(pageData?.data)
-              ? pageData.data.map<Service>(ele => ({
-                  id: ele.id,
-                  name: ele.name,
-                  description: ele.description,
-                  logo: "https://" +
-                    (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
-                    "/" + (getOriginPictures ? ele.logo : ele.logo?.replace(/\.\w+$/, ".webp")),
-                  cover: "https://" +
-                    (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
-                    "/" + (getOriginPictures ? ele.cover : ele.cover?.replace(/\.\w+$/, ".webp"))
-                }))
-              : []
+          if (!Array.isArray(data?.data) || data.data.length === 0) return []
+
+          const services: Service[] = data.data.map<Service>((ele: Service) => ({
+            id: ele.id,
+            name: ele.name,
+            description: ele.description,
+            logo: "https://" +
+              (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
+              "/" + (getOriginPictures ? ele.logo : ele.logo?.replace(/\.\w+$/, ".webp")),
+            cover: "https://" +
+              (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
+              "/" + (getOriginPictures ? ele.cover : ele.cover?.replace(/\.\w+$/, ".webp"))
+          }))
+
+          if (data?.last_page && data.last_page > 1) {
+            const fetches = Array.from({ length: data.last_page - 1 }, (_, i) => {
+              const page = i + 2
+              return fetch(`https://${process.env.API_HOST!}/api/service/list?page=${page}`, {
+                method: "POST",
+                headers: { "Authorization": `bearer ${token}` }
+              }).then(r => r.json())
+            })
+
+            const jsons: {
+              data?: Service[]
+            }[] = await Promise.all(fetches)
+
+            services.push(
+              ...jsons.flatMap(pageData =>
+                Array.isArray(pageData?.data)
+                ? pageData.data.map<Service>(ele => ({
+                    id: ele.id,
+                    name: ele.name,
+                    description: ele.description,
+                    logo: "https://" +
+                      (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
+                      "/" + (getOriginPictures ? ele.logo : ele.logo?.replace(/\.\w+$/, ".webp")),
+                    cover: "https://" +
+                      (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
+                      "/" + (getOriginPictures ? ele.cover : ele.cover?.replace(/\.\w+$/, ".webp"))
+                  }))
+                : []
+              )
             )
-          )
+          }
+
+          return services
         }
 
-        return services
+        return []
+      } catch {
+        return []
       }
-
-      return []
-    } catch {
-      return []
-    }
-  },
-  ["get-services"],
-  { revalidate: 2592000, tags: ["services"] }
-)
-
-async function clearServicesCache(): Promise<void> {
-  updateTag("services")
+    },
+    [`get-services-${campusId}`],
+    { revalidate: 2592000, tags: [`${token}.services-${campusId}`] }
+  )
+  return c()
 }
 
-const getPoints = unstable_cache(
-  async (token: string): Promise<Points | undefined> => {
-    try {
+async function clearServicesCache(token: string, campusId: number): Promise<void> {
+  updateTag(`${token}.services-${campusId}`)
+}
 
-      const res = await fetch(`https://${process.env.API_HOST!}/api/mypoints`, {
-        method: "POST",
-        headers: { "Authorization": `bearer ${token}` }
-      })
+async function getPoints(token: string): Promise<Points | undefined> {
+  const c = unstable_cache(
+    async (): Promise<Points | undefined> => {
+      try {
 
-      if (res.ok) {
-        const data = await res.json() as {
-          points?: number
-          tombola?: boolean
-          tombola_points?: number
-          rank?: number
-          status?: string
+        const res = await fetch(`https://${process.env.API_HOST!}/api/mypoints`, {
+          method: "POST",
+          headers: { "Authorization": `bearer ${token}` }
+        })
+
+        if (res.ok) {
+          const data = await res.json() as {
+            points?: number
+            tombola?: boolean
+            tombola_points?: number
+            rank?: number
+            status?: string
+          }
+          if (data?.status) return undefined
+          return data as Points
         }
-        if (data?.status) return undefined
-        return data as Points
+
+        return undefined
+      } catch {
+        return undefined
       }
-
-      return undefined
-    } catch {
-      return undefined
-    }
-  },
-  ["get-points"],
-  { revalidate: 86400, tags: ["points"] }
-)
-
-async function clearPointsCache(): Promise<void> {
-  updateTag("points")
+    },
+    ["get-points"],
+    { revalidate: 86400, tags: [`${token}.points`] }
+  )
+  return c()
 }
 
-async function getAllowances(token: string, id: number, getOriginPictures: boolean = false): Promise<Allowance[]> {
+async function clearPointsCache(token: string): Promise<void> {
+  updateTag(`${token}.points`)
+}
+
+async function getAllowances(token: string, id: number, campusId: number, getOriginPictures: boolean = false): Promise<Allowance[]> {
   const c = unstable_cache(
     async (): Promise<Allowance[]> => {
       try {
@@ -308,48 +314,51 @@ async function getAllowances(token: string, id: number, getOriginPictures: boole
         return []
       }
     },
-    [`get-allowances-${id}`],
-    { revalidate: 2592000, tags: [`allowances-${id}`] }
+    [`get-allowances-${campusId}-${id}`],
+    { revalidate: 2592000, tags: [`${token}.allowances-${campusId}-${id}`] }
   )
   return c()
 }
 
-async function clearAllowancesCache(id: number): Promise<void> {
-  updateTag(`allowances-${id}`)
+async function clearAllowancesCache(token: string, id: number, campusId: number): Promise<void> {
+  updateTag(`${token}.allowances-${campusId}-${id}`)
 }
 
-const getHolidays = unstable_cache(
-  async (token: string): Promise<Holiday[]> => {
-    try {
+async function getHolidays(token: string): Promise<Holiday[]> {
+  const c = unstable_cache(
+    async (): Promise<Holiday[]> => {
+      try {
 
-      const res = await fetch(`https://${process.env.API_HOST!}/api/holiday/list`, {
-        method: "POST",
-        headers: { "Authorization": `bearer ${token}` }
-      })
+        const res = await fetch(`https://${process.env.API_HOST!}/api/holiday/list`, {
+          method: "POST",
+          headers: { "Authorization": `bearer ${token}` }
+        })
 
-      if (res.ok) {
-        const data = await res.json() as {
-          description?: string
-          isOff?: string
-          date?: string
-          event?: string
-          status?: string
+        if (res.ok) {
+          const data = await res.json() as {
+            description?: string
+            isOff?: string
+            date?: string
+            event?: string
+            status?: string
+          }
+          if (data?.status) return []
+          return data as Holiday[]
         }
-        if (data?.status) return []
-        return data as Holiday[]
+
+        return []
+      } catch {
+        return []
       }
+    },
+    ["get-holidays"],
+    { revalidate: 500, tags: [`${token}.holidays`] }
+  )
+  return c()
+}
 
-      return []
-    } catch {
-      return []
-    }
-  },
-  ["get-holidays"],
-  { revalidate: 300, tags: ["holidays"] }
-)
-
-async function clearHolidaysCache(): Promise<void> {
-  updateTag("holidays")
+async function clearHolidaysCache(token: string): Promise<void> {
+  updateTag(`${token}.holidays`)
 }
 
 async function getTimeSlotes(
@@ -497,8 +506,8 @@ async function makeReservation(
       message: "Failed to make reservation, please try again later"
     }
 
-    await clearPointsCache()
-    await clearReservationsCache()
+    await clearPointsCache(token)
+    await clearReservationsCache(token)
 
     return data as { success: boolean; message: string }
   } catch {
@@ -506,18 +515,35 @@ async function makeReservation(
   }
 }
 
-const getReservations = unstable_cache(
-  async ( token: string, page: number, getOriginPictures: boolean = false): Promise<Reservation[]> => {
-    try {
+async function getReservations(token: string, page: number, getOriginPictures: boolean = false): Promise<Reservation[]> {
+  const c = unstable_cache(
+    async (): Promise<Reservation[]> => {
+      try {
 
-      const res = await fetch(`https://${process.env.API_HOST!}/api/appointment/list?page=${page}`, {
-        method: "POST",
-        headers: { "Authorization": `bearer ${token}` }
-      })
+        const res = await fetch(`https://${process.env.API_HOST!}/api/appointment/list?page=${page}`, {
+          method: "POST",
+          headers: { "Authorization": `bearer ${token}` }
+        })
 
-      if (res.ok) {
-        const data = await res.json() as {
-          data?: {
+        if (res.ok) {
+          const data = await res.json() as {
+            data?: {
+              _id: string
+              date_start: string
+              date_end: string
+              code_qr: string
+              status: number
+              prestation: {
+                name: string
+                image: string
+                description: string
+              }
+            }[]
+          }
+
+          if (!Array.isArray(data?.data) || data?.data.length === 0) return []
+
+          return data.data.map<Reservation>((ele: {
             _id: string
             date_start: string
             date_end: string
@@ -528,48 +554,34 @@ const getReservations = unstable_cache(
               image: string
               description: string
             }
-          }[]
+          }) => ({
+            id: ele._id,
+            start: ele.date_start,
+            end: ele.date_end,
+            qrCode: ele.code_qr,
+            status: ele.status === 1 ? "approved" : ele.status === 3 ? "canceled" : ele.status === 2 ? "absent" : "upcoming",
+            statusCode: ele.status as 1 | 3 | 2 | 0,
+            name: ele.prestation.name,
+            image: "https://" +
+              (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
+              "/" + (getOriginPictures ? ele.prestation.image : ele.prestation.image?.replace(/\.\w+$/, ".webp")),
+            description: ele.prestation.description
+          }))
         }
 
-        if (!Array.isArray(data?.data) || data?.data.length === 0) return []
-
-        return data.data.map<Reservation>((ele: {
-          _id: string
-          date_start: string
-          date_end: string
-          code_qr: string
-          status: number
-          prestation: {
-            name: string
-            image: string
-            description: string
-          }
-        }) => ({
-          id: ele._id,
-          start: ele.date_start,
-          end: ele.date_end,
-          qrCode: ele.code_qr,
-          status: ele.status === 1 ? "approved" : ele.status === 3 ? "canceled" : ele.status === 2 ? "absent" : "upcoming",
-          statusCode: ele.status as 1 | 3 | 2 | 0,
-          name: ele.prestation.name,
-          image: "https://" +
-            (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
-            "/" + (getOriginPictures ? ele.prestation.image : ele.prestation.image?.replace(/\.\w+$/, ".webp")),
-          description: ele.prestation.description
-        }))
+        return []
+      } catch {
+        return []
       }
+    },
+    ["get-reservations"],
+    { revalidate: 1800, tags: [`${token}.reservations`] }
+  )
+  return c()
+}
 
-      return []
-    } catch {
-      return []
-    }
-  },
-  ["get-reservations"],
-  { revalidate: 1800, tags: ["reservations"] }
-)
-
-async function clearReservationsCache(): Promise<void> {
-  updateTag("reservations")
+async function clearReservationsCache(token: string): Promise<void> {
+  updateTag(`${token}.reservations`)
 }
 
 async function changeReservationStatus(token: string, reservation: string, status: number): Promise<{
@@ -596,8 +608,8 @@ async function changeReservationStatus(token: string, reservation: string, statu
       message: "Failed to change reservation status, please try again later"
     }
 
-    await clearReservationsCache()
-    await clearPointsCache()
+    await clearReservationsCache(token)
+    await clearPointsCache(token)
 
     return data as { success: boolean; message: string }
   } catch {
@@ -606,75 +618,82 @@ async function changeReservationStatus(token: string, reservation: string, statu
 }
 
 async function getCampuses(token: string, getOriginPictures: boolean = false): Promise<Campus[]> {
-  try {
+  const c = unstable_cache(
+    async (): Promise<Campus[]> => {
+      try {
 
-    const res = await fetch(`https://${process.env.API_HOST!}/api/campus/list`, {
-      method: "POST",
-      headers: { "Authorization": `bearer ${token}` }
-    })
-
-    if (res.ok) {
-      const data: {
-        data?: {
-          id: number
-          name: string
-          image: string
-        }[]
-        last_page?: number
-      } = await res.json()
-
-      if (!Array.isArray(data?.data) || data?.data.length === 0) return []
-
-      const campuses: Campus[] = data.data.map<Campus>(ele => ({
-        id: ele.id,
-        name: ele.name,
-        image: "https://" +
-          (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
-          "/" + (getOriginPictures ? ele.image : ele.image?.replace(/\.\w+$/, ".webp"))
-      }))
-
-      if (data?.last_page && data.last_page > 1) {
-        const fetches = Array.from({ length: data.last_page - 1 }, (_, i) => {
-          const page = i + 2
-          return fetch(`https://${process.env.API_HOST!}/api/campus/list`, {
-            method: "POST",
-            headers: { "Authorization": `bearer ${token}` }
-          }).then(r => r.json())
+        const res = await fetch(`https://${process.env.API_HOST!}/api/campus/list`, {
+          method: "POST",
+          headers: { "Authorization": `bearer ${token}` }
         })
 
-        const jsons: {
-          data?: {
-            id: number
-            name: string
-            image: string
-          }[]
-        }[] = await Promise.all(fetches)
+        if (res.ok) {
+          const data: {
+            data?: {
+              id: number
+              name: string
+              image: string
+            }[]
+            last_page?: number
+          } = await res.json()
 
-        campuses.push(
-          ...jsons.flatMap(pageData =>
-            Array.isArray(pageData?.data)
-            ? pageData.data.map<Campus>(ele => ({
-                id: ele.id,
-                name: ele.name,
-                image: "https://" +
-                  (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
-                  "/" + (getOriginPictures ? ele.image : ele.image?.replace(/\.\w+$/, ".webp"))
-              }))
-            : []
-          )
-        )
+          if (!Array.isArray(data?.data) || data?.data.length === 0) return []
+
+          const campuses: Campus[] = data.data.map<Campus>(ele => ({
+            id: ele.id,
+            name: ele.name,
+            image: "https://" +
+              (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
+              "/" + (getOriginPictures ? ele.image : ele.image?.replace(/\.\w+$/, ".webp"))
+          }))
+
+          if (data?.last_page && data.last_page > 1) {
+            const fetches = Array.from({ length: data.last_page - 1 }, (_, i) => {
+              const page = i + 2
+              return fetch(`https://${process.env.API_HOST!}/api/campus/list?page=${page}`, {
+                method: "POST",
+                headers: { "Authorization": `bearer ${token}` }
+              }).then(r => r.json())
+            })
+
+            const jsons: {
+              data?: {
+                id: number
+                name: string
+                image: string
+              }[]
+            }[] = await Promise.all(fetches)
+
+            campuses.push(
+              ...jsons.flatMap(pageData =>
+                Array.isArray(pageData?.data)
+                ? pageData.data.map<Campus>(ele => ({
+                    id: ele.id,
+                    name: ele.name,
+                    image: "https://" +
+                      (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
+                      "/" + (getOriginPictures ? ele.image : ele.image?.replace(/\.\w+$/, ".webp"))
+                  }))
+                : []
+              )
+            )
+          }
+
+          return campuses
+        }
+
+        return []
+      } catch {
+        return []
       }
-
-      return campuses
-    }
-
-    return []
-  } catch {
-    return []
-  }
+    },
+    ["get-campuses"],
+    { revalidate: 106800, tags: [`${token}.campuses`] }
+  )
+  return c()
 }
 
-async function switchCampus(token: string, id: number): Promise<boolean> {
+async function switchCampus(token: string, id: number, name: string): Promise<boolean> {
   try {
 
     const res = await fetch(`https://${process.env.API_HOST!}/api/profile/update`, {
@@ -687,7 +706,28 @@ async function switchCampus(token: string, id: number): Promise<boolean> {
 
     if (res.ok) {
       const data: { success?: boolean } = await res.json()
-      return data.success ?? false
+      if (!data?.success) return false
+
+      const user = await getUser()
+      if (!user) return false
+
+      const payload = {
+        token: user.token,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        gender: user.gender,
+        campus: {
+          id: id,
+          name: name
+        },
+        exp: user.exp
+      }
+
+      const signedToken = jwt.sign(payload, process.env.JWT_SECRET!)
+      await updateToken(signedToken)
+
+      return true
     }
 
     return false

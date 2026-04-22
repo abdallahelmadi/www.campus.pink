@@ -71,9 +71,10 @@ interface User {
   email: string | undefined
   phone: string | undefined
   campus: {
-    name: string | undefined
-    id: number | undefined
+    name: string
+    id: number
   }
+  exp: number | undefined
 }
 
 interface Campus {

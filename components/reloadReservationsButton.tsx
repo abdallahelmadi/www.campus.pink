@@ -5,9 +5,11 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 
 export default function ReloadReservationsButton({
-  disabled = false
+  disabled = false,
+  token
 }: {
   disabled?: boolean
+  token: string
 }): React.JSX.Element {
 
   const route = useRouter()
@@ -18,7 +20,7 @@ export default function ReloadReservationsButton({
     setLoading(true)
     const startTime = Date.now()
 
-    await clearReservationsCache()
+    await clearReservationsCache(token)
     route.refresh()
 
     const elapsedTime = Date.now() - startTime

@@ -8,7 +8,7 @@ import Breadcrumb from "@/components/breadcrumb"
 export default async function Services(): Promise<React.JSX.Element> {
 
   const user = await getUser()
-  const services = user ? await getServices(user.token) : []
+  const services = user ? await getServices(user.token, user.campus.id) : []
 
   return (
     <main className="flex flex-col items-center gap-4 w-full p-2 mt-14">

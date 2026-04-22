@@ -26,7 +26,7 @@ export default function ReservationsClientGrid({
           upcoming={status}
           setStatus={setStatus}
         />
-        <ReloadReservationsButton />
+        <ReloadReservationsButton token={token} />
       </div>
 
       {(filteredGroups.size === 0 && status === "upcoming") && (
