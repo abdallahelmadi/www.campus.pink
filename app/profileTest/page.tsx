@@ -4,6 +4,12 @@ import CampusesTest from "./campusesTest"
 export default async function Profile(): Promise<React.JSX.Element> {
 
   const user = await getUser()
+  if (!user) {
+    return (
+      <p> No user found. Please log in to view your profile. </p>
+    )
+  }
+
   const campuses = await getCampuses(user?.token!)
   const profile = await getProfile(user?.token!)
 
