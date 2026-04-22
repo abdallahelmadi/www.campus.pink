@@ -82,6 +82,24 @@ interface Campus {
   image: string
 }
 
+interface Profile {
+  id: number
+  name: string
+  email: string
+  phone: string
+  emailVerifiedAt: string
+  createdAt: string
+  updatedAt: string
+  qrCode: string
+  roleId: number
+  roleName: string
+  schoolId: number | null
+  campusId: number
+  campusName: string
+  gender: string
+  programId: string | number | null
+}
+
 export type {
   Service,
   Points,
@@ -91,5 +109,6 @@ export type {
   Reservation,
   Icon,
   User,
-  Campus
+  Campus,
+  Profile
 }

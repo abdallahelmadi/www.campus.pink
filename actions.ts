@@ -9,7 +9,8 @@ import type {
   TimeSlote,
   Reservation,
   User,
-  Campus
+  Campus,
+  Profile
 } from "@/interfaces"
 import { unstable_cache, updateTag } from "next/cache"
 
@@ -695,6 +696,65 @@ async function switchCampus(token: string, id: number): Promise<boolean> {
   }
 }
 
+async function getProfile(token: string): Promise<Profile | undefined> {
+  try {
+
+    const res = await fetch(`https://${process.env.API_HOST!}/api/get_user`, {
+      method: "POST",
+      headers: { "Authorization": `bearer ${token}` }
+    })
+
+    if (res.ok) {
+      const data: {
+        success?: boolean
+        user?: {
+          id: number
+          name: string
+          email: string
+          phone: string
+          email_verified_at: string
+          created_at: string
+          updated_at: string
+          code_qr: string
+          role_id: number
+          type: string
+          school_id: number | null
+          campus_id: number
+          campus: {
+            name: string
+          }
+          gender: string
+          program_id: string | number | null
+        }
+      } = await res.json()
+
+      if (!data.success || !data.user) return undefined
+
+      return {
+        id: data.user.id,
+        name: data.user.name,
+        email: data.user.email,
+        phone: data.user.phone,
+        emailVerifiedAt: data.user.email_verified_at,
+        createdAt: data.user.created_at,
+        updatedAt: data.user.updated_at,
+        qrCode: data.user.code_qr,
+        roleId: data.user.role_id,
+        roleName: data.user.type,
+        schoolId: data.user.school_id,
+        campusId: data.user.campus_id,
+        campusName: data.user.campus.name,
+        gender: data.user.gender,
+        programId: data.user.program_id
+      } as Profile
+    }
+
+    return undefined
+  } catch {
+    return undefined
+  }
+}
+
 export {
   updateToken,
   getUser,
@@ -714,5 +774,6 @@ export {
   clearHolidaysCache,
   clearReservationsCache,
   getCampuses,
-  switchCampus
+  switchCampus,
+  getProfile
 }
