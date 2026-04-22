@@ -190,13 +190,13 @@ async function getServices(token: string, campusId: number, getOriginPictures: b
       }
     },
     [`get-services-${campusId}`],
-    { revalidate: 2592000, tags: [`${token}.services-${campusId}`] }
+    { revalidate: 2592000, tags: [`${token.slice(0, 38)}.services-${campusId}`] }
   )
   return c()
 }
 
 async function clearServicesCache(token: string, campusId: number): Promise<void> {
-  updateTag(`${token}.services-${campusId}`)
+  updateTag(`${token.slice(0, 38)}.services-${campusId}`)
 }
 
 async function getPoints(token: string): Promise<Points | undefined> {
@@ -227,13 +227,13 @@ async function getPoints(token: string): Promise<Points | undefined> {
       }
     },
     ["get-points"],
-    { revalidate: 86400, tags: [`${token}.points`] }
+    { revalidate: 86400, tags: [`${token.slice(0, 38)}.points`] }
   )
   return c()
 }
 
 async function clearPointsCache(token: string): Promise<void> {
-  updateTag(`${token}.points`)
+  updateTag(`${token.slice(0, 38)}.points`)
 }
 
 async function getAllowances(token: string, id: number, campusId: number, getOriginPictures: boolean = false): Promise<Allowance[]> {
@@ -315,13 +315,13 @@ async function getAllowances(token: string, id: number, campusId: number, getOri
       }
     },
     [`get-allowances-${campusId}-${id}`],
-    { revalidate: 2592000, tags: [`${token}.allowances-${campusId}-${id}`] }
+    { revalidate: 2592000, tags: [`${token.slice(0, 38)}.allowances-${campusId}-${id}`] }
   )
   return c()
 }
 
 async function clearAllowancesCache(token: string, id: number, campusId: number): Promise<void> {
-  updateTag(`${token}.allowances-${campusId}-${id}`)
+  updateTag(`${token.slice(0, 38)}.allowances-${campusId}-${id}`)
 }
 
 async function getHolidays(token: string): Promise<Holiday[]> {
@@ -352,13 +352,13 @@ async function getHolidays(token: string): Promise<Holiday[]> {
       }
     },
     ["get-holidays"],
-    { revalidate: 500, tags: [`${token}.holidays`] }
+    { revalidate: 500, tags: [`${token.slice(0, 38)}.holidays`] }
   )
   return c()
 }
 
 async function clearHolidaysCache(token: string): Promise<void> {
-  updateTag(`${token}.holidays`)
+  updateTag(`${token.slice(0, 38)}.holidays`)
 }
 
 async function getTimeSlotes(
@@ -575,13 +575,13 @@ async function getReservations(token: string, page: number, getOriginPictures: b
       }
     },
     ["get-reservations"],
-    { revalidate: 1800, tags: [`${token}.reservations`] }
+    { revalidate: 1800, tags: [`${token.slice(0, 38)}.reservations`] }
   )
   return c()
 }
 
 async function clearReservationsCache(token: string): Promise<void> {
-  updateTag(`${token}.reservations`)
+  updateTag(`${token.slice(0, 38)}.reservations`)
 }
 
 async function changeReservationStatus(token: string, reservation: string, status: number): Promise<{
@@ -688,7 +688,7 @@ async function getCampuses(token: string, getOriginPictures: boolean = false): P
       }
     },
     ["get-campuses"],
-    { revalidate: 106800, tags: [`${token}.campuses`] }
+    { revalidate: 2592000, tags: [`${token.slice(0, 38)}.campuses`] }
   )
   return c()
 }
