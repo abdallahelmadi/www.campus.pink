@@ -226,7 +226,7 @@ async function getPoints(token: string): Promise<Points | undefined> {
         return undefined
       }
     },
-    ["get-points"],
+    [`get-points-${token.slice(0, 64)}`],
     { revalidate: 86400, tags: [`${token.slice(0, 180)}.points`] }
   )
   return c()
@@ -574,7 +574,7 @@ async function getReservations(token: string, page: number, getOriginPictures: b
         return []
       }
     },
-    ["get-reservations"],
+    [`get-reservations-${token.slice(0, 64)}`],
     { revalidate: 1800, tags: [`${token.slice(0, 180)}.reservations`] }
   )
   return c()
