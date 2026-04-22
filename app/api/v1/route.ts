@@ -1,7 +1,7 @@
 import { put } from "@vercel/blob"
 import sharp from "sharp"
-import { getServices, getAllowances, getUser } from "@/actions"
-import type { Service, Allowance, User } from "@/interfaces"
+import { getServices, getAllowances, getUser, getCampuses } from "@/actions"
+import type { Service, Allowance, User, Campus } from "@/interfaces"
 
 export const runtime = "nodejs"
 
@@ -34,6 +34,12 @@ export async function PUT(req: Request): Promise<Response> {
     }
 
     const pictures: string[] = []
+
+    const campuses: Campus[] = await getCampuses(token, true)
+
+    for (const campus of campuses) {
+      pictures.push(campus.image)
+    }
 
     const services: Service[] = await getServices(token, true)
     if (services.length === 0) {

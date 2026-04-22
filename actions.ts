@@ -8,7 +8,8 @@ import type {
   Holiday,
   TimeSlote,
   Reservation,
-  User
+  User,
+  Campus
 } from "@/interfaces"
 import { unstable_cache, updateTag } from "next/cache"
 
@@ -603,6 +604,75 @@ async function changeReservationStatus(token: string, reservation: string, statu
   }
 }
 
+async function getCampuses(token: string, getOriginPictures: boolean = false): Promise<Campus[]> {
+  try {
+
+    const res = await fetch(`https://${process.env.API_HOST!}/api/campus/list`, {
+      method: "POST",
+      headers: { "Authorization": `bearer ${token}` }
+    })
+
+    if (res.ok) {
+      const data: {
+        data?: {
+          id: number
+          name: string
+          image: string
+        }[]
+        last_page?: number
+      } = await res.json()
+
+      if (!Array.isArray(data?.data) || data?.data.length === 0) return []
+
+      const campuses: Campus[] = data.data.map<Campus>(ele => ({
+        id: ele.id,
+        name: ele.name,
+        image: "https://" +
+          (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
+          "/" + (getOriginPictures ? ele.image : ele.image?.replace(/\.\w+$/, ".webp"))
+      }))
+
+      if (data?.last_page && data.last_page > 1) {
+        const fetches = Array.from({ length: data.last_page - 1 }, (_, i) => {
+          const page = i + 2
+          return fetch(`https://${process.env.API_HOST!}/api/campus/list`, {
+            method: "POST",
+            headers: { "Authorization": `bearer ${token}` }
+          }).then(r => r.json())
+        })
+
+        const jsons: {
+          data?: {
+            id: number
+            name: string
+            image: string
+          }[]
+        }[] = await Promise.all(fetches)
+
+        campuses.push(
+          ...jsons.flatMap(pageData =>
+            Array.isArray(pageData?.data)
+            ? pageData.data.map<Campus>(ele => ({
+                id: ele.id,
+                name: ele.name,
+                image: "https://" +
+                  (getOriginPictures ? process.env.API_HOST! : process.env.STORAGE_HOST!) +
+                  "/" + (getOriginPictures ? ele.image : ele.image?.replace(/\.\w+$/, ".webp"))
+              }))
+            : []
+          )
+        )
+      }
+
+      return campuses
+    }
+
+    return []
+  } catch {
+    return []
+  }
+}
+
 export {
   updateToken,
   getUser,
@@ -620,5 +690,6 @@ export {
   clearPointsCache,
   clearAllowancesCache,
   clearHolidaysCache,
-  clearReservationsCache
+  clearReservationsCache,
+  getCampuses
 }

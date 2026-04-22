@@ -76,6 +76,12 @@ interface User {
   }
 }
 
+interface Campus {
+  id: number
+  name: string
+  image: string
+}
+
 export type {
   Service,
   Points,
@@ -84,5 +90,6 @@ export type {
   TimeSlote,
   Reservation,
   Icon,
-  User
+  User,
+  Campus
 }
