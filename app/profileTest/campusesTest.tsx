@@ -1,3 +1,4 @@
+"use client"
 import { switchCampus } from "@/actions"
 import type { User } from "@/interfaces"
 
