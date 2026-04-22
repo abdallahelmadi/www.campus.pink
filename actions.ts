@@ -673,6 +673,28 @@ async function getCampuses(token: string, getOriginPictures: boolean = false): P
   }
 }
 
+async function switchCampus(token: string, id: number): Promise<boolean> {
+  try {
+
+    const res = await fetch(`https://${process.env.API_HOST!}/api/profile/update`, {
+      method: "POST",
+      headers: { "Authorization": `bearer ${token}` },
+      body: JSON.stringify({
+        campus: id
+      })
+    })
+
+    if (res.ok) {
+      const data: { success?: boolean } = await res.json()
+      return data.success ?? false
+    }
+
+    return false
+  } catch {
+    return false
+  }
+}
+
 export {
   updateToken,
   getUser,
@@ -691,5 +713,6 @@ export {
   clearAllowancesCache,
   clearHolidaysCache,
   clearReservationsCache,
-  getCampuses
+  getCampuses,
+  switchCampus
 }
