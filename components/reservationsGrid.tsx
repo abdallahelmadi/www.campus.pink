@@ -27,14 +27,7 @@ export default async function ReservationsGrid({
 
   const reservations = [...page1, ...page2, ...page3, ...page4]
 
-  if (reservations.length === 0) {
-    return (
-      <Empty>
-        You don&apos;t have any reservations yet<br/>
-        Explore better-campus and book your first sport session
-      </Empty>
-    )
-  }
+  console.log("RESERVATIONS", reservations)
 
   const reservationsGroups = createGroupsByDate(reservations)
 
