@@ -23,6 +23,7 @@ export default async function ServiceById({
   if (!user) redirect("/login")
 
   const services = await getServices(user.token, user.campus.id)
+  console.log("ID: " + user.campus.id)
   const service: Service | undefined = services.find(s => s.id === serviceId)
 
   if (!service) notFound()
