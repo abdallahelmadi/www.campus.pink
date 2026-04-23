@@ -69,7 +69,7 @@ export async function PUT(req: Request): Promise<Response> {
 
           const validExtensions = [
             ".jpg", ".jpeg", ".png", ".gif", ".webp", ".tif", ".tiff",
-            ".bmp", ".heic", ".heif", ".avif", ".svg", ".ico"
+            ".bmp", ".heic", ".heif", ".avif", ".svg", ".ico", ".jfif"
           ]
           const extension = picture.toLowerCase().match(/\.\w+$/)?.[0]
           if (!extension || !validExtensions.includes(extension)) {
