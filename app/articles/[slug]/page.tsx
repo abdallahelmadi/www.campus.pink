@@ -42,13 +42,15 @@ export default async function ArticleBySlug({
             draggable={false}
             priority
             quality={100}
-            sizes="(max-width: 768px) 100vw, 860px"
+            sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover object-center"
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent"/>
-          <p className="text-white/70 text-[12px] line-clamp-9 leading-tight">
-            {article.summary}
-          </p>
+          <div className="absolute bottom-0 left-0 w-full p-3 flex gap-3 items-center">
+            <p className="text-white/70 text-[12px] line-clamp-9 leading-tight">
+              {article.summary}
+            </p>
+          </div>
         </div>
 
       </main>
