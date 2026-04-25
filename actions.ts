@@ -192,8 +192,8 @@ async function getServices(token: string, getOriginPictures: boolean = false): P
         return []
       }
     },
-    [`get-services-${campusId}`],
-    { revalidate: 2592000, tags: [`services-${campusId}`] }
+    [`get-services-${campusId}-${token.slice(-64)}`],
+    { revalidate: 2592000, tags: [`services-${campusId}-${token.slice(-64)}`] }
   )
   return c()
 }
@@ -320,8 +320,8 @@ async function getAllowances(token: string, id: number, getOriginPictures: boole
         return []
       }
     },
-    [`get-allowances-${campusId}-${id}`],
-    { revalidate: 2592000, tags: [`allowances-${campusId}-${id}`] }
+    [`get-allowances-${campusId}-${id}-${token.slice(-64)}`],
+    { revalidate: 2592000, tags: [`allowances-${campusId}-${id}-${token.slice(-64)}`] }
   )
   return c()
 }
