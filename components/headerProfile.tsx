@@ -70,9 +70,9 @@ export default function HeaderProfile({
             <span className="font-medium text-[13px] text-black/90 line-clamp-1">
               {user?.email}
             </span>
-            <p className="text-gray-600 text-[12px] line-clamp-1">
+            {/* <p className="text-gray-600 text-[12px] line-clamp-1">
               {user?.campus.name}
-            </p>
+            </p> */}
           </div>
 
           <div
