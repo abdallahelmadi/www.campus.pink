@@ -35,7 +35,7 @@ export default function ArticleCard({
       <div
         suppressHydrationWarning
         className="absolute left-0 bottom-0 w-full h-1/3
-        bg-linear-to-t from-black/60 to-transparent"
+        bg-linear-to-t from-black/80 to-transparent"
       />
 
       <div
@@ -43,7 +43,7 @@ export default function ArticleCard({
         className="absolute left-0 bottom-0 p-3
         max-w-full min-w-full flex gap-2 flex-col"
       >
-        <h2 className="text-[15px] text-white font-medium truncate">
+        <h2 className="text-[15px] text-white/95 font-medium truncate">
           {article.title}
         </h2>
         { article.summary && <div

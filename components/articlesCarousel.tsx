@@ -28,7 +28,7 @@ export default function ArticlesCarousel({
           <ArticleCard
             article={a}
             key={a.path}
-            className="min-w-185"
+            className="min-w-180"
           />
         ))}
       </div>
