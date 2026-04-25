@@ -121,7 +121,8 @@ async function userLogin(email: string, password: string): Promise<boolean> {
 
 async function getServices(token: string, getOriginPictures: boolean = false): Promise<Service[]> {
 
-  const campusId = await getProfile(token)
+  const profile = await getProfile(token)
+  const campusId = profile?.campusId || 2
 
   const c = unstable_cache(
     async (): Promise<Service[]> => {
@@ -241,7 +242,8 @@ async function clearPointsCache(token: string): Promise<void> {
 
 async function getAllowances(token: string, id: number, getOriginPictures: boolean = false): Promise<Allowance[]> {
 
-  const campusId = await getProfile(token)
+  const profile = await getProfile(token)
+  const campusId = profile?.campusId || 2
 
   const c = unstable_cache(
     async (): Promise<Allowance[]> => {
