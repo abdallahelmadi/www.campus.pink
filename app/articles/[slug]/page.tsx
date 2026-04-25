@@ -1,10 +1,10 @@
 import { getArticles, getUser } from "@/actions"
 import Breadcrumb from "@/components/breadcrumb"
 import Header from "@/components/header"
-import type { Article } from "@/interfaces"
 import { notFound } from "next/navigation"
 import Image from "next/image"
 import Footer from "@/components/footer"
+import type { Article } from "@/interfaces"
 
 export default async function ArticleBySlug({
   params
@@ -55,8 +55,8 @@ export default async function ArticleBySlug({
         </div>
 
         <h1
-          className="text-[24px] font-medium line-clamp-3 leading-8
-          max-md:text-[16px] max-md:leading-5"
+          className="text-[26px] font-medium line-clamp-3 leading-8
+          max-md:text-[20px] max-md:leading-6"
         >
           {article.title}
         </h1>
