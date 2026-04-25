@@ -9,7 +9,7 @@ import { IconChevronRightSmall } from "@/icons"
 export default async function Home(): Promise<React.JSX.Element> {
 
   const user = await getUser()
-  const services = user ? await getServices(user.token, user.campus.id) : []
+  const services = user ? await getServices(user.token) : []
 
   return (
     <main className="flex flex-col items-center gap-4 w-full p-2 mt-14">

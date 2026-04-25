@@ -119,7 +119,10 @@ async function userLogin(email: string, password: string): Promise<boolean> {
   }
 }
 
-async function getServices(token: string, campusId: number, getOriginPictures: boolean = false): Promise<Service[]> {
+async function getServices(token: string, getOriginPictures: boolean = false): Promise<Service[]> {
+
+  const campusId = await getProfile(token)
+
   const c = unstable_cache(
     async (): Promise<Service[]> => {
       try {
@@ -189,8 +192,8 @@ async function getServices(token: string, campusId: number, getOriginPictures: b
         return []
       }
     },
-    [`get-services-${campusId}-${token.slice(-64)}`],
-    { revalidate: 2592000, tags: [`services-${campusId}-${token.slice(-64)}`] }
+    [`get-services-${campusId}`],
+    { revalidate: 2592000, tags: [`services-${campusId}`] }
   )
   return c()
 }
@@ -236,7 +239,10 @@ async function clearPointsCache(token: string): Promise<void> {
   updateTag(`points-${token.slice(-64)}`)
 }
 
-async function getAllowances(token: string, id: number, campusId: number, getOriginPictures: boolean = false): Promise<Allowance[]> {
+async function getAllowances(token: string, id: number, getOriginPictures: boolean = false): Promise<Allowance[]> {
+
+  const campusId = await getProfile(token)
+
   const c = unstable_cache(
     async (): Promise<Allowance[]> => {
       try {
@@ -314,8 +320,8 @@ async function getAllowances(token: string, id: number, campusId: number, getOri
         return []
       }
     },
-    [`get-allowances-${campusId}-${id}-${token.slice(-64)}`],
-    { revalidate: 2592000, tags: [`allowances-${campusId}-${id}-${token.slice(-64)}`] }
+    [`get-allowances-${campusId}-${id}`],
+    { revalidate: 2592000, tags: [`allowances-${campusId}-${id}`] }
   )
   return c()
 }

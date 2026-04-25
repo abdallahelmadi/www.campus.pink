@@ -22,7 +22,7 @@ export default async function ServiceById({
   const user = await getUser()
   if (!user) redirect("/login")
 
-  const services = await getServices(user.token, user.campus.id)
+  const services = await getServices(user.token)
   const service: Service | undefined = services.find(s => s.id === serviceId)
 
   if (!service) notFound()

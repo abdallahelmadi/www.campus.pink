@@ -27,8 +27,8 @@ export default async function Reservation({
   if (!user) redirect("/login")
 
   const [services, allowances, holidays] = await Promise.all([
-    getServices(user.token, user.campus.id),
-    getAllowances(user.token, serviceId, user.campus.id),
+    getServices(user.token),
+    getAllowances(user.token, serviceId),
     getHolidays(user.token)
   ])
 

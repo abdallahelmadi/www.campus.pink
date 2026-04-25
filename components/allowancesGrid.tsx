@@ -12,7 +12,7 @@ export default async function AllowancesGrid({
   user: User
 }): Promise<React.JSX.Element> {
 
-  const allowances: Allowance[] = await getAllowances(user.token, serviceId, user.campus.id)
+  const allowances: Allowance[] = await getAllowances(user.token, serviceId)
 
   if (allowances.length === 0) {
     return (
