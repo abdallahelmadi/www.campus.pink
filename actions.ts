@@ -189,8 +189,8 @@ async function getServices(token: string, campusId: number, getOriginPictures: b
         return []
       }
     },
-    [`get-services-${campusId}`],
-    { revalidate: 2592000, tags: [`services-${campusId}`] }
+    [`get-services-${campusId}-${token.slice(-64)}`],
+    { revalidate: 2592000, tags: [`services-${campusId}-${token.slice(-64)}`] }
   )
   return c()
 }
@@ -314,8 +314,8 @@ async function getAllowances(token: string, id: number, campusId: number, getOri
         return []
       }
     },
-    [`get-allowances-${campusId}-${id}`],
-    { revalidate: 2592000, tags: [`allowances-${campusId}-${id}`] }
+    [`get-allowances-${campusId}-${id}-${token.slice(-64)}`],
+    { revalidate: 2592000, tags: [`allowances-${campusId}-${id}-${token.slice(-64)}`] }
   )
   return c()
 }
