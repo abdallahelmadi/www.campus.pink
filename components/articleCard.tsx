@@ -3,15 +3,19 @@ import Image from "next/image"
 import Link from "next/link"
 
 export default function ArticleCard({
-  article
+  article,
+  className = "",
+  longDescription = false
 }: {
   article: Article
+  className?: string
+  longDescription?: boolean
 }): React.JSX.Element {
   return (
     <Link
       href={`/articles${article.path}`}
       className={`bg-gray-100 h-70 min-w-135 max-sm:min-w-[96%]
-      overflow-hidden rounded-sm relative shrink-0 group select-none`}
+      overflow-hidden rounded-sm relative shrink-0 group select-none ${className}`}
     >
 
       <Image
@@ -43,7 +47,8 @@ export default function ArticleCard({
           {article.title}
         </h2>
         { article.summary && <div
-          className="line-clamp-5 wrap-break-word text-white/85 text-[12px] leading-tight"
+          className={`wrap-break-word text-white/85 text-[12px] leading-tight
+          ${longDescription ? "line-clamp-5" : "line-clamp-4"}`}
         >
           {article.summary}
         </div> }
