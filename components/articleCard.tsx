@@ -9,7 +9,7 @@ export default function ArticleCard({
 }): React.JSX.Element {
   return (
     <Link
-      href={`/articles/${article.path}`}
+      href={`/articles${article.path}`}
       className={`bg-gray-100 h-70 min-w-135 max-sm:min-w-[96%]
       overflow-hidden rounded-sm relative shrink-0 group select-none`}
     >
