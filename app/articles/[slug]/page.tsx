@@ -17,8 +17,6 @@ export default async function ArticleBySlug({
   const articles: Article[] = await getArticles()
   const article = articles.find(a => a.path === `/${slug}`)
 
-  console.log(slug, article)
-
   if (!article) return notFound()
 
   return (
@@ -36,7 +34,7 @@ export default async function ArticleBySlug({
 
         <div className="mt-2"/>
 
-        <div className="relative w-full h-192 rounded-md overflow-hidden select-none mb-3">
+        <div className="relative w-full h-162 rounded-md overflow-hidden select-none mb-3">
           <Image
             src={article.image}
             alt=""
@@ -48,35 +46,12 @@ export default async function ArticleBySlug({
             className="object-cover object-center"
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent"/>
+          <p className="text-white/70 text-[12px] line-clamp-9 leading-tight">
+            {article.summary}
+          </p>
         </div>
 
       </main>
     </main>
   )
 }
-
-
-//           <div
-//             className={`absolute bottom-0 left-0 w-full p-3 flex gap-3
-//             ${!service.description ? "items-center" : "items-start"}`}
-//           >
-//             <div className="shrink-0 w-14 h-14 rounded-full overflow-hidden border-2 border-white/30 shadow-lg">
-//               <Image
-//                 src={service.logo!}
-//                 alt=""
-//                 width={46}
-//                 height={46}
-//                 draggable={false}
-//                 quality={100}
-//                 className="object-cover object-center w-full h-full"
-//               />
-//             </div>
-//             <div className="flex flex-col gap-0.5 min-w-0">
-//               <h1 className="text-white text-[16px] font-bold truncate">
-//                 {service.name}
-//               </h1>
-//               <p className="text-white/70 text-[12px] line-clamp-2 leading-tight">
-//                 {service.description}
-//               </p>
-//             </div>
-//           </div>
