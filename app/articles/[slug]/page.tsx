@@ -15,7 +15,7 @@ export default async function ArticleBySlug({
   const user = await getUser()
 
   const articles: Article[] = await getArticles()
-  const article = articles.find(a => a.path === slug)
+  const article = articles.find(a => a.path === `/${slug}`)
 
   console.log(slug, article)
 
