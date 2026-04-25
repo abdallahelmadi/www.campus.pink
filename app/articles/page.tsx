@@ -8,7 +8,7 @@ import Breadcrumb from "@/components/breadcrumb"
 export default async function Articles(): Promise<React.JSX.Element> {
 
   const user = await getUser()
-  const articles = await getArticles(26)
+  const articles = await getArticles(32)
 
   return (
     <main className="flex flex-col items-center gap-4 w-full p-2 mt-14">

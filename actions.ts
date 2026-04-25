@@ -811,13 +811,19 @@ async function getArticles(length: number = 10): Promise<Article[]> {
         const res = await fetch(`https://${process.env.SECONDARY_API_HOST!}/myjsonum6p/get-nodes/en/article/field_image/${length}`)
 
         if (res.ok) {
-          const data: Article[] = await res.json()
+          const data: {
+            title: string
+            body: string
+            summary: string
+            image: string
+            path: string
+          }[] = await res.json()
 
           if (!Array.isArray(data) || data.length === 0) return []
 
           return data.map<Article>(ele => ({
             title: ele.title,
-            description: ele.description,
+            description: ele.body,
             summary: ele.summary,
             image: ele.image,
             path: ele.path

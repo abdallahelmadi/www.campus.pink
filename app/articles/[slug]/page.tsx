@@ -4,6 +4,7 @@ import Header from "@/components/header"
 import type { Article } from "@/interfaces"
 import { notFound } from "next/navigation"
 import Image from "next/image"
+import Footer from "@/components/footer"
 
 export default async function ArticleBySlug({
   params
@@ -14,7 +15,7 @@ export default async function ArticleBySlug({
   const { slug } = await params
   const user = await getUser()
 
-  const articles: Article[] = await getArticles()
+  const articles: Article[] = await getArticles(32)
   const article = articles.find(a => a.path === `/${slug}`)
 
   if (!article) return notFound()
@@ -52,6 +53,20 @@ export default async function ArticleBySlug({
             </p>
           </div>
         </div>
+
+        <h1
+          className="text-[24px] font-medium line-clamp-3 leading-8
+          max-md:text-[16px] max-md:leading-5"
+        >
+          {article.title}
+        </h1>
+
+        <div 
+          className="prose prose-sm max-w-none mt-1 text-gray-700"
+          dangerouslySetInnerHTML={{ __html: article.description }}
+        />
+
+        <Footer />
 
       </main>
     </main>
