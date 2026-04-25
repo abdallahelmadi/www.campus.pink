@@ -1,21 +1,56 @@
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import Empty from "@/components/empty"
-import { getUser, getServices } from "@/actions"
+import { getUser, getServices, getArticles } from "@/actions"
 import ServicesCarousel from "@/components/servicesCarousel"
 import Link from "next/link"
 import { IconChevronRightSmall } from "@/icons"
+import ArticlesCarousel from "@/components/articlesCarousel"
 
 export default async function Home(): Promise<React.JSX.Element> {
 
   const user = await getUser()
-  const services = user ? await getServices(user.token) : []
+
+  const [services, articles] = await Promise.all([
+    user ? getServices(user.token) : Promise.resolve([]),
+    getArticles(10)
+  ])
 
   return (
     <main className="flex flex-col items-center gap-4 w-full p-2 mt-14">
       <main className="max-w-340 w-full flex flex-col gap-5">
 
         <Header user={user} />
+
+        <div className="flex flex-col">
+          <div className="flex items-center justify-between w-full">
+            <span className="text-black font-medium">
+              Articles
+            </span>
+            <Link
+              href="/articles"
+              className="text-[#333] text-[12px] flex items-center gap-0.5
+              transition duration-200 ease-in-out hover:text-black select-none"
+            >
+              View All
+              <span className="-mt-px">
+                <IconChevronRightSmall size={12} />
+              </span>
+            </Link>
+          </div>
+          <div className="mt-1">
+
+            { articles.length === 0 ? (
+              <Empty>
+                No articles available at the moment<br/>
+                Please check back later
+              </Empty>
+            ): (
+              <ArticlesCarousel articles={articles} />
+            )}
+
+          </div>
+        </div>
 
         <div className="flex flex-col">
           <div className="flex items-center justify-between w-full">

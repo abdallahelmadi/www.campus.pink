@@ -101,6 +101,14 @@ interface Profile {
   programId: string | number | null
 }
 
+interface Article {
+  title: string
+  description: string
+  summary: string
+  image: string
+  path: string
+}
+
 export type {
   Service,
   Points,
@@ -111,5 +119,6 @@ export type {
   Icon,
   User,
   Campus,
-  Profile
+  Profile,
+  Article
 }

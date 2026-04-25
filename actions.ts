@@ -10,7 +10,8 @@ import type {
   Reservation,
   User,
   Campus,
-  Profile
+  Profile,
+  Article
 } from "@/interfaces"
 import { unstable_cache, updateTag } from "next/cache"
 
@@ -803,6 +804,37 @@ async function getProfile(token: string): Promise<Profile | undefined> {
   }
 }
 
+async function getArticles(length: number = 10): Promise<Article[]> {
+  const c = unstable_cache(
+    async (): Promise<Article[]> => {
+      try {
+        const res = await fetch(`https://${process.env.SECONDARY_API_HOST!}/myjsonum6p/get-nodes/en/article/field_image/${length}`)
+
+        if (res.ok) {
+          const data: Article[] = await res.json()
+
+          if (!Array.isArray(data) || data.length === 0) return []
+
+          return data.map<Article>(ele => ({
+            title: ele.title,
+            description: ele.description,
+            summary: ele.summary,
+            image: ele.image,
+            path: ele.path
+          }))
+        }
+
+        return []
+      } catch {
+        return []
+      }
+    },
+    [`get-articles-${length}`],
+    { revalidate: 86400, tags: [`articles-${length}`] }
+  )
+  return c()
+}
+
 export {
   updateToken,
   getUser,
@@ -823,5 +855,6 @@ export {
   clearReservationsCache,
   getCampuses,
   switchCampus,
-  getProfile
+  getProfile,
+  getArticles
 }
