@@ -34,7 +34,7 @@ export default async function ArticleBySlug({
 
         <div className="mt-2"/>
 
-        <div className="relative w-full h-162 rounded-md overflow-hidden select-none mb-3">
+        <div className="relative w-full h-100 md:h-152 rounded-md overflow-hidden select-none mb-3">
           <Image
             src={article.image}
             alt=""
