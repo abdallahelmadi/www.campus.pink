@@ -21,52 +21,58 @@ export default async function ArticleBySlug({
   if (!article) return notFound()
 
   return (
-    <main className="flex flex-col items-center gap-4 w-full p-2 mt-14">
-      <main className="max-w-340 w-full flex flex-col gap-1">
+    <main className="flex flex-col items-center w-full min-h-screen bg-gray-50">
+      <main className="w-full">
 
         <Header user={user} />
 
-        <Breadcrumb
-          elements={[
-            { href: "/articles", label: "Articles" },
-            { href: `/articles/${slug}`, label: article.title }
-          ]}
-        />
-
-        <div className="mt-2"/>
-
-        <div className="relative w-full h-100 md:h-152 rounded-md overflow-hidden select-none mb-3">
+        <div className="relative w-full h-125 md:h-145 overflow-hidden">
           <Image
             src={article.image}
-            alt=""
+            alt={article.title}
             fill
             draggable={false}
             priority
             quality={100}
-            sizes="(max-width: 768px) 100vw, 33vw"
+            sizes="100vw"
             className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent"/>
-          <div className="absolute bottom-0 left-0 w-full p-3 flex gap-3 items-center">
-            <p className="text-white/70 text-[12px] line-clamp-9 leading-tight">
-              {article.summary}
-            </p>
+          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent"/>
+          <div className="absolute inset-0 flex flex-col justify-end items-center p-2">
+            <h1 className="text-white text-2xl md:text-3xl font-medium leading-6.5 md:leading-8.5 mb-2 line-clamp-4 max-w-340">
+              {article.title}
+            </h1>
           </div>
         </div>
 
-        <h1
-          className="text-[26px] font-medium line-clamp-3 leading-8
-          max-md:text-[20px] max-md:leading-6"
-        >
-          {article.title}
-        </h1>
+        <div className="flex flex-col items-center gap-4 w-full p-2 mt-2">
+          <article className="max-w-340 w-full flex flex-col gap-6 bg-white rounded-sm p-4 md:p-6 border border-gray-200">
 
-        <div 
-          className="prose prose-sm max-w-none mt-1 text-gray-700"
-          dangerouslySetInnerHTML={{ __html: article.description }}
-        />
+            <Breadcrumb
+              elements={[
+                { href: "/articles", label: "Articles" },
+                { href: `/articles/${slug}`, label: article.title }
+              ]}
+            />
 
-        <Footer />
+            <div className="flex flex-col gap-6">
+              <div 
+                className="prose prose-lg max-w-none
+                prose-headings:font-bold prose-headings:text-gray-900
+                prose-p:text-gray-700 prose-p:leading-8
+                prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
+                prose-strong:text-gray-900 prose-strong:font-semibold
+                prose-img:rounded-lg prose-img:my-6
+                prose-blockquote:border-l-4 prose-blockquote:border-gray-300 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-600
+                dark:prose-invert"
+                dangerouslySetInnerHTML={{ __html: article.description }}
+              />
+            </div>
+
+          </article>
+
+          <Footer />
+        </div>
 
       </main>
     </main>

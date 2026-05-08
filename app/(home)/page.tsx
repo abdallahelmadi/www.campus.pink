@@ -13,7 +13,7 @@ export default async function Home(): Promise<React.JSX.Element> {
 
   const [services, articles] = await Promise.all([
     user ? getServices(user.token) : Promise.resolve([]),
-    getArticles(10)
+    getArticles(32)
   ])
 
   return (

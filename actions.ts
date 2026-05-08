@@ -835,8 +835,8 @@ async function getArticles(length: number = 10): Promise<Article[]> {
         return []
       }
     },
-    [`get-articles-${length}`],
-    { revalidate: 86400, tags: [`articles-${length}`] }
+    ["get-articles"],
+    { revalidate: 86400, tags: ["articles"] }
   )
   return c()
 }
