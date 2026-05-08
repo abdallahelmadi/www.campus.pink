@@ -39,9 +39,11 @@ export default async function ArticleBySlug({
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent"/>
           <div className="absolute inset-0 flex flex-col justify-end items-center p-2">
-            <h1 className="text-white text-2xl md:text-3xl font-medium leading-6.5 md:leading-8.5 mb-2 line-clamp-4 max-w-340">
-              {article.title}
-            </h1>
+            <div className="w-full max-w-340">
+              <h1 className="text-white text-2xl md:text-3xl font-medium leading-6.5 md:leading-8.5 mb-2 line-clamp-4">
+                {article.title}
+              </h1>
+            </div>
           </div>
         </div>
 
