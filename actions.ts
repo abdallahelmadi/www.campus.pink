@@ -8,7 +8,6 @@ import type {
   Holiday,
   TimeSlote,
   Reservation,
-  User,
   Campus,
   Profile,
   Article
@@ -31,31 +30,19 @@ async function clearToken(): Promise<void> {
   })
 }
 
-async function getUser(_t?: string | undefined): Promise<User | undefined> {
+async function getToken(_t?: string | undefined): Promise<string | undefined> {
   try {
 
     const t = (await cookies()).get("t")?.value || _t
     if (!t) return undefined
 
     const decoded = jwt.verify(t, process.env.JWT_SECRET!) as {
-      exp: number
       token: string
-      name: string
-      email: string
-      gender: string
-      phone: string
-      campus: {
-        id: number
-        name: string
-      }
     } | null
 
     if (!decoded) return undefined
-    if (!decoded?.exp) return undefined
-    if (!decoded?.token) return undefined
 
     const now = Math.floor(Date.now() / 1000)
-    if (decoded.exp < now) return undefined
 
     const decodedApiToken = jwt.decode(decoded.token) as {
       exp?: number
@@ -64,7 +51,7 @@ async function getUser(_t?: string | undefined): Promise<User | undefined> {
     if (!decodedApiToken?.exp) return undefined
     if (decodedApiToken.exp < now) return undefined
 
-    return decoded as User
+    return decoded.token || undefined
   } catch {
     return undefined
   }
@@ -85,10 +72,9 @@ async function userLogin(email: string, password: string): Promise<boolean> {
     if (res.ok) {
       const data = await res.json() as {
         token?: string
-        user?: User
       }
 
-      if (!data?.token || !data?.user) return false
+      if (!data?.token) return false
 
       const decodedToken = jwt.decode(data.token) as {
         exp?: number
@@ -97,16 +83,7 @@ async function userLogin(email: string, password: string): Promise<boolean> {
       if (!decodedToken?.exp) return false
 
       const payload = {
-        token: data.token,
-        name: data.user?.name,
-        email: data.user?.email,
-        phone: data.user?.phone,
-        gender: data.user?.gender,
-        campus: {
-          id: data.user?.campus?.id,
-          name: data.user?.campus?.name
-        },
-        exp: decodedToken?.exp
+        token: data.token
       }
 
       const signedToken = jwt.sign(payload, process.env.JWT_SECRET!)
@@ -120,9 +97,12 @@ async function userLogin(email: string, password: string): Promise<boolean> {
   }
 }
 
-async function getServices(token: string, getOriginPictures: boolean = false): Promise<Service[]> {
+async function getServices(getOriginPictures: boolean = false): Promise<Service[]> {
 
-  const profile = await getProfile(token)
+  const token = await getToken()
+  if (!token) return []
+
+  const profile = await getProfile()
   const campusId = profile?.campusId || 2
 
   const c = unstable_cache(
@@ -201,10 +181,15 @@ async function getServices(token: string, getOriginPictures: boolean = false): P
 }
 
 async function clearServicesCache(campusId: number): Promise<void> {
-  updateTag(`services-${campusId}`)
+  const token = await getToken() || ""
+  updateTag(`services-${campusId}-${token.slice(-64)}`)
 }
 
-async function getPoints(token: string): Promise<Points | undefined> {
+async function getPoints(): Promise<Points | undefined> {
+
+  const token = await getToken()
+  if (!token) return undefined
+
   const c = unstable_cache(
     async (): Promise<Points | undefined> => {
       try {
@@ -237,13 +222,17 @@ async function getPoints(token: string): Promise<Points | undefined> {
   return c()
 }
 
-async function clearPointsCache(token: string): Promise<void> {
+async function clearPointsCache(): Promise<void> {
+  const token = await getToken() || ""
   updateTag(`points-${token.slice(-64)}`)
 }
 
-async function getAllowances(token: string, id: number, getOriginPictures: boolean = false): Promise<Allowance[]> {
+async function getAllowances(id: number, getOriginPictures: boolean = false): Promise<Allowance[]> {
 
-  const profile = await getProfile(token)
+  const token = await getToken()
+  if (!token) return []
+
+  const profile = await getProfile()
   const campusId = profile?.campusId || 2
 
   const c = unstable_cache(
@@ -330,10 +319,15 @@ async function getAllowances(token: string, id: number, getOriginPictures: boole
 }
 
 async function clearAllowancesCache(id: number, campusId: number): Promise<void> {
-  updateTag(`allowances-${campusId}-${id}`)
+  const token = await getToken() || ""
+  updateTag(`allowances-${campusId}-${id}-${token.slice(-64)}`)
 }
 
-async function getHolidays(token: string): Promise<Holiday[]> {
+async function getHolidays(): Promise<Holiday[]> {
+
+  const token = await getToken()
+  if (!token) return []
+
   const c = unstable_cache(
     async (): Promise<Holiday[]> => {
       try {
@@ -361,7 +355,7 @@ async function getHolidays(token: string): Promise<Holiday[]> {
       }
     },
     ["get-holidays"],
-    { revalidate: 500, tags: ["holidays"] }
+    { revalidate: 5000, tags: ["holidays"] }
   )
   return c()
 }
@@ -371,11 +365,13 @@ async function clearHolidaysCache(): Promise<void> {
 }
 
 async function getTimeSlotes(
-  token: string,
   allowance: number,
   date: string
 ): Promise<TimeSlote[]> {
   try {
+
+    const token = await getToken()
+    if (!token) return []
 
     const res = await fetch(`https://${process.env.API_HOST!}/api/prestation/timeslotes/${allowance}?page=1&date_start=${date}&date_end=${date}`, {
       method: "POST",
@@ -479,7 +475,6 @@ async function getTimeSlotes(
 }
 
 async function makeReservation(
-  token: string,
   allowance: number,
   date: string,
   timeslot: number
@@ -488,6 +483,9 @@ async function makeReservation(
   message: string
 }> {
   try {
+
+    const token = await getToken()
+    if (!token) return { success: false, message: "No token provided" }
 
     const formData = new FormData()
 
@@ -515,8 +513,8 @@ async function makeReservation(
       message: "Failed to make reservation, please try again later"
     }
 
-    await clearPointsCache(token)
-    await clearReservationsCache(token)
+    await clearPointsCache()
+    await clearReservationsCache()
 
     return data as { success: boolean; message: string }
   } catch {
@@ -524,7 +522,11 @@ async function makeReservation(
   }
 }
 
-async function getReservations(token: string, page: number, getOriginPictures: boolean = false): Promise<Reservation[]> {
+async function getReservations(page: number, getOriginPictures: boolean = false): Promise<Reservation[]> {
+
+  const token = await getToken()
+  if (!token) return []
+
   const c = unstable_cache(
     async (): Promise<Reservation[]> => {
       try {
@@ -589,15 +591,19 @@ async function getReservations(token: string, page: number, getOriginPictures: b
   return c()
 }
 
-async function clearReservationsCache(token: string): Promise<void> {
+async function clearReservationsCache(): Promise<void> {
+  const token = await getToken() || ""
   updateTag(`reservations-${token.slice(-64)}`)
 }
 
-async function changeReservationStatus(token: string, reservation: string, status: number): Promise<{
+async function changeReservationStatus(reservation: string, status: number): Promise<{
   success: boolean
   message: string
 }> {
   try {
+
+    const token = await getToken()
+    if (!token) return { success: false, message: "No token provided" }
 
     const res = await fetch(`https://${process.env.API_HOST!}/api/appointment/changestatus?status=${status}&appointment_id=${reservation}`, {
       method: "POST",
@@ -617,8 +623,8 @@ async function changeReservationStatus(token: string, reservation: string, statu
       message: "Failed to change reservation status, please try again later"
     }
 
-    await clearReservationsCache(token)
-    await clearPointsCache(token)
+    await clearReservationsCache()
+    await clearPointsCache()
 
     return data as { success: boolean; message: string }
   } catch {
@@ -626,7 +632,11 @@ async function changeReservationStatus(token: string, reservation: string, statu
   }
 }
 
-async function getCampuses(token: string, getOriginPictures: boolean = false): Promise<Campus[]> {
+async function getCampuses(getOriginPictures: boolean = false): Promise<Campus[]> {
+
+  const token = await getToken()
+  if (!token) return []
+
   const c = unstable_cache(
     async (): Promise<Campus[]> => {
       try {
@@ -702,8 +712,11 @@ async function getCampuses(token: string, getOriginPictures: boolean = false): P
   return c()
 }
 
-async function switchCampus(token: string, id: number, name: string): Promise<boolean> {
+async function switchCampus(id: number, name: string): Promise<boolean> {
   try {
+
+    const token = await getToken()
+    if (!token) return false
 
     const res = await fetch(`https://${process.env.API_HOST!}/api/profile/update`, {
       method: "POST",
@@ -715,28 +728,7 @@ async function switchCampus(token: string, id: number, name: string): Promise<bo
 
     if (res.ok) {
       const data: { success?: boolean } = await res.json()
-      if (!data?.success) return false
-
-      const user = await getUser()
-      if (!user) return false
-
-      const payload = {
-        token: user.token,
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        gender: user.gender,
-        campus: {
-          id: id,
-          name: name
-        },
-        exp: user.exp
-      }
-
-      const signedToken = jwt.sign(payload, process.env.JWT_SECRET!)
-      await updateToken(signedToken)
-
-      return true
+      return data?.success ?? false
     }
 
     return false
@@ -745,8 +737,11 @@ async function switchCampus(token: string, id: number, name: string): Promise<bo
   }
 }
 
-async function getProfile(token: string): Promise<Profile | undefined> {
+async function getProfile(): Promise<Profile | undefined> {
   try {
+
+    const token = await getToken()
+    if (!token) return undefined
 
     const res = await fetch(`https://${process.env.API_HOST!}/api/get_user`, {
       method: "POST",
@@ -843,7 +838,7 @@ async function getArticles(length: number = 10): Promise<Article[]> {
 
 export {
   updateToken,
-  getUser,
+  getToken,
   userLogin,
   getServices,
   getPoints,

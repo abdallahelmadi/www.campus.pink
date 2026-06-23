@@ -1,7 +1,7 @@
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import Empty from "@/components/empty"
-import { getUser, getServices, getArticles } from "@/actions"
+import { getServices, getArticles } from "@/actions"
 import ServicesCarousel from "@/components/servicesCarousel"
 import Link from "next/link"
 import { IconChevronRightSmall } from "@/icons"
@@ -9,10 +9,8 @@ import ArticlesCarousel from "@/components/articlesCarousel"
 
 export default async function Home(): Promise<React.JSX.Element> {
 
-  const user = await getUser()
-
   const [services, articles] = await Promise.all([
-    user ? getServices(user.token) : Promise.resolve([]),
+    getServices(),
     getArticles(32)
   ])
 
@@ -20,7 +18,7 @@ export default async function Home(): Promise<React.JSX.Element> {
     <main className="flex flex-col items-center gap-4 w-full p-2 mt-14">
       <main className="max-w-340 w-full flex flex-col gap-5">
 
-        <Header user={user} />
+        <Header />
 
         <div className="flex flex-col">
           <div className="flex items-center justify-between w-full">

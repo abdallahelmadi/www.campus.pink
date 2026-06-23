@@ -16,10 +16,7 @@ export default function ReservationSkeleton(): React.JSX.Element {
           upcoming={tmp}
           setStatus={() => setTmp("today")}
         />
-        <ReloadReservationsButton
-          disabled
-          token=""
-        />
+        <ReloadReservationsButton disabled/>
       </div>
 
       {[2, 1, 3].map(group => (

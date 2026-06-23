@@ -1,5 +1,5 @@
 import Header from "@/components/header"
-import { getUser, getAllowances, getServices, getHolidays } from "@/actions"
+import { getAllowances, getServices, getHolidays } from "@/actions"
 import { notFound, redirect } from "next/navigation"
 import type { Allowance } from "@/interfaces"
 import Breadcrumb from "@/components/breadcrumb"
@@ -23,13 +23,10 @@ export default async function Reservation({
   if (isNaN(serviceId)) notFound()
   if (isNaN(allowanceId)) notFound()
 
-  const user = await getUser()
-  if (!user) redirect("/login")
-
   const [services, allowances, holidays] = await Promise.all([
-    getServices(user.token),
-    getAllowances(user.token, serviceId),
-    getHolidays(user.token)
+    getServices(),
+    getAllowances(serviceId),
+    getHolidays()
   ])
 
   const service = services.find(s => s.id === serviceId)
@@ -45,7 +42,7 @@ export default async function Reservation({
     <main className="flex flex-col items-center gap-4 w-full p-2 mt-14">
       <main className="max-w-340 w-full flex flex-col gap-1">
 
-        <Header user={user} />
+        <Header />
 
         <Breadcrumb
           elements={[
@@ -58,7 +55,6 @@ export default async function Reservation({
         <div className="mt-2" />
 
         <GlobalMakeReservationComponent
-          token={user.token}
           allowance={allowance}
           serviceId={serviceId}
           allowanceId={allowanceId}

@@ -6,13 +6,11 @@ import { getCapacityPercentage } from "@/utils/server"
 
 export default async function SlotsGrid({
   holiday,
-  token,
   allowanceId,
   selectedDate,
   allowanceName
 }: {
   holiday: Holiday | undefined
-  token: string
   allowanceId: number
   selectedDate: string
   allowanceName: string | null
@@ -42,7 +40,7 @@ export default async function SlotsGrid({
     )
   }
 
-  const timeSlots: TimeSlote[] = await getTimeSlotes(token, allowanceId, selectedDate)
+  const timeSlots: TimeSlote[] = await getTimeSlotes(allowanceId, selectedDate)
 
   if (timeSlots.length === 0) {
     return (
@@ -77,7 +75,6 @@ export default async function SlotsGrid({
           isWaiting={isWaiting}
           capacityPct={capacityPct}
           slot={slot}
-          token={token}
           allowanceId={allowanceId}
           selectedDate={selectedDate}
           allowanceName={allowanceName}

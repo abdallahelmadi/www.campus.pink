@@ -1,20 +1,19 @@
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import Empty from "@/components/empty"
-import { getUser, getArticles } from "@/actions"
+import { getArticles } from "@/actions"
 import ArticleCard from "@/components/articleCard"
 import Breadcrumb from "@/components/breadcrumb"
 
 export default async function Articles(): Promise<React.JSX.Element> {
 
-  const user = await getUser()
   const articles = await getArticles(32)
 
   return (
     <main className="flex flex-col items-center gap-4 w-full p-2 mt-14">
       <main className="max-w-340 w-full flex flex-col gap-1">
 
-        <Header user={user} />
+        <Header />
 
         <div className="flex flex-col">
 

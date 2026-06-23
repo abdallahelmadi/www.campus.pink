@@ -1,4 +1,4 @@
-import { getArticles, getUser } from "@/actions"
+import { getArticles } from "@/actions"
 import Breadcrumb from "@/components/breadcrumb"
 import Header from "@/components/header"
 import { notFound } from "next/navigation"
@@ -13,7 +13,6 @@ export default async function ArticleBySlug({
 }): Promise<React.JSX.Element> {
 
   const { slug } = await params
-  const user = await getUser()
 
   const articles: Article[] = await getArticles(32)
   const article = articles.find(a => a.path === `/${slug}`)
@@ -24,7 +23,7 @@ export default async function ArticleBySlug({
     <main className="flex flex-col items-center w-full min-h-screen bg-gray-50">
       <main className="w-full">
 
-        <Header user={user} />
+        <Header />
 
         <div className="relative w-full h-125 md:h-145 overflow-hidden">
           <Image

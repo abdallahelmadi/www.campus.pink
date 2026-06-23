@@ -1,5 +1,5 @@
 import Header from "@/components/header"
-import { getUser, getServices } from "@/actions"
+import { getServices } from "@/actions"
 import { notFound, redirect } from "next/navigation"
 import type { Service } from "@/interfaces"
 import Breadcrumb from "@/components/breadcrumb"
@@ -19,10 +19,7 @@ export default async function ServiceById({
 
   if (isNaN(serviceId)) notFound()
 
-  const user = await getUser()
-  if (!user) redirect("/login")
-
-  const services = await getServices(user.token)
+  const services = await getServices()
   const service: Service | undefined = services.find(s => s.id === serviceId)
 
   if (!service) notFound()
@@ -31,7 +28,7 @@ export default async function ServiceById({
     <main className="flex flex-col items-center gap-4 w-full p-2 mt-14">
       <main className="max-w-340 w-full flex flex-col gap-1">
 
-        <Header user={user} />
+        <Header />
 
         <Breadcrumb
           elements={[
@@ -81,10 +78,7 @@ export default async function ServiceById({
         </div>
 
         <Suspense fallback={<AllowanceSkeleton />}>
-          <AllowancesGrid
-            serviceId={serviceId}
-            user={user}
-          />
+          <AllowancesGrid serviceId={serviceId}/>
         </Suspense>
 
       </main>

@@ -1,7 +1,7 @@
 import { put } from "@vercel/blob"
 import sharp from "sharp"
-import { getServices, getAllowances, getUser, getCampuses } from "@/actions"
-import type { Service, Allowance, User, Campus } from "@/interfaces"
+import { getServices, getAllowances, getCampuses, getToken } from "@/actions"
+import type { Service, Allowance, Campus } from "@/interfaces"
 
 export const runtime = "nodejs"
 
@@ -16,14 +16,12 @@ export async function PUT(req: Request): Promise<Response> {
     try {
       const body = await req.json() as { t?: string | undefined }
       t = body?.t
-    } catch {}
+    } catch {}    
 
-    const user: User | undefined = await getUser(t)
-    if (!user) {
+    const token = await getToken()
+    if (!token) {
       return new Response(JSON.stringify({ message: "KO" }), { status: 401 })
     }
-
-    const token = user.token
 
     const url = new URL(req.url)
     const pageParam = url.searchParams.get("page")
@@ -35,20 +33,20 @@ export async function PUT(req: Request): Promise<Response> {
 
     const pictures: string[] = []
 
-    const campuses: Campus[] = await getCampuses(token, true)
+    const campuses: Campus[] = await getCampuses(true)
 
     for (const campus of campuses) {
       pictures.push(campus.image)
     }
 
-    const services: Service[] = await getServices(token, true)
+    const services: Service[] = await getServices(true)
     if (services.length === 0) {
       return new Response(JSON.stringify({ message: "KO" }), { status: 404 })
     }
 
     for (const service of services) {
       pictures.push(service.logo!, service.cover!)
-      const serviceAllowances: Allowance[] = await getAllowances(token, service.id, true)
+      const serviceAllowances: Allowance[] = await getAllowances(service.id, true)
       for (const allowance of serviceAllowances) {
         pictures.push(allowance.image!)
       }

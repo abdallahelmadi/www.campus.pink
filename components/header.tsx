@@ -1,16 +1,12 @@
-import type { User, Points } from "@/interfaces"
+import type { Points } from "@/interfaces"
 import HeaderProfile from "@/components/headerProfile"
 import Link from "next/link"
 import { IconMenu } from "@/icons"
 import { getPoints } from "@/actions"
 
-export default async function Header({
-  user
-}: {
-  user: User | undefined
-}): Promise<React.JSX.Element> {
+export default async function Header(): Promise<React.JSX.Element> {
 
-  const points: Points | undefined = user ? await getPoints(user.token) : undefined
+  const points: Points | undefined = await getPoints()
 
   return (
     <header
@@ -29,7 +25,7 @@ export default async function Header({
         <IconMenu color="black" size={15} />
       </Link>
 
-      <HeaderProfile user={user} points={points?.points} />
+      <HeaderProfile points={points?.points} />
 
     </header>
   )

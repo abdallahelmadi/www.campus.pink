@@ -64,19 +64,6 @@ interface Icon {
   color?: string
 }
 
-interface User {
-  token: string
-  name: string | undefined
-  gender: string | undefined
-  email: string | undefined
-  phone: string | undefined
-  campus: {
-    name: string
-    id: number
-  }
-  exp: number | undefined
-}
-
 interface Campus {
   id: number
   name: string
@@ -117,7 +104,6 @@ export type {
   TimeSlote,
   Reservation,
   Icon,
-  User,
   Campus,
   Profile,
   Article

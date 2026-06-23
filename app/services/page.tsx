@@ -1,20 +1,19 @@
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import Empty from "@/components/empty"
-import { getUser, getServices } from "@/actions"
+import { getServices } from "@/actions"
 import ServiceCard from "@/components/serviceCard"
 import Breadcrumb from "@/components/breadcrumb"
 
 export default async function Services(): Promise<React.JSX.Element> {
 
-  const user = await getUser()
-  const services = user ? await getServices(user.token) : []
+  const services = await getServices()
 
   return (
     <main className="flex flex-col items-center gap-4 w-full p-2 mt-14">
       <main className="max-w-340 w-full flex flex-col gap-1">
 
-        <Header user={user} />
+        <Header />
 
         <div className="flex flex-col">
 

@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getUser } from "@/actions"
+import { getToken } from "@/actions"
 
 export async function proxy(request: NextRequest): Promise<NextResponse<unknown>> {
   const { pathname } = request.nextUrl
-  const t = await getUser()
+  const t = await getToken()
 
   if (pathname.startsWith("/login") && t)
     return NextResponse.redirect(new URL("/", request.url))

@@ -1,18 +1,16 @@
 import { getAllowances } from "@/actions"
-import type { Allowance, User } from "@/interfaces"
+import type { Allowance } from "@/interfaces"
 import Empty from "@/components/empty"
 import AllowancesClientGrid from "@/components/allowancesClientGrid"
 import Footer from "@/components/footer"
 
 export default async function AllowancesGrid({
-  serviceId,
-  user
+  serviceId
 }: {
   serviceId: number
-  user: User
 }): Promise<React.JSX.Element> {
 
-  const allowances: Allowance[] = await getAllowances(user.token, serviceId)
+  const allowances: Allowance[] = await getAllowances(serviceId)
 
   if (allowances.length === 0) {
     return (

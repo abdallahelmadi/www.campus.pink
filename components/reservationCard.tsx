@@ -31,11 +31,9 @@ const statusStyles = {
 }
 
 export default function ReservationCard({
-  reservation,
-  token
+  reservation
 }: {
   reservation: Reservation
-  token: string
 }): React.JSX.Element {
 
   const router = useRouter()
@@ -51,7 +49,7 @@ export default function ReservationCard({
       if (cancelingError || canceling) return
       setCanceling(true)
 
-      const res = await changeReservationStatus(token, reservationId, 3)
+      const res = await changeReservationStatus(reservationId, 3)
 
       if (!res.success) throw new Error("")
       

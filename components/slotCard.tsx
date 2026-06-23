@@ -12,7 +12,6 @@ export default function SlotCard({
   isWaiting,
   capacityPct,
   slot,
-  token,
   allowanceId,
   selectedDate,
   index,
@@ -22,7 +21,6 @@ export default function SlotCard({
   isWaiting: boolean
   capacityPct: number
   slot: TimeSlote
-  token: string
   allowanceId: number
   selectedDate: string
   index: number
@@ -43,7 +41,7 @@ export default function SlotCard({
     if (!isBookable || isWaiting || isBooking || isReserved || isFailed || isPassed) return
     setIsBooking(true)
     try {
-      const res = await makeReservation(token, allowanceId, selectedDate, slot.id)
+      const res = await makeReservation(allowanceId, selectedDate, slot.id)
       if (res.success) {
         setStatusText("Reserved")
       } else {

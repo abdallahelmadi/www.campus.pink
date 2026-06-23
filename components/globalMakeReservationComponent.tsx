@@ -8,7 +8,6 @@ import { Suspense } from "react"
 import SlotsSkeleton from "@/components/slotsSkeleton"
 
 export default function GlobalMakeReservationComponent({
-  token,
   allowance,
   serviceId,
   allowanceId,
@@ -16,7 +15,6 @@ export default function GlobalMakeReservationComponent({
   selectedDate,
   days
 }: {
-  token: string
   allowance: Allowance
   serviceId: number
   allowanceId: number
@@ -51,7 +49,6 @@ export default function GlobalMakeReservationComponent({
       <Suspense key={selectedDate} fallback={<SlotsSkeleton />}>
         <SlotsGrid
           holiday={holiday}
-          token={token}
           allowanceId={allowanceId}
           selectedDate={selectedDate}
           allowanceName={allowance.name}

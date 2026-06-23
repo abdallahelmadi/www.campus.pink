@@ -8,11 +8,9 @@ import ReloadReservationsButton from "@/components/reloadReservationsButton"
 import { filteredReservationsGroups, formatDateLabel } from "@/utils/client"
 
 export default function ReservationsClientGrid({
-  reservationsGroups,
-  token
+  reservationsGroups
 }: {
   reservationsGroups: Map<string, Reservation[]>
-  token: string
 }): React.JSX.Element {
 
   const [status, setStatus] = useState<"latest" | "today" | "upcoming">("today")
@@ -26,7 +24,7 @@ export default function ReservationsClientGrid({
           upcoming={status}
           setStatus={setStatus}
         />
-        <ReloadReservationsButton token={token} />
+        <ReloadReservationsButton />
       </div>
 
       {(filteredGroups.size === 0 && status === "upcoming") && (
@@ -65,7 +63,6 @@ export default function ReservationsClientGrid({
               <ReservationCard
                 key={reservation.id}
                 reservation={reservation}
-                token={token}
               />
             ))}
 
