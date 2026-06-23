@@ -44,7 +44,7 @@ export default async function Home(): Promise<React.JSX.Element> {
                 Please check back later
               </Empty>
             ): (
-              <ArticlesCarousel articles={articles} />
+              <ArticlesCarousel articles={articles.slice(0, 8)} />
             )}
 
           </div>
