@@ -8,13 +8,13 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "*.public.blob.vercel-storage.com",
-        port: "",
+        port: "443",
         pathname: "/**"
       },
       {
         protocol: "https",
         hostname: "myapi.um6p.ma",
-        port: "",
+        port: "443",
         pathname: "/**"
       }
     ]

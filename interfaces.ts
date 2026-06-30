@@ -1,21 +1,22 @@
-interface Service {
-  id: number
-  name: string | null
-  description: string | null
-  logo: string | null
-  cover: string | null
+type stringonull = string | null
+
+enum CampusEnum {
+  "RABAT" = 1,
+  "BEN_GUERIR" = 2
 }
 
-interface Points {
-  points: number
-  tombola: boolean
-  tombolaPoints: number
-  rank: number
+interface Service {
+  id: number
+  name: stringonull
+  description: stringonull
+  logo: stringonull
+  cover: stringonull
+  campus: CampusEnum
 }
 
 interface Allowance {
   id: number
-  name: string | null
+  name: string
   capacity: string | null
   image: string | null
   description: string | null
@@ -93,12 +94,12 @@ interface Article {
   description: string
   summary: string
   image: string
-  path: string
+  slug: string
 }
 
 export type {
   Service,
-  Points,
+  // Points,
   Allowance,
   Holiday,
   TimeSlote,
