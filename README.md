@@ -1,1 +1,1 @@
-https://open.spotify.com/track/0FTmksd2dxiE5e3rWyJXs6?si=aa932cd54daf42a8
+www.campus.pink
