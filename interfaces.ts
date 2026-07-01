@@ -5,6 +5,10 @@ enum CampusEnum {
   "BEN_GUERIR" = 2
 }
 
+enum SchoolEnum {
+  
+}
+
 interface Service {
   id: number
   name: stringonull
@@ -107,5 +111,7 @@ export type {
   Icon,
   Campus,
   Profile,
-  Article
+  Article,
+
+  CampusEnum
 }
