@@ -7,4 +7,4 @@ v1.3.7:
 
 - integrate database.
 - store non-critical data in the database for better performance.
-- add a new feature to the pink campus.
+- add a new features to pink campus.

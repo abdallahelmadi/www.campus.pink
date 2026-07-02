@@ -1,48 +1,54 @@
-type stringonull = string | null
-
 enum CampusEnum {
   "RABAT" = 1,
   "BEN_GUERIR" = 2
 }
 
-enum SchoolEnum {
-  
+enum RoleEnum {
+  "STUDENT" = 6
+}
+
+enum ReservationStatusEnum {
+  "UPCOMING" = 0,
+  "APPROVED" = 1,
+  "ABSENT" = 2,
+  "CANCELED" = 3
 }
 
 interface Service {
   id: number
-  name: stringonull
-  description: stringonull
-  logo: stringonull
-  cover: stringonull
-  campus: CampusEnum
+  name: string
+  description: string | null
+  logo: string
+  cover: string
+  campus: CampusEnum[]
+  roles: RoleEnum[]
 }
 
-interface Allowance {
+interface Prestation {
   id: number
   name: string
-  capacity: string | null
-  image: string | null
   description: string | null
-  duration: string | null
-  gender: string | null
+  image: string
+  dateLimit: string | null
+  capacity: string
+  duration: string
+  gender: string
   enable: number
-  campus: {
-    name: string | null
-  }
+  campus: CampusEnum
+  roles: RoleEnum[]
 }
 
 interface Holiday {
-  description: string | null
-  isOff: string | null
-  date: string | null
-  event: string | null
+  description: string
+  isOff: string
+  date: string
+  event: string
 }
 
-interface TimeSlote {
+interface Slot {
   id: number
-  start: string | null
-  end: string | null
+  start: string
+  end: string
   capacity: number
   reserved: number
   present: number
@@ -54,23 +60,10 @@ interface TimeSlote {
 
 interface Reservation {
   id: string
-  start: string | null
-  end: string | null
-  qrCode: string | null
-  status: "approved" | "canceled" | "absent" | "upcoming"
-  statusCode: 1 | 3 | 2 | 0
-  name: string | null
-  image: string | null
-  description: string | null
-}
-
-interface Icon {
-  size?: number
-  color?: string
-}
-
-interface Campus {
-  id: number
+  start: string
+  end: string
+  qrCode: string
+  status: ReservationStatusEnum
   name: string
   image: string
 }
@@ -79,18 +72,10 @@ interface Profile {
   id: number
   name: string
   email: string
-  phone: string
-  emailVerifiedAt: string
-  createdAt: string
-  updatedAt: string
   qrCode: string
-  roleId: number
-  roleName: string
-  schoolId: number | null
-  campusId: number
-  campusName: string
+  roles: RoleEnum[]
+  campus: number
   gender: string
-  programId: string | number | null
 }
 
 interface Article {
@@ -103,15 +88,10 @@ interface Article {
 
 export type {
   Service,
-  // Points,
-  Allowance,
+  Prestation,
   Holiday,
-  TimeSlote,
+  Slot,
   Reservation,
-  Icon,
-  Campus,
   Profile,
-  Article,
-
-  CampusEnum
+  Article
 }
